@@ -15,9 +15,10 @@ interface DropdownMenuProps {
 class DropdownMenu extends React.Component<DropdownMenuProps, {}> {
   public render() {
     const { prefixCls, options, activeIndex } = this.props;
+    const activeOption = options[activeIndex] || {};
 
     return (
-      <Menu prefixCls={`${prefixCls}-menu`} activeKey={options[activeIndex].value}>
+      <Menu prefixCls={`${prefixCls}-menu`} activeKey={activeOption.value}>
         {options.map(({ value }) => (
           <MenuItem key={value}>{value}</MenuItem>
         ))}
