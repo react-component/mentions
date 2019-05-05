@@ -6,6 +6,7 @@ import * as React from 'react';
 import { polyfill } from 'react-lifecycles-compat';
 import KeywordTrigger from './KeywordTrigger';
 import Option, { OptionProps } from './Option';
+import { getMeasureText } from './util';
 
 interface MentionsProps {
   value?: string;
@@ -20,6 +21,7 @@ interface MentionsState {
   value: string;
   measuring: boolean;
   measureText: string;
+  measureLocation: number;
   activeIndex: number;
 }
 class Mentions extends React.Component<MentionsProps, MentionsState> {
@@ -43,6 +45,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
   public state = {
     value: '',
     measuring: false,
+    measureLocation: 0,
     measureText: '',
     activeIndex: 0,
   };
@@ -61,25 +64,31 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
   };
 
   public onChange: React.ChangeEventHandler<HTMLTextAreaElement> = ({ target: { value } }) => {
+    const { measuring, measureLocation } = this.state;
     this.triggerChange(value);
+
+    if (measuring) {
+      const measureText = getMeasureText(value, measureLocation);
+      console.log('=>', measureText);
+    }
   };
 
   // Check if hit the measure keyword
   public onKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> = event => {
     const { key, which } = event;
-    const { value, activeIndex, measuring, measureText } = this.state;
+    const { value, activeIndex, measuring, measureLocation } = this.state;
     const { prefix } = this.props;
     if (prefix === key) {
       // Trigger measure
       const startLoc = this.textarea!.selectionStart;
       this.setState({
         measuring: true,
-        measureText: `${value.slice(0, startLoc)}`,
+        measureLocation: startLoc,
       });
       return;
     }
 
-    // Measure logic
+    // Skip if not measuring
     if (!measuring) {
       return;
     }
@@ -94,12 +103,15 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
       });
       event.preventDefault();
     } else if ([KeyCode.LEFT, KeyCode.RIGHT, KeyCode.ESC].indexOf(which) !== -1) {
+      // Break measure
       this.setState({
         measuring: false,
       });
+      return;
     } else if (which === KeyCode.ENTER) {
+      // Measure hit
       const { value: mentionValue = '' } = this.getOptions()[activeIndex] || {};
-      this.triggerChange(`${measureText} ${prefix}${mentionValue} `);
+      this.triggerChange(`${value.slice(0, measureLocation)} ${prefix}${mentionValue} `);
       this.setState({
         measuring: false,
       });
@@ -120,7 +132,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
   };
 
   public render() {
-    const { value, measureText, measuring, activeIndex } = this.state;
+    const { value, measureLocation, measuring, activeIndex } = this.state;
     const { prefix, prefixCls, className, style, ...restProps } = this.props;
 
     const props = omit(restProps, ['onChange']);
@@ -136,7 +148,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
         />
         {measuring && (
           <div className={`${prefixCls}-measure`}>
-            {measureText}
+            {value.slice(0, measureLocation)}
             <KeywordTrigger
               prefixCls={prefixCls}
               options={this.getOptions()}
