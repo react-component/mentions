@@ -6,6 +6,8 @@ import { storiesOf } from '@storybook/react';
 import { withConsole } from '@storybook/addon-console';
 import { withViewport } from '@storybook/addon-viewport';
 import { withInfo } from '@storybook/addon-info';
+import BasicSource from 'rc-source-loader!../examples/basic';
+import Basic from '../examples/basic';
 
 import READMECode from '../README.md';
 
@@ -31,4 +33,9 @@ storiesOf('rc-mentions', module)
         code: READMECode,
       },
     },
-  );
+  )
+  .add('basic', () => <Basic />, {
+    source: {
+      code: BasicSource,
+    },
+  });
