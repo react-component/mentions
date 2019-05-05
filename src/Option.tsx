@@ -1,7 +1,9 @@
 import * as React from 'react';
 
-export default class Option extends React.Component {
-  public render() {
-    return null;
-  }
+export interface OptionProps {
+  value?: string;
 }
+
+const Option: React.SFC<OptionProps> = () => null;
+
+export default Option;

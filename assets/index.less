@@ -1,11 +1,10 @@
 @mentionsPrefixCls: rc-mentions;
 
 .@{mentionsPrefixCls} {
-  font-size: 100px;
   display: inline-block;
   position: relative;
 
-  // reset
+  // ================= Input Area =================
   > textarea, &-measure {
     font-size: inherit;
     padding: 0;
@@ -15,6 +14,7 @@
     font-weight: inherit;
     font-family: inherit;
     overflow: inherit;
+    word-break: break-all;
   }
 
   > textarea {
@@ -31,11 +31,43 @@
     color: red;
     // z-index: -1;
   }
+
+  // ================== Dropdown ==================
+  &-dropdown {
+    position: absolute;
+
+    &-menu {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      &-item {
+        cursor: pointer;
+      }
+    }
+  }
 }
 
-// Border style
+// Customize style
 .@{mentionsPrefixCls} {
+  font-size: 20px;
   border: 1px solid #999;
   border-radius: 3px;
   overflow: hidden;
+
+  &-dropdown {
+    border: 1px solid #999;
+    border-radius: 3px;
+    background: #FFF;
+
+    &-menu {
+      &-item {
+        padding: 4px 8px;
+
+        &-active {
+          background: #e6f7ff;
+        }
+      }
+    }
+  }
 }

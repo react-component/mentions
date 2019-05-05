@@ -14,6 +14,7 @@ class Demo extends React.Component {
       <Mentions autoFocus>
         <Option value="light">Light</Option>
         <Option value="bamboo">Bamboo</Option>
+        <Option value="cat">Cat</Option>
       </Mentions>
     );
   }
