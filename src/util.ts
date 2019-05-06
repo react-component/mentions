@@ -53,3 +53,13 @@ export function replaceWithMeasure(text: string, measureConfig: MeasureConfig) {
     selectionLocation: connectedStartText.length,
   };
 }
+
+export function setInputSelection(input: HTMLTextAreaElement, location: number) {
+  input.setSelectionRange(location, location);
+
+  // Reset caret into view
+  if (document.activeElement === input) {
+    input.blur();
+    input.focus();
+  }
+}

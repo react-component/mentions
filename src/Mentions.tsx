@@ -6,7 +6,12 @@ import * as React from 'react';
 import { polyfill } from 'react-lifecycles-compat';
 import KeywordTrigger from './KeywordTrigger';
 import Option, { OptionProps } from './Option';
-import { getBeforeSelectionText, getLastMeasureIndex, replaceWithMeasure } from './util';
+import {
+  getBeforeSelectionText,
+  getLastMeasureIndex,
+  replaceWithMeasure,
+  setInputSelection,
+} from './util';
 
 interface MentionsProps {
   defaultValue?: string;
@@ -113,8 +118,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
       this.triggerChange(text);
       this.stopMeasure(() => {
         // We need restore the selection position
-        this.textarea!.selectionStart = selectionLocation;
-        this.textarea!.selectionEnd = selectionLocation;
+        setInputSelection(this.textarea!, selectionLocation);
       });
       event.preventDefault();
     }

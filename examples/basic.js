@@ -12,15 +12,12 @@ class Demo extends React.Component {
   render() {
     return (
       <div>
-        <Mentions
-          autoFocus
-          defaultValue="aaaaaaaaaaaaaaaaA @bamboo @bamboo @bamboo @bamboo @bamboo @cat"
-        >
+        <Mentions autoFocus defaultValue="Hello World">
           <Option value="light">Light</Option>
           <Option value="bamboo">Bamboo</Option>
           <Option value="cat">Cat</Option>
         </Mentions>
-        <textarea className="ttt" />
+        {/* <textarea className="ttt" /> */}
       </div>
     );
   }
