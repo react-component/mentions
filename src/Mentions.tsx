@@ -133,6 +133,17 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     }
   };
 
+  /**
+   * When to start measure:
+   * 1. When user press `prefix`
+   * 2. When measureText !== prevMeasureText
+   *  1. If measure hit
+   *
+   * When to stop measure:
+   * 1. Selection is out of range
+   * 2. When measureText !== prevMeasureText
+   *  1. If measure miss
+   */
   public onKeyUp: React.KeyboardEventHandler<HTMLTextAreaElement> = event => {
     const { key } = event;
     const { measureText: prevMeasureText, measuring } = this.state;
@@ -144,31 +155,15 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
       const measureText = selectionStartText.slice(measureIndex + prefix.length);
       const matchOption: boolean = !!this.getOptions(measureText).length;
 
-      /**
-       * When to trigger measure:
-       * 1. When user press `prefix`
-       * 2. When measureText !== prevMeasureText
-       *  1. Start if measure hit
-       *  2. Close if measure loss
-       */
-      if (key === prefix) {
+      if (key === prefix || (measureText !== prevMeasureText && matchOption)) {
         this.startMeasure(measureText, measureIndex);
       }
-      if (measureText !== prevMeasureText) {
-        if (matchOption) {
-          this.startMeasure(measureText, measureIndex);
-        } else {
-          this.setState({
-            measuring: false,
-          });
-        }
+
+      if (measureText !== prevMeasureText && !matchOption) {
+        this.setState({ measuring: false });
       }
-      // console.log('Measure Text:', measureText, `(${prevMeasureText})`);
-      // console.log('=>', selectionStartText);
-      // console.log('==>', prevMeasureText !== measureText, matchOption, !measuring, measureText === '');
-      // if ((prevMeasureText !== measureText && matchOption) || (!measuring && measureText === '')) {
-      //   this.startMeasure(measureText, measureIndex);
-      // }
+    } else if (measuring) {
+      this.setState({ measuring: false });
     }
   };
 
