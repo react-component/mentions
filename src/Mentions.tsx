@@ -20,7 +20,7 @@ interface MentionsProps {
 interface MentionsState {
   value: string;
   measuring: boolean;
-  measureText: string;
+  measureText: string | null;
   measureLocation: number;
   activeIndex: number;
 }
@@ -46,7 +46,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     value: '',
     measuring: false,
     measureLocation: 0,
-    measureText: '',
+    measureText: null,
     activeIndex: 0,
   };
 
@@ -103,32 +103,24 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
         activeIndex: newActiveIndex,
       });
       event.preventDefault();
-    } else if ([KeyCode.LEFT, KeyCode.RIGHT, KeyCode.ESC].indexOf(which) !== -1) {
+    } else if ([KeyCode.ESC].indexOf(which) !== -1) {
       // Break measure
-      this.setState({
-        measuring: false,
-      });
+      this.stopMeasure();
       return;
     } else if (which === KeyCode.ENTER) {
       // Measure hit
       const { value: mentionValue = '' } = this.getOptions()[activeIndex] || {};
       const { text, selectionLocation } = replaceWithMeasure(value, {
         measureLocation,
-        selectionEnd: this.textarea!.selectionEnd,
         prefix,
         targetText: mentionValue,
       });
       this.triggerChange(text);
-      this.setState(
-        {
-          measuring: false,
-        },
-        () => {
-          // We need restore the selection position
-          this.textarea!.selectionStart = selectionLocation;
-          this.textarea!.selectionEnd = selectionLocation;
-        },
-      );
+      this.stopMeasure(() => {
+        // We need restore the selection position
+        this.textarea!.selectionStart = selectionLocation;
+        this.textarea!.selectionEnd = selectionLocation;
+      });
       event.preventDefault();
     }
   };
@@ -137,12 +129,12 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
    * When to start measure:
    * 1. When user press `prefix`
    * 2. When measureText !== prevMeasureText
-   *  1. If measure hit
+   *  - If measure hit
    *
    * When to stop measure:
    * 1. Selection is out of range
    * 2. When measureText !== prevMeasureText
-   *  1. If measure miss
+   *  - If measure miss
    */
   public onKeyUp: React.KeyboardEventHandler<HTMLTextAreaElement> = event => {
     const { key } = event;
@@ -160,10 +152,10 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
       }
 
       if (measureText !== prevMeasureText && !matchOption) {
-        this.setState({ measuring: false });
+        this.stopMeasure();
       }
     } else if (measuring) {
-      this.setState({ measuring: false });
+      this.stopMeasure();
     }
   };
 
@@ -176,7 +168,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
   };
 
   public getOptions = (measureText?: string): OptionProps[] => {
-    const targetMeasureText = (measureText || this.state.measureText).toLocaleLowerCase();
+    const targetMeasureText = (measureText || this.state.measureText || '').toLocaleLowerCase();
     const { children } = this.props;
     const list = toArray(children)
       .map(({ props: { value } }: { props: OptionProps }) => ({
@@ -195,6 +187,17 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
       measureLocation,
       activeIndex: 0,
     });
+  }
+
+  public stopMeasure(callback?: () => void) {
+    this.setState(
+      {
+        measuring: false,
+        measureLocation: 0,
+        measureText: null,
+      },
+      callback,
+    );
   }
 
   public render() {

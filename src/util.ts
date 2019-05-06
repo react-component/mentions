@@ -15,39 +15,41 @@ export function getLastMeasureIndex(text: string, prefix: string = ''): number {
 
 interface MeasureConfig {
   measureLocation: number;
-  selectionEnd: number;
   prefix: string;
   targetText: string;
 }
 
+/**
+ * Paint targetText into current text:
+ *  text: little@litest
+ *  targetText: light
+ *  => little @light test
+ */
 export function replaceWithMeasure(text: string, measureConfig: MeasureConfig) {
-  const { measureLocation, selectionEnd, prefix, targetText } = measureConfig;
+  const { measureLocation, prefix, targetText } = measureConfig;
 
-  // Do nothing if already exist same targetText
-  const currentAfterMeasureText = text.slice(measureLocation);
-  if (currentAfterMeasureText.indexOf(targetText) === prefix.length) {
-    // [some text] + [@] + [target text] + [' ']
-    const endLocation = measureLocation + prefix.length + targetText.length;
-    let finalText = text;
+  // Before text will append one space if have other text
+  let beforeMeasureText = text.slice(0, measureLocation).replace(/ $/, '');
+  if (beforeMeasureText) {
+    beforeMeasureText = `${beforeMeasureText} `;
+  }
+  let restText = text.slice(measureLocation + prefix.length);
 
-    // Insert one space if not exist
-    const lastChar = text[endLocation];
-    if (lastChar !== ' ') {
-      finalText = text.slice(0, endLocation) + ' ' + text.slice(endLocation);
+  // Reuse rest text as it can
+  const targetTextLen = targetText.length;
+  for (let i = 0; i < targetTextLen; i += 1) {
+    if (restText[i] !== targetText[i]) {
+      restText = restText.slice(i);
+      break;
+    } else if (i === targetTextLen - 1) {
+      restText = restText.slice(targetTextLen);
     }
-
-    return {
-      text: finalText,
-      selectionLocation: endLocation + 1,
-    };
   }
 
-  const beforeMeasureText = text.slice(0, measureLocation).replace(/ $/, '');
-  const connectedStartText = `${beforeMeasureText} ${prefix}${targetText} `;
-  const endText = text.slice(selectionEnd).replace(/^ /, '');
+  const connectedStartText = `${beforeMeasureText}${prefix}${targetText} `;
 
   return {
-    text: `${connectedStartText}${endText}`,
+    text: `${connectedStartText}${restText.replace(/^ /, '')}`,
     selectionLocation: connectedStartText.length,
   };
 }
