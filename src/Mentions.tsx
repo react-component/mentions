@@ -91,8 +91,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
   // Check if hit the measure keyword
   public onKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> = event => {
     const { which } = event;
-    const { value, activeIndex, measuring, measureLocation } = this.state;
-    const { prefix = '' } = this.props;
+    const { activeIndex, measuring } = this.state;
 
     // Skip if not measuring
     if (!measuring) {
@@ -113,17 +112,8 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
       return;
     } else if (which === KeyCode.ENTER) {
       // Measure hit
-      const { value: mentionValue = '' } = this.getOptions()[activeIndex] || {};
-      const { text, selectionLocation } = replaceWithMeasure(value, {
-        measureLocation,
-        prefix,
-        targetText: mentionValue,
-      });
-      this.triggerChange(text);
-      this.stopMeasure(() => {
-        // We need restore the selection position
-        setInputSelection(this.textarea!, selectionLocation);
-      });
+      const option = this.getOptions()[activeIndex];
+      this.selectOption(option);
       event.preventDefault();
     }
   };
@@ -187,6 +177,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
       measureLocation,
       prefix,
       targetText: mentionValue,
+      selectionStart: this.textarea!.selectionStart,
     });
     this.triggerChange(text);
     this.stopMeasure(() => {

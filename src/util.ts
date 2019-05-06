@@ -17,29 +17,21 @@ interface MeasureConfig {
   measureLocation: number;
   prefix: string;
   targetText: string;
+  selectionStart: number;
 }
 
 function lower(char: string | undefined): string {
   return (char || '').toLowerCase();
 }
 
-/**
- * Paint targetText into current text:
- *  text: little@litest
- *  targetText: light
- *  => little @light test
- */
-export function replaceWithMeasure(text: string, measureConfig: MeasureConfig) {
-  const { measureLocation, prefix, targetText } = measureConfig;
-
-  // Before text will append one space if have other text
-  let beforeMeasureText = text.slice(0, measureLocation).replace(/ $/, '');
-  if (beforeMeasureText) {
-    beforeMeasureText = `${beforeMeasureText} `;
+function reduceText(text: string, targetText: string) {
+  const firstChar = text[0];
+  if (!firstChar || firstChar === ' ') {
+    return text;
   }
-  let restText = text.slice(measureLocation + prefix.length);
 
   // Reuse rest text as it can
+  let restText = text;
   const targetTextLen = targetText.length;
   for (let i = 0; i < targetTextLen; i += 1) {
     if (lower(restText[i]) !== lower(targetText[i])) {
@@ -49,6 +41,30 @@ export function replaceWithMeasure(text: string, measureConfig: MeasureConfig) {
       restText = restText.slice(targetTextLen);
     }
   }
+
+  return restText;
+}
+
+/**
+ * Paint targetText into current text:
+ *  text: little@litest
+ *  targetText: light
+ *  => little @light test
+ */
+export function replaceWithMeasure(text: string, measureConfig: MeasureConfig) {
+  const { measureLocation, prefix, targetText, selectionStart } = measureConfig;
+
+  // Before text will append one space if have other text
+  let beforeMeasureText = text.slice(0, measureLocation).replace(/ $/, '');
+  if (beforeMeasureText) {
+    beforeMeasureText = `${beforeMeasureText} `;
+  }
+
+  // Cut duplicate string with current targetText
+  const restText = reduceText(
+    text.slice(selectionStart),
+    targetText.slice(selectionStart - measureLocation - prefix.length),
+  );
 
   const connectedStartText = `${beforeMeasureText}${prefix}${targetText} `;
 
