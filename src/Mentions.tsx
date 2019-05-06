@@ -134,17 +134,22 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
   };
 
   public onKeyUp: React.KeyboardEventHandler<HTMLTextAreaElement> = event => {
+    const { measureText: prevMeasureText, measuring } = this.state;
     const { prefix = '' } = this.props;
     const selectionStartText = getBeforeSelectionText(event.target as HTMLTextAreaElement);
     const measureIndex = getLastMeasureIndex(selectionStartText, prefix);
 
     if (measureIndex !== -1) {
       const measureText = selectionStartText.slice(measureIndex + prefix.length);
-      this.setState({
-        measuring: true,
-        measureText,
-        measureLocation: measureIndex,
-      });
+
+      if (prevMeasureText !== measureText || !measuring) {
+        this.setState({
+          measuring: true,
+          measureText,
+          measureLocation: measureIndex,
+          activeIndex: 0,
+        });
+      }
     }
   };
 

@@ -22,9 +22,20 @@ interface MeasureConfig {
 
 export function replaceWithMeasure(text: string, measureConfig: MeasureConfig) {
   const { measureLocation, selectionEnd, prefix, targetText } = measureConfig;
-  const beforeMeasureText = text.slice(0, measureLocation);
+
+  // Do nothing if already exist same targetText
+  const currentAfterMeasureText = text.slice(measureLocation);
+  if (currentAfterMeasureText.indexOf(targetText) === prefix.length) {
+    return {
+      text,
+      // [some text] + [@] + [target text] + [' ']
+      selectionLocation: measureLocation + prefix.length + targetText.length + 1,
+    };
+  }
+
+  const beforeMeasureText = text.slice(0, measureLocation).replace(/ $/, '');
   const connectedStartText = `${beforeMeasureText} ${prefix}${targetText} `;
-  const endText = text.slice(selectionEnd);
+  const endText = text.slice(selectionEnd).replace(/^ /, '');
 
   return {
     text: `${connectedStartText}${endText}`,
