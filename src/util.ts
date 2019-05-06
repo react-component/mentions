@@ -19,6 +19,10 @@ interface MeasureConfig {
   targetText: string;
 }
 
+function lower(char: string | undefined): string {
+  return (char || '').toLowerCase();
+}
+
 /**
  * Paint targetText into current text:
  *  text: little@litest
@@ -38,7 +42,7 @@ export function replaceWithMeasure(text: string, measureConfig: MeasureConfig) {
   // Reuse rest text as it can
   const targetTextLen = targetText.length;
   for (let i = 0; i < targetTextLen; i += 1) {
-    if (restText[i] !== targetText[i]) {
+    if (lower(restText[i]) !== lower(targetText[i])) {
       restText = restText.slice(i);
       break;
     } else if (i === targetTextLen - 1) {

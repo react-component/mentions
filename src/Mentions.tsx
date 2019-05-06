@@ -89,7 +89,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
 
   // Check if hit the measure keyword
   public onKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> = event => {
-    const { which, key } = event;
+    const { which } = event;
     const { value, activeIndex, measuring, measureLocation } = this.state;
     const { prefix = '' } = this.props;
 

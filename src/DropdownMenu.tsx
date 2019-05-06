@@ -19,11 +19,13 @@ class DropdownMenu extends React.Component<DropdownMenuProps, {}> {
 
     return (
       <Menu prefixCls={`${prefixCls}-menu`} activeKey={activeOption.value}>
-        {options.map(({ value }) => (
-          <MenuItem key={value}>{value}</MenuItem>
+        {options.map(({ value, disabled }) => (
+          <MenuItem key={value} disabled={disabled}>
+            {value}
+          </MenuItem>
         ))}
 
-        {!options.length && <MenuItem>Nothing match!</MenuItem>}
+        {!options.length && <MenuItem disabled={true}>Nothing match!</MenuItem>}
       </Menu>
     );
   }
