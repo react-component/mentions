@@ -85,7 +85,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
 
   // Check if hit the measure keyword
   public onKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> = event => {
-    const { which } = event;
+    const { which, key } = event;
     const { value, activeIndex, measuring, measureLocation } = this.state;
     const { prefix = '' } = this.props;
 
@@ -134,6 +134,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
   };
 
   public onKeyUp: React.KeyboardEventHandler<HTMLTextAreaElement> = event => {
+    const { key } = event;
     const { measureText: prevMeasureText, measuring } = this.state;
     const { prefix = '' } = this.props;
     const selectionStartText = getBeforeSelectionText(event.target as HTMLTextAreaElement);
@@ -141,15 +142,33 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
 
     if (measureIndex !== -1) {
       const measureText = selectionStartText.slice(measureIndex + prefix.length);
+      const matchOption: boolean = !!this.getOptions(measureText).length;
 
-      if (prevMeasureText !== measureText || !measuring) {
-        this.setState({
-          measuring: true,
-          measureText,
-          measureLocation: measureIndex,
-          activeIndex: 0,
-        });
+      /**
+       * When to trigger measure:
+       * 1. When user press `prefix`
+       * 2. When measureText !== prevMeasureText
+       *  1. Start if measure hit
+       *  2. Close if measure loss
+       */
+      if (key === prefix) {
+        this.startMeasure(measureText, measureIndex);
       }
+      if (measureText !== prevMeasureText) {
+        if (matchOption) {
+          this.startMeasure(measureText, measureIndex);
+        } else {
+          this.setState({
+            measuring: false,
+          });
+        }
+      }
+      // console.log('Measure Text:', measureText, `(${prevMeasureText})`);
+      // console.log('=>', selectionStartText);
+      // console.log('==>', prevMeasureText !== measureText, matchOption, !measuring, measureText === '');
+      // if ((prevMeasureText !== measureText && matchOption) || (!measuring && measureText === '')) {
+      //   this.startMeasure(measureText, measureIndex);
+      // }
     }
   };
 
@@ -161,18 +180,27 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     this.measure = element;
   };
 
-  public getOptions = (): OptionProps[] => {
-    const { measureText } = this.state;
+  public getOptions = (measureText?: string): OptionProps[] => {
+    const targetMeasureText = (measureText || this.state.measureText).toLocaleLowerCase();
     const { children } = this.props;
     const list = toArray(children)
       .map(({ props: { value } }: { props: OptionProps }) => ({
         value,
       }))
       .filter(({ value = '' }: OptionProps) => {
-        return value.toLowerCase().indexOf(measureText) !== -1;
+        return value.toLowerCase().indexOf(targetMeasureText) !== -1;
       });
     return list;
   };
+
+  public startMeasure(measureText: string, measureLocation: number) {
+    this.setState({
+      measuring: true,
+      measureText,
+      measureLocation,
+      activeIndex: 0,
+    });
+  }
 
   public render() {
     const { value, measureLocation, measuring, activeIndex } = this.state;

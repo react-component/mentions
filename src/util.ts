@@ -26,10 +26,19 @@ export function replaceWithMeasure(text: string, measureConfig: MeasureConfig) {
   // Do nothing if already exist same targetText
   const currentAfterMeasureText = text.slice(measureLocation);
   if (currentAfterMeasureText.indexOf(targetText) === prefix.length) {
+    // [some text] + [@] + [target text] + [' ']
+    const endLocation = measureLocation + prefix.length + targetText.length;
+    let finalText = text;
+
+    // Insert one space if not exist
+    const lastChar = text[endLocation];
+    if (lastChar !== ' ') {
+      finalText = text.slice(0, endLocation) + ' ' + text.slice(endLocation);
+    }
+
     return {
-      text,
-      // [some text] + [@] + [target text] + [' ']
-      selectionLocation: measureLocation + prefix.length + targetText.length + 1,
+      text: finalText,
+      selectionLocation: endLocation + 1,
     };
   }
 
