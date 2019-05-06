@@ -9,9 +9,11 @@ import { withInfo } from '@storybook/addon-info';
 import BasicSource from 'rc-source-loader!../examples/basic';
 import DynamicSource from 'rc-source-loader!../examples/dynamic';
 import MultiplePrefixSource from 'rc-source-loader!../examples/multiple-prefix';
+import SplitSource from 'rc-source-loader!../examples/split';
 import Basic from '../examples/basic';
 import Dynamic from '../examples/dynamic';
 import MultiplePrefix from '../examples/multiple-prefix';
+import Split from '../examples/split';
 import READMECode from '../README.md';
 
 storiesOf('rc-mentions', module)
@@ -50,5 +52,10 @@ storiesOf('rc-mentions', module)
   .add('multiple-prefix', () => <MultiplePrefix />, {
     source: {
       code: MultiplePrefixSource,
+    },
+  })
+  .add('split', () => <Split />, {
+    source: {
+      code: SplitSource,
     },
   });

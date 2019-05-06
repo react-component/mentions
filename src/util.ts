@@ -1,3 +1,5 @@
+import { MentionsProps } from './Mentions';
+
 /**
  * Cut input selection into 2 part and return text before selection start
  */
@@ -35,15 +37,16 @@ interface MeasureConfig {
   prefix: string;
   targetText: string;
   selectionStart: number;
+  split: string;
 }
 
 function lower(char: string | undefined): string {
   return (char || '').toLowerCase();
 }
 
-function reduceText(text: string, targetText: string) {
+function reduceText(text: string, targetText: string, split: string) {
   const firstChar = text[0];
-  if (!firstChar || firstChar === ' ') {
+  if (!firstChar || firstChar === split) {
     return text;
   }
 
@@ -69,24 +72,31 @@ function reduceText(text: string, targetText: string) {
  *  => little @light test
  */
 export function replaceWithMeasure(text: string, measureConfig: MeasureConfig) {
-  const { measureLocation, prefix, targetText, selectionStart } = measureConfig;
+  const { measureLocation, prefix, targetText, selectionStart, split } = measureConfig;
 
   // Before text will append one space if have other text
-  let beforeMeasureText = text.slice(0, measureLocation).replace(/ $/, '');
+  let beforeMeasureText = text.slice(0, measureLocation);
+  if (beforeMeasureText[beforeMeasureText.length - split.length] === split) {
+    beforeMeasureText = beforeMeasureText.slice(0, beforeMeasureText.length - split.length);
+  }
   if (beforeMeasureText) {
-    beforeMeasureText = `${beforeMeasureText} `;
+    beforeMeasureText = `${beforeMeasureText}${split}`;
   }
 
   // Cut duplicate string with current targetText
-  const restText = reduceText(
+  let restText = reduceText(
     text.slice(selectionStart),
     targetText.slice(selectionStart - measureLocation - prefix.length),
+    split,
   );
+  if (restText.slice(0, split.length) === split) {
+    restText = restText.slice(split.length);
+  }
 
-  const connectedStartText = `${beforeMeasureText}${prefix}${targetText} `;
+  const connectedStartText = `${beforeMeasureText}${prefix}${targetText}${split}`;
 
   return {
-    text: `${connectedStartText}${restText.replace(/^ /, '')}`,
+    text: `${connectedStartText}${restText}`,
     selectionLocation: connectedStartText.length,
   };
 }
@@ -100,4 +110,9 @@ export function setInputSelection(input: HTMLTextAreaElement, location: number) 
    */
   input.blur();
   input.focus();
+}
+
+export function validateSearch(text: string, props: MentionsProps) {
+  const { split } = props;
+  return !split || text.indexOf(split) === -1;
 }

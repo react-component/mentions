@@ -12,9 +12,10 @@ import {
   getLastMeasureIndex,
   replaceWithMeasure,
   setInputSelection,
+  validateSearch as defaultValidateSearch,
 } from './util';
 
-interface MentionsProps {
+export interface MentionsProps {
   defaultValue?: string;
   value?: string;
   onChange?: (text: string) => void;
@@ -24,6 +25,8 @@ interface MentionsProps {
   className?: string;
   style?: React.CSSProperties;
   autoFocus?: boolean;
+  split?: string;
+  validateSearch?: typeof defaultValidateSearch;
 }
 interface MentionsState {
   value: string;
@@ -39,6 +42,8 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
   public static defaultProps = {
     prefixCls: 'rc-mentions',
     prefix: '@',
+    split: ' ',
+    validateSearch: defaultValidateSearch,
   };
 
   public static getDerivedStateFromProps(props: MentionsProps, prevState: MentionsState) {
@@ -135,21 +140,27 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
   public onKeyUp: React.KeyboardEventHandler<HTMLTextAreaElement> = event => {
     const { key, which } = event;
     const { measureText: prevMeasureText, measuring } = this.state;
-    const { prefix = '', onSearch } = this.props;
-    const selectionStartText = getBeforeSelectionText(event.target as HTMLTextAreaElement);
+    const { prefix = '', split = ' ', onSearch, validateSearch } = this.props;
+    const target = event.target as HTMLTextAreaElement;
+    const selectionStartText = getBeforeSelectionText(target);
     const { location: measureIndex, prefix: measurePrefix } = getLastMeasureIndex(
       selectionStartText,
       prefix,
     );
 
     // Skip if match the white key list
-    if ([KeyCode.ESC, KeyCode.UP, KeyCode.DOWN].indexOf(which) !== -1) {
+    if ([KeyCode.ESC, KeyCode.UP, KeyCode.DOWN, KeyCode.ENTER].indexOf(which) !== -1) {
+      return;
+    }
+
+    // Skip if is the last one
+    if (KeyCode.RIGHT === which && target.selectionStart === target.value.length) {
       return;
     }
 
     if (measureIndex !== -1) {
       const measureText = selectionStartText.slice(measureIndex + measurePrefix.length);
-      const validateMeasure = measureText.indexOf(' ') === -1;
+      const validateMeasure: boolean = validateSearch!(measureText, this.props);
       const matchOption: boolean = !!this.getOptions(measureText).length;
 
       if (key === measurePrefix || measuring || (measureText !== prevMeasureText && matchOption)) {
@@ -175,6 +186,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
 
   public selectOption = (option: OptionProps) => {
     const { value, measureLocation, measurePrefix } = this.state;
+    const { split } = this.props;
 
     const { value: mentionValue = '' } = option;
     const { text, selectionLocation } = replaceWithMeasure(value, {
@@ -182,6 +194,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
       targetText: mentionValue,
       prefix: measurePrefix,
       selectionStart: this.textarea!.selectionStart,
+      split: split!,
     });
     this.triggerChange(text);
     this.stopMeasure(() => {
