@@ -6,11 +6,28 @@ export function getBeforeSelectionText(input: HTMLTextAreaElement) {
   return input.value.slice(0, selectionStart);
 }
 
+interface MeasureIndex {
+  location: number;
+  prefix: string;
+}
 /**
  * Find the last match prefix index
  */
-export function getLastMeasureIndex(text: string, prefix: string = ''): number {
-  return text.lastIndexOf(prefix);
+export function getLastMeasureIndex(text: string, prefix: string | string[] = ''): MeasureIndex {
+  const prefixList: string[] = Array.isArray(prefix) ? prefix : [prefix];
+  return prefixList.reduce(
+    (lastMatch: MeasureIndex, prefixStr): MeasureIndex => {
+      const lastIndex = text.lastIndexOf(prefixStr);
+      if (lastIndex > lastMatch.location) {
+        return {
+          location: lastIndex,
+          prefix: prefixStr,
+        };
+      }
+      return lastMatch;
+    },
+    { location: -1, prefix: '' },
+  );
 }
 
 interface MeasureConfig {

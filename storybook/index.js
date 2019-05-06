@@ -8,8 +8,10 @@ import { withViewport } from '@storybook/addon-viewport';
 import { withInfo } from '@storybook/addon-info';
 import BasicSource from 'rc-source-loader!../examples/basic';
 import DynamicSource from 'rc-source-loader!../examples/dynamic';
+import MultiplePrefixSource from 'rc-source-loader!../examples/multiple-prefix';
 import Basic from '../examples/basic';
 import Dynamic from '../examples/dynamic';
+import MultiplePrefix from '../examples/multiple-prefix';
 import READMECode from '../README.md';
 
 storiesOf('rc-mentions', module)
@@ -43,5 +45,10 @@ storiesOf('rc-mentions', module)
   .add('dynamic', () => <Dynamic />, {
     source: {
       code: DynamicSource,
+    },
+  })
+  .add('multiple-prefix', () => <MultiplePrefix />, {
+    source: {
+      code: MultiplePrefixSource,
     },
   });

@@ -18,9 +18,9 @@ interface MentionsProps {
   defaultValue?: string;
   value?: string;
   onChange?: (text: string) => void;
-  onSearch?: (text: string) => void;
+  onSearch?: (text: string, prefix: string) => void;
   prefixCls?: string;
-  prefix?: string;
+  prefix?: string | string[];
   className?: string;
   style?: React.CSSProperties;
   autoFocus?: boolean;
@@ -29,6 +29,7 @@ interface MentionsState {
   value: string;
   measuring: boolean;
   measureText: string | null;
+  measurePrefix: string;
   measureLocation: number;
   activeIndex: number;
 }
@@ -60,6 +61,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
       measuring: false,
       measureLocation: 0,
       measureText: null,
+      measurePrefix: '',
       activeIndex: 0,
     };
   }
@@ -135,7 +137,10 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     const { measureText: prevMeasureText, measuring } = this.state;
     const { prefix = '', onSearch } = this.props;
     const selectionStartText = getBeforeSelectionText(event.target as HTMLTextAreaElement);
-    const measureIndex = getLastMeasureIndex(selectionStartText, prefix);
+    const { location: measureIndex, prefix: measurePrefix } = getLastMeasureIndex(
+      selectionStartText,
+      prefix,
+    );
 
     // Skip if match the white key list
     if ([KeyCode.ESC, KeyCode.UP, KeyCode.DOWN].indexOf(which) !== -1) {
@@ -143,12 +148,12 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     }
 
     if (measureIndex !== -1) {
-      const measureText = selectionStartText.slice(measureIndex + prefix.length);
+      const measureText = selectionStartText.slice(measureIndex + measurePrefix.length);
       const validateMeasure = measureText.indexOf(' ') === -1;
       const matchOption: boolean = !!this.getOptions(measureText).length;
 
-      if (key === prefix || measuring || (measureText !== prevMeasureText && matchOption)) {
-        this.startMeasure(measureText, measureIndex);
+      if (key === measurePrefix || measuring || (measureText !== prevMeasureText && matchOption)) {
+        this.startMeasure(measureText, measurePrefix, measureIndex);
       }
 
       // Stop if measureText is invalidate
@@ -161,7 +166,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
        * If met `space` means user finished searching.
        */
       if (onSearch && validateMeasure) {
-        onSearch(measureText);
+        onSearch(measureText, measurePrefix);
       }
     } else if (measuring) {
       this.stopMeasure();
@@ -169,14 +174,13 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
   };
 
   public selectOption = (option: OptionProps) => {
-    const { value, measureLocation } = this.state;
-    const { prefix = '' } = this.props;
+    const { value, measureLocation, measurePrefix } = this.state;
 
     const { value: mentionValue = '' } = option;
     const { text, selectionLocation } = replaceWithMeasure(value, {
       measureLocation,
-      prefix,
       targetText: mentionValue,
+      prefix: measurePrefix,
       selectionStart: this.textarea!.selectionStart,
     });
     this.triggerChange(text);
@@ -211,10 +215,11 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     return list;
   };
 
-  public startMeasure(measureText: string, measureLocation: number) {
+  public startMeasure(measureText: string, measurePrefix: string, measureLocation: number) {
     this.setState({
       measuring: true,
       measureText,
+      measurePrefix,
       measureLocation,
       activeIndex: 0,
     });
@@ -232,10 +237,10 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
   }
 
   public render() {
-    const { value, measureLocation, measuring, activeIndex } = this.state;
-    const { prefix = '', prefixCls, className, style, ...restProps } = this.props;
+    const { value, measureLocation, measurePrefix, measuring, activeIndex } = this.state;
+    const { prefixCls, className, style, ...restProps } = this.props;
 
-    const props = omit(restProps, ['onChange']);
+    const props = omit(restProps, ['onChange', 'prefix']);
 
     const options = measuring ? this.getOptions() : [];
 
@@ -260,10 +265,10 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
               }}
             >
               <KeywordTrigger prefixCls={prefixCls} options={options} visible={true}>
-                <span>{prefix}</span>
+                <span>{measurePrefix}</span>
               </KeywordTrigger>
             </MentionsContextProvider>
-            {value.slice(measureLocation + prefix.length)}
+            {value.slice(measureLocation + measurePrefix.length)}
           </div>
         )}
       </div>
