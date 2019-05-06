@@ -7,7 +7,8 @@ import '../assets/index.less';
 const { Option } = Mentions;
 
 function validateSearch(text) {
-  return text.length <= 5;
+  console.log('~~>', text);
+  return text.length <= 3;
 }
 
 class Demo extends React.Component {
@@ -17,7 +18,7 @@ class Demo extends React.Component {
     return (
       <div>
         <h1>Customize Split Logic</h1>
-        <p>Only validate string length less than 5</p>
+        <p>Only validate string length less than 3</p>
         <Mentions
           style={{ width: '100%', fontSize: 50 }}
           split=""

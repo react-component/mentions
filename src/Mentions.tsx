@@ -140,7 +140,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
   public onKeyUp: React.KeyboardEventHandler<HTMLTextAreaElement> = event => {
     const { key, which } = event;
     const { measureText: prevMeasureText, measuring } = this.state;
-    const { prefix = '', split = ' ', onSearch, validateSearch } = this.props;
+    const { prefix = '', onSearch, validateSearch } = this.props;
     const target = event.target as HTMLTextAreaElement;
     const selectionStartText = getBeforeSelectionText(target);
     const { location: measureIndex, prefix: measurePrefix } = getLastMeasureIndex(
@@ -153,22 +153,21 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
       return;
     }
 
-    // Skip if is the last one
-    if (KeyCode.RIGHT === which && target.selectionStart === target.value.length) {
-      return;
-    }
-
     if (measureIndex !== -1) {
       const measureText = selectionStartText.slice(measureIndex + measurePrefix.length);
       const validateMeasure: boolean = validateSearch!(measureText, this.props);
       const matchOption: boolean = !!this.getOptions(measureText).length;
 
-      if (key === measurePrefix || measuring || (measureText !== prevMeasureText && matchOption)) {
-        this.startMeasure(measureText, measurePrefix, measureIndex);
-      }
-
-      // Stop if measureText is invalidate
-      if (measuring && !validateMeasure) {
+      if (validateMeasure) {
+        if (
+          key === measurePrefix ||
+          measuring ||
+          (measureText !== prevMeasureText && matchOption)
+        ) {
+          this.startMeasure(measureText, measurePrefix, measureIndex);
+        }
+      } else if (measuring) {
+        // Stop if measureText is invalidate
         this.stopMeasure();
       }
 
