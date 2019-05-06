@@ -22,6 +22,8 @@ class DropdownMenu extends React.Component<DropdownMenuProps, {}> {
         {options.map(({ value }) => (
           <MenuItem key={value}>{value}</MenuItem>
         ))}
+
+        {!options.length && <MenuItem>Nothing match!</MenuItem>}
       </Menu>
     );
   }

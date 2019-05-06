@@ -7,7 +7,9 @@ import { withConsole } from '@storybook/addon-console';
 import { withViewport } from '@storybook/addon-viewport';
 import { withInfo } from '@storybook/addon-info';
 import BasicSource from 'rc-source-loader!../examples/basic';
+import DynamicSource from 'rc-source-loader!../examples/dynamic';
 import Basic from '../examples/basic';
+import Dynamic from '../examples/dynamic';
 import READMECode from '../README.md';
 
 storiesOf('rc-mentions', module)
@@ -36,5 +38,10 @@ storiesOf('rc-mentions', module)
   .add('basic', () => <Basic />, {
     source: {
       code: BasicSource,
+    },
+  })
+  .add('dynamic', () => <Dynamic />, {
+    source: {
+      code: DynamicSource,
     },
   });

@@ -17,6 +17,7 @@ interface MentionsProps {
   defaultValue?: string;
   value?: string;
   onChange?: (text: string) => void;
+  onSearch?: (text: string) => void;
   prefixCls?: string;
   prefix?: string;
   className?: string;
@@ -64,6 +65,8 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
 
   public componentDidUpdate() {
     const { measuring } = this.state;
+
+    // Sync measure div top with textarea for rc-trigger usage
     if (measuring) {
       this.measure!.scrollTop = this.textarea!.scrollTop;
     }
@@ -129,16 +132,17 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
    * 1. When user press `prefix`
    * 2. When measureText !== prevMeasureText
    *  - If measure hit
+   *  - If measuring
    *
    * When to stop measure:
    * 1. Selection is out of range
-   * 2. When measureText !== prevMeasureText
-   *  - If measure miss
+   * 2. Contains `space`
+   * 3. ESC or select one
    */
   public onKeyUp: React.KeyboardEventHandler<HTMLTextAreaElement> = event => {
     const { key, which } = event;
     const { measureText: prevMeasureText, measuring } = this.state;
-    const { prefix = '' } = this.props;
+    const { prefix = '', onSearch } = this.props;
     const selectionStartText = getBeforeSelectionText(event.target as HTMLTextAreaElement);
     const measureIndex = getLastMeasureIndex(selectionStartText, prefix);
 
@@ -149,14 +153,24 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
 
     if (measureIndex !== -1) {
       const measureText = selectionStartText.slice(measureIndex + prefix.length);
+      const validateMeasure = measureText.indexOf(' ') === -1;
       const matchOption: boolean = !!this.getOptions(measureText).length;
 
-      if (key === prefix || (measureText !== prevMeasureText && matchOption)) {
+      if (key === prefix || measuring || (measureText !== prevMeasureText && matchOption)) {
         this.startMeasure(measureText, measureIndex);
       }
 
-      if (measureText !== prevMeasureText && !matchOption) {
+      // Stop if measureText is invalidate
+      if (measuring && !validateMeasure) {
         this.stopMeasure();
+      }
+
+      /**
+       * We will trigger `onSearch` to developer since they may use for async update.
+       * If met `space` means user finished searching.
+       */
+      if (onSearch && validateMeasure) {
+        onSearch(measureText);
       }
     } else if (measuring) {
       this.stopMeasure();

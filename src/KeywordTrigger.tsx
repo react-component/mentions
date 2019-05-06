@@ -24,6 +24,7 @@ const BUILT_IN_PLACEMENTS = {
 
 interface KeywordTriggerProps {
   visible?: boolean;
+  loading?: boolean;
   prefixCls?: string;
   options: OptionProps[];
   activeIndex: number;
