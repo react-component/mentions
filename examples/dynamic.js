@@ -12,7 +12,7 @@ class Demo extends React.Component {
   constructor(props) {
     super(props);
 
-    this.loadGithubUsers = debounce(this.loadGithubUsers, 200);
+    this.loadGithubUsers = debounce(this.loadGithubUsers, 800);
   }
 
   state = {
@@ -22,7 +22,7 @@ class Demo extends React.Component {
   };
 
   onSearch = search => {
-    this.setState({ search, loading: !!search });
+    this.setState({ search, loading: !!search, users: [] });
     console.log('Search:', search);
     this.loadGithubUsers(search);
   };
@@ -37,7 +37,7 @@ class Demo extends React.Component {
 
     fetch(`https://api.github.com/search/users?q=${key}`)
       .then(res => res.json())
-      .then(({ items }) => {
+      .then(({ items = [] }) => {
         const { search } = this.state;
         if (search !== key) {
           console.log('Out Of Date >', key, items);
