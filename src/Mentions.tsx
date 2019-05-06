@@ -9,6 +9,7 @@ import Option, { OptionProps } from './Option';
 import { getBeforeSelectionText, getLastMeasureIndex, replaceWithMeasure } from './util';
 
 interface MentionsProps {
+  defaultValue?: string;
   value?: string;
   onChange?: (text: string) => void;
   prefixCls?: string;
@@ -42,29 +43,24 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     return newState;
   }
 
-  public state = {
-    value: '',
-    measuring: false,
-    measureLocation: 0,
-    measureText: null,
-    activeIndex: 0,
-  };
-
   public textarea?: HTMLTextAreaElement;
   public measure?: HTMLDivElement;
 
-  public getSnapshotBeforeUpdate() {
-    const { measuring } = this.state;
-    if (measuring) {
-      return this.textarea!.scrollTop;
-    }
-    return 0;
+  constructor(props: MentionsProps) {
+    super(props);
+    this.state = {
+      value: props.defaultValue || props.value || '',
+      measuring: false,
+      measureLocation: 0,
+      measureText: null,
+      activeIndex: 0,
+    };
   }
 
-  public componentDidUpdate(_: any, __: any, scrollTop: number) {
+  public componentDidUpdate() {
     const { measuring } = this.state;
     if (measuring) {
-      this.measure!.scrollTop = scrollTop;
+      this.measure!.scrollTop = this.textarea!.scrollTop;
     }
   }
 
@@ -103,8 +99,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
         activeIndex: newActiveIndex,
       });
       event.preventDefault();
-    } else if ([KeyCode.ESC].indexOf(which) !== -1) {
-      // Break measure
+    } else if (which === KeyCode.ESC) {
       this.stopMeasure();
       return;
     } else if (which === KeyCode.ENTER) {
@@ -137,11 +132,16 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
    *  - If measure miss
    */
   public onKeyUp: React.KeyboardEventHandler<HTMLTextAreaElement> = event => {
-    const { key } = event;
+    const { key, which } = event;
     const { measureText: prevMeasureText, measuring } = this.state;
     const { prefix = '' } = this.props;
     const selectionStartText = getBeforeSelectionText(event.target as HTMLTextAreaElement);
     const measureIndex = getLastMeasureIndex(selectionStartText, prefix);
+
+    // Skip if match the white key list
+    if ([KeyCode.ESC, KeyCode.UP, KeyCode.DOWN].indexOf(which) !== -1) {
+      return;
+    }
 
     if (measureIndex !== -1) {
       const measureText = selectionStartText.slice(measureIndex + prefix.length);
@@ -202,7 +202,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
 
   public render() {
     const { value, measureLocation, measuring, activeIndex } = this.state;
-    const { prefix, prefixCls, className, style, ...restProps } = this.props;
+    const { prefix = '', prefixCls, className, style, ...restProps } = this.props;
 
     const props = omit(restProps, ['onChange']);
 
@@ -227,6 +227,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
             >
               <span>{prefix}</span>
             </KeywordTrigger>
+            {value.slice(measureLocation + prefix.length)}
           </div>
         )}
       </div>
