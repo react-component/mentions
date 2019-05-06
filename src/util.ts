@@ -1,22 +1,33 @@
+/**
+ * Cut input selection into 2 part and return text before selection start
+ */
+export function getBeforeSelectionText(input: HTMLTextAreaElement) {
+  const { selectionStart } = input as any;
+  return input.value.slice(0, selectionStart);
+}
+
+/**
+ * Find the last match prefix index
+ */
+export function getLastMeasureIndex(text: string, prefix: string = ''): number {
+  return text.lastIndexOf(prefix);
+}
+
 interface MeasureConfig {
   measureLocation: number;
-  prefix?: string;
-}
-
-export function getMeasureText(fullText: string, config: MeasureConfig) {
-  const { measureLocation, prefix = '' } = config;
-  const restText = fullText.slice(measureLocation + prefix.length);
-  return restText.split(' ')[0];
-}
-
-interface ReplaceConfig extends MeasureConfig {
+  selectionEnd: number;
+  prefix: string;
   targetText: string;
 }
 
-export function replaceText(fullText: string, config: ReplaceConfig): string {
-  const { measureLocation, prefix = '', targetText } = config;
-  const measureText = getMeasureText(fullText, config);
-  const startText = fullText.slice(0, measureLocation);
-  const endText = fullText.slice(measureLocation + prefix.length + measureText.length);
-  return `${startText} ${prefix}${targetText} ${endText}`;
+export function replaceWithMeasure(text: string, measureConfig: MeasureConfig) {
+  const { measureLocation, selectionEnd, prefix, targetText } = measureConfig;
+  const beforeMeasureText = text.slice(0, measureLocation);
+  const connectedStartText = `${beforeMeasureText} ${prefix}${targetText} `;
+  const endText = text.slice(selectionEnd);
+
+  return {
+    text: `${connectedStartText}${endText}`,
+    selectionLocation: connectedStartText.length,
+  };
 }

@@ -6,7 +6,7 @@ import * as React from 'react';
 import { polyfill } from 'react-lifecycles-compat';
 import KeywordTrigger from './KeywordTrigger';
 import Option, { OptionProps } from './Option';
-import { getMeasureText, replaceText } from './util';
+import { getBeforeSelectionText, getLastMeasureIndex, replaceWithMeasure } from './util';
 
 interface MentionsProps {
   value?: string;
@@ -61,7 +61,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     return 0;
   }
 
-  public componentDidUpdate(_prevProps: any, _prevState: any, scrollTop: number) {
+  public componentDidUpdate(_: any, __: any, scrollTop: number) {
     const { measuring } = this.state;
     if (measuring) {
       this.measure!.scrollTop = scrollTop;
@@ -80,33 +80,14 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
   };
 
   public onChange: React.ChangeEventHandler<HTMLTextAreaElement> = ({ target: { value } }) => {
-    const { measuring, measureLocation } = this.state;
-    const { prefix } = this.props;
     this.triggerChange(value);
-
-    // Update measure text
-    if (measuring) {
-      const measureText = getMeasureText(value, { measureLocation, prefix }).toLowerCase();
-      this.setState({ measureText });
-    }
   };
 
   // Check if hit the measure keyword
-  public onKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> = (event) => {
-    const { key, which } = event;
+  public onKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> = event => {
+    const { which } = event;
     const { value, activeIndex, measuring, measureLocation } = this.state;
-    const { prefix } = this.props;
-    if (prefix === key) {
-      // Trigger measure
-      const startLoc = this.textarea!.selectionStart;
-      this.setState({
-        measuring: true,
-        measureLocation: startLoc,
-        measureText: '',
-        activeIndex: 0,
-      });
-      return;
-    }
+    const { prefix = '' } = this.props;
 
     // Skip if not measuring
     if (!measuring) {
@@ -122,7 +103,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
         activeIndex: newActiveIndex,
       });
       event.preventDefault();
-    } else if ([ KeyCode.LEFT, KeyCode.RIGHT, KeyCode.ESC ].indexOf(which) !== -1) {
+    } else if ([KeyCode.LEFT, KeyCode.RIGHT, KeyCode.ESC].indexOf(which) !== -1) {
       // Break measure
       this.setState({
         measuring: false,
@@ -131,15 +112,39 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     } else if (which === KeyCode.ENTER) {
       // Measure hit
       const { value: mentionValue = '' } = this.getOptions()[activeIndex] || {};
-      this.triggerChange(replaceText(value, {
+      const { text, selectionLocation } = replaceWithMeasure(value, {
         measureLocation,
+        selectionEnd: this.textarea!.selectionEnd,
         prefix,
         targetText: mentionValue,
-      }));
-      this.setState({
-        measuring: false,
       });
+      this.triggerChange(text);
+      this.setState(
+        {
+          measuring: false,
+        },
+        () => {
+          // We need restore the selection position
+          this.textarea!.selectionStart = selectionLocation;
+          this.textarea!.selectionEnd = selectionLocation;
+        },
+      );
       event.preventDefault();
+    }
+  };
+
+  public onKeyUp: React.KeyboardEventHandler<HTMLTextAreaElement> = event => {
+    const { prefix = '' } = this.props;
+    const selectionStartText = getBeforeSelectionText(event.target as HTMLTextAreaElement);
+    const measureIndex = getLastMeasureIndex(selectionStartText, prefix);
+
+    if (measureIndex !== -1) {
+      const measureText = selectionStartText.slice(measureIndex + prefix.length);
+      this.setState({
+        measuring: true,
+        measureText,
+        measureLocation: measureIndex,
+      });
     }
   };
 
@@ -168,7 +173,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     const { value, measureLocation, measuring, activeIndex } = this.state;
     const { prefix, prefixCls, className, style, ...restProps } = this.props;
 
-    const props = omit(restProps, [ 'onChange' ]);
+    const props = omit(restProps, ['onChange']);
 
     return (
       <div className={classNames(prefixCls, className)} style={style}>
@@ -178,6 +183,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
           value={value}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
+          onKeyUp={this.onKeyUp}
         />
         {measuring && (
           <div ref={this.setMeasureRef} className={`${prefixCls}-measure`}>
