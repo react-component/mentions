@@ -27,21 +27,14 @@ interface KeywordTriggerProps {
   loading?: boolean;
   prefixCls?: string;
   options: OptionProps[];
-  activeIndex: number;
 }
 
 class KeywordTrigger extends React.Component<KeywordTriggerProps, {}> {
   public getDropdownPrefix = () => `${this.props.prefixCls}-dropdown`;
 
   public getDropdownElement = () => {
-    const { options, activeIndex } = this.props;
-    return (
-      <DropdownMenu
-        prefixCls={this.getDropdownPrefix()}
-        options={options}
-        activeIndex={activeIndex}
-      />
-    );
+    const { options } = this.props;
+    return <DropdownMenu prefixCls={this.getDropdownPrefix()} options={options} />;
   };
 
   public render() {

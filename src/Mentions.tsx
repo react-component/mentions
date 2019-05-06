@@ -5,6 +5,7 @@ import KeyCode from 'rc-util/lib/KeyCode';
 import * as React from 'react';
 import { polyfill } from 'react-lifecycles-compat';
 import KeywordTrigger from './KeywordTrigger';
+import { MentionsContextProvider } from './MentionsContext';
 import Option, { OptionProps } from './Option';
 import {
   getBeforeSelectionText,
@@ -177,6 +178,29 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     }
   };
 
+  public selectOption = (option: OptionProps) => {
+    const { value, measureLocation } = this.state;
+    const { prefix = '' } = this.props;
+
+    const { value: mentionValue = '' } = option;
+    const { text, selectionLocation } = replaceWithMeasure(value, {
+      measureLocation,
+      prefix,
+      targetText: mentionValue,
+    });
+    this.triggerChange(text);
+    this.stopMeasure(() => {
+      // We need restore the selection position
+      setInputSelection(this.textarea!, selectionLocation);
+    });
+  };
+
+  public setActiveIndex = (activeIndex: number) => {
+    this.setState({
+      activeIndex,
+    });
+  };
+
   public setTextAreaRef = (element: HTMLTextAreaElement) => {
     this.textarea = element;
   };
@@ -189,9 +213,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     const targetMeasureText = (measureText || this.state.measureText || '').toLocaleLowerCase();
     const { children } = this.props;
     const list = toArray(children)
-      .map(({ props: { value } }: { props: OptionProps }) => ({
-        value,
-      }))
+      .map(({ props }: { props: OptionProps }) => props)
       .filter(({ value = '' }: OptionProps) => {
         return value.toLowerCase().indexOf(targetMeasureText) !== -1;
       });
@@ -224,6 +246,8 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
 
     const props = omit(restProps, ['onChange']);
 
+    const options = measuring ? this.getOptions() : [];
+
     return (
       <div className={classNames(prefixCls, className)} style={style}>
         <textarea
@@ -237,14 +261,17 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
         {measuring && (
           <div ref={this.setMeasureRef} className={`${prefixCls}-measure`}>
             {value.slice(0, measureLocation)}
-            <KeywordTrigger
-              prefixCls={prefixCls}
-              options={this.getOptions()}
-              activeIndex={activeIndex}
-              visible={true}
+            <MentionsContextProvider
+              value={{
+                activeIndex,
+                setActiveIndex: this.setActiveIndex,
+                selectOption: this.selectOption,
+              }}
             >
-              <span>{prefix}</span>
-            </KeywordTrigger>
+              <KeywordTrigger prefixCls={prefixCls} options={options} visible={true}>
+                <span>{prefix}</span>
+              </KeywordTrigger>
+            </MentionsContextProvider>
             {value.slice(measureLocation + prefix.length)}
           </div>
         )}

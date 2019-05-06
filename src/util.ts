@@ -61,9 +61,10 @@ export function replaceWithMeasure(text: string, measureConfig: MeasureConfig) {
 export function setInputSelection(input: HTMLTextAreaElement, location: number) {
   input.setSelectionRange(location, location);
 
-  // Reset caret into view
-  if (document.activeElement === input) {
-    input.blur();
-    input.focus();
-  }
+  /**
+   * Reset caret into view.
+   * Since this function always called by user control, it's safe to focus element.
+   */
+  input.blur();
+  input.focus();
 }
