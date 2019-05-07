@@ -5,7 +5,7 @@ import Mentions from '../src';
 const { Option } = Mentions;
 
 describe('Option', () => {
-  // Option is a placeholder component. Should render nothing.
+  // Option is a placeholder component. It should render nothing.
   it('should be empty', () => {
     const wrapper = mount(<Option>Nothing</Option>);
     expect(wrapper.instance()).toBe(null);
