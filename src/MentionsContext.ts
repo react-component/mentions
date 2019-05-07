@@ -10,19 +10,7 @@ export interface MentionsContextProps {
   onFocus: () => void;
 }
 
-const MentionsContext: Context<MentionsContextProps> = createReactContext({
-  notFoundContent: '' as React.ReactNode,
-  activeIndex: 0,
-  setActiveIndex: (_: number) => {
-    /* Do nothing */
-  },
-  selectOption: (_: OptionProps) => {
-    /* Do nothing */
-  },
-  onFocus: () => {
-    /* Do nothing */
-  },
-});
+const MentionsContext: Context<MentionsContextProps> = createReactContext(null);
 
 export const MentionsContextProvider = MentionsContext.Provider;
 export const MentionsContextConsumer = MentionsContext.Consumer;
