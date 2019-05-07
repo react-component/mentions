@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import omit from 'omit.js';
 import toArray from 'rc-util/lib/Children/toArray';
 import KeyCode from 'rc-util/lib/KeyCode';
 import * as React from 'react';
@@ -32,6 +31,7 @@ export interface MentionsProps {
   split?: string;
   validateSearch?: typeof defaultValidateSearch;
   filterOption?: false | typeof defaultFilterOption;
+  notFoundContent?: React.ReactNode;
 }
 interface MentionsState {
   value: string;
@@ -51,6 +51,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     split: ' ',
     validateSearch: defaultValidateSearch,
     filterOption: defaultFilterOption,
+    notFoundContent: 'Not Found',
   };
 
   public static getDerivedStateFromProps(props: MentionsProps, prevState: MentionsState) {
@@ -308,7 +309,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
 
   public render() {
     const { value, measureLocation, measurePrefix, measuring, activeIndex } = this.state;
-    const { prefixCls, className, style, autoFocus } = this.props;
+    const { prefixCls, className, style, autoFocus, notFoundContent } = this.props;
 
     const options = measuring ? this.getOptions() : [];
 
@@ -329,6 +330,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
             {value.slice(0, measureLocation)}
             <MentionsContextProvider
               value={{
+                notFoundContent,
                 activeIndex,
                 setActiveIndex: this.setActiveIndex,
                 selectOption: this.selectOption,

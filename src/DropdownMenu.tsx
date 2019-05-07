@@ -14,6 +14,7 @@ interface DropdownMenuProps {
  */
 class DropdownMenu extends React.Component<DropdownMenuProps, {}> {
   public renderDropdown = ({
+    notFoundContent,
     activeIndex,
     setActiveIndex,
     selectOption,
@@ -49,7 +50,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps, {}> {
           );
         })}
 
-        {!options.length && <MenuItem disabled={true}>Nothing match!</MenuItem>}
+        {!options.length && <MenuItem disabled={true}>{notFoundContent}</MenuItem>}
       </Menu>
     );
   };

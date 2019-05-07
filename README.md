@@ -25,7 +25,7 @@ React Mentions
 
 ## Screenshots
 
-<img src="https://user-images.githubusercontent.com/5378891/57270721-17b03880-70bf-11e9-9a5d-67ebf501aef1.png" />
+<img src="https://user-images.githubusercontent.com/5378891/57270992-2fd48780-70c0-11e9-91ae-c614d0b49a45.png" />
 
 ## Feature
 
@@ -72,6 +72,7 @@ React.render(<Demo />, container);
 | split | Set split string before and after selected mention | string | ' ' |
 | validateSearch | Customize trigger search logic | (text: string, props: MentionsProps) => void | - |
 | filterOption | Customize filter option logic | false \| (input: string, option: OptionProps) => boolean | - |
+| notFoundContent | Set mentions content when not match | ReactNode | 'Not Found' |
 | onChange | Trigger when value changed |(text: string) => void | - |
 | onSelect | Trigger when user select the option | (option: OptionProps, prefix: string) => void | - |
 | onSearch | Trigger when prefix hit | (text: string, prefix: string) => void | - |

@@ -68,7 +68,6 @@
     "@ant-design/create-react-context": "^0.2.4",
     "babel-runtime": "^6.23.0",
     "classnames": "^2.2.6",
-    "omit.js": "^1.0.2",
     "rc-menu": "^7.4.22",
     "rc-trigger": "^2.6.2",
     "rc-util": "^4.6.0",
