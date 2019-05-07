@@ -1,4 +1,5 @@
 import { MentionsProps } from './Mentions';
+import { OptionProps } from './Option';
 
 /**
  * Cut input selection into 2 part and return text before selection start
@@ -115,4 +116,9 @@ export function setInputSelection(input: HTMLTextAreaElement, location: number) 
 export function validateSearch(text: string, props: MentionsProps) {
   const { split } = props;
   return !split || text.indexOf(split) === -1;
+}
+
+export function filterOption(input: string, { value = '' }: OptionProps): boolean {
+  const lowerCase = input.toLowerCase();
+  return value.toLowerCase().indexOf(lowerCase) !== -1;
 }

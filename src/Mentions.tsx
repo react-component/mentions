@@ -8,6 +8,7 @@ import KeywordTrigger from './KeywordTrigger';
 import { MentionsContextProvider } from './MentionsContext';
 import Option, { OptionProps } from './Option';
 import {
+  filterOption as defaultFilterOption,
   getBeforeSelectionText,
   getLastMeasureIndex,
   replaceWithMeasure,
@@ -27,6 +28,7 @@ export interface MentionsProps {
   autoFocus?: boolean;
   split?: string;
   validateSearch?: typeof defaultValidateSearch;
+  filterOption?: false | typeof defaultFilterOption;
 }
 interface MentionsState {
   value: string;
@@ -44,6 +46,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     prefix: '@',
     split: ' ',
     validateSearch: defaultValidateSearch,
+    filterOption: defaultFilterOption,
   };
 
   public static getDerivedStateFromProps(props: MentionsProps, prevState: MentionsState) {
@@ -217,12 +220,16 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
   };
 
   public getOptions = (measureText?: string): OptionProps[] => {
-    const targetMeasureText = (measureText || this.state.measureText || '').toLocaleLowerCase();
-    const { children } = this.props;
+    const targetMeasureText = measureText || this.state.measureText || '';
+    const { children, filterOption } = this.props;
     const list = toArray(children)
       .map(({ props }: { props: OptionProps }) => props)
-      .filter(({ value = '' }: OptionProps) => {
-        return value.toLowerCase().indexOf(targetMeasureText) !== -1;
+      .filter((option: OptionProps) => {
+        /** Return all result if `filterOption` is false. */
+        if (filterOption === false) {
+          return true;
+        }
+        return filterOption!(targetMeasureText, option);
       });
     return list;
   };
