@@ -47,9 +47,14 @@ React Mentions
 ```js
 import Mentions from 'rc-mentions';
 
-// TODO: update
+const { Option } = Mentions;
 
 var Demo = (
+  <Mentions>
+    <Option value="light">Light</Option>
+    <Option value="bamboo">Bamboo</Option>
+    <Option value="cat">Cat</Option>
+  </Mentions>
 );
 React.render(<Demo />, container);
 ```
@@ -60,13 +65,25 @@ React.render(<Demo />, container);
 
 | name     | description    | type     | default      |
 |----------|----------------|----------|--------------|
-| | | | |
+| defaultValue | Default value | string | - |
+| value | Set value of mentions | string | - |
+| prefix | Set trigger prefix keyword | string \| string[] | '@' |
+| autoFocus | Auto get focus when component mounted | boolean | `false` |
+| split | Set split string before and after selected mention | string | ' ' |
+| validateSearch | Customize trigger search logic | (text: string, props: MentionsProps) => void | - |
+| filterOption | Customize filter option logic | false \| (input: string, option: OptionProps) => boolean | - |
+| onChange | Trigger when value changed |(text: string) => void | - |
+| onSelect | Trigger when user select the option | (option: OptionProps, prefix: string) => void | - |
+| onSearch | Trigger when prefix hit | (text: string, prefix: string) => void | - |
+| onFocus | Trigger when mentions get focus | React.FocusEventHandler<HTMLTextAreaElement> | - |
+| onBlur | Trigger when mentions lose focus | React.FocusEventHandler<HTMLTextAreaElement> | - |
 
 ### Methods
 
-| name     | description    | parameters | return      |
-|----------|----------------|----------|--------------|
-| | | | |
+| name     | description    |
+|----------|----------------|
+| focus() | Component get focus |
+| blur() | Component lose focus |
 
 ## Development
 

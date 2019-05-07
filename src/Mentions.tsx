@@ -297,6 +297,14 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     );
   }
 
+  public focus() {
+    this.textarea!.focus();
+  }
+
+  public blur() {
+    this.textarea!.blur();
+  }
+
   public render() {
     const { value, measureLocation, measurePrefix, measuring, activeIndex } = this.state;
     const { prefixCls, className, style, autoFocus } = this.props;
