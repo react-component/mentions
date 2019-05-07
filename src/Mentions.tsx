@@ -218,6 +218,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     this.focusId = window.setTimeout(() => {
       const { onBlur } = this.props;
       this.setState({ isFocus: false });
+      this.stopMeasure();
       if (onBlur) {
         onBlur(event);
       }
