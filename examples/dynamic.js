@@ -1,4 +1,4 @@
-/* eslint no-console: 0 */
+/* eslint-disable no-console, no-undef */
 
 import React from 'react';
 import debounce from 'lodash.debounce';
