@@ -13,7 +13,12 @@ interface DropdownMenuProps {
  * The focus is controlled by textarea to make accessibility easy.
  */
 class DropdownMenu extends React.Component<DropdownMenuProps, {}> {
-  public renderDropdown = ({ activeIndex, setActiveIndex, selectOption }: MentionsContextProps) => {
+  public renderDropdown = ({
+    activeIndex,
+    setActiveIndex,
+    selectOption,
+    onFocus,
+  }: MentionsContextProps) => {
     const { prefixCls, options } = this.props;
     const activeOption = options[activeIndex] || {};
 
@@ -25,6 +30,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps, {}> {
           const option = options.find(({ value }) => value === key);
           selectOption(option!);
         }}
+        onFocus={onFocus}
       >
         {options.map((option, index) => {
           const { value, disabled, children, className, style } = option;

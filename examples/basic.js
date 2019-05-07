@@ -7,12 +7,28 @@ import '../assets/index.less';
 const { Option } = Mentions;
 
 class Demo extends React.Component {
-  state = {};
+  onSelect = (option, prefix) => {
+    console.log('Select:', prefix, '-', option.value);
+  };
+
+  onFocus = () => {
+    console.log('onFocus');
+  };
+
+  onBlur = () => {
+    console.log('onBlur');
+  };
 
   render() {
     return (
       <div>
-        <Mentions autoFocus defaultValue="Hello World">
+        <Mentions
+          autoFocus
+          defaultValue="Hello World"
+          onSelect={this.onSelect}
+          onFocus={this.onFocus}
+          onBlur={this.onBlur}
+        >
           <Option value="light">Light</Option>
           <Option value="bamboo">Bamboo</Option>
           <Option value="cat">Cat</Option>

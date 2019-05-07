@@ -20,7 +20,10 @@ export interface MentionsProps {
   defaultValue?: string;
   value?: string;
   onChange?: (text: string) => void;
+  onSelect?: (option: OptionProps, prefix: string) => void;
   onSearch?: (text: string, prefix: string) => void;
+  onFocus?: React.FocusEventHandler<HTMLTextAreaElement>;
+  onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
   prefixCls?: string;
   prefix?: string | string[];
   className?: string;
@@ -37,6 +40,7 @@ interface MentionsState {
   measurePrefix: string;
   measureLocation: number;
   activeIndex: number;
+  isFocus: boolean;
 }
 class Mentions extends React.Component<MentionsProps, MentionsState> {
   public static Option = Option;
@@ -61,6 +65,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
 
   public textarea?: HTMLTextAreaElement;
   public measure?: HTMLDivElement;
+  public focusId: number | undefined = undefined;
 
   constructor(props: MentionsProps) {
     super(props);
@@ -71,6 +76,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
       measureText: null,
       measurePrefix: '',
       activeIndex: 0,
+      isFocus: false,
     };
   }
 
@@ -186,9 +192,41 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     }
   };
 
+  public onInputFocus: React.FocusEventHandler<HTMLTextAreaElement> = event => {
+    this.onFocus(event);
+  };
+
+  public onInputBlur: React.FocusEventHandler<HTMLTextAreaElement> = event => {
+    this.onBlur(event);
+  };
+
+  public onDropdownFocus = () => {
+    this.onFocus();
+  };
+
+  public onFocus = (event?: React.FocusEvent<HTMLTextAreaElement>) => {
+    window.clearTimeout(this.focusId);
+    const { isFocus } = this.state;
+    const { onFocus } = this.props;
+    if (!isFocus && event && onFocus) {
+      onFocus(event);
+    }
+    this.setState({ isFocus: true });
+  };
+
+  public onBlur = (event: React.FocusEvent<HTMLTextAreaElement>) => {
+    this.focusId = window.setTimeout(() => {
+      const { onBlur } = this.props;
+      this.setState({ isFocus: false });
+      if (onBlur) {
+        onBlur(event);
+      }
+    }, 0);
+  };
+
   public selectOption = (option: OptionProps) => {
     const { value, measureLocation, measurePrefix } = this.state;
-    const { split } = this.props;
+    const { split, onSelect } = this.props;
 
     const { value: mentionValue = '' } = option;
     const { text, selectionLocation } = replaceWithMeasure(value, {
@@ -203,6 +241,10 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
       // We need restore the selection position
       setInputSelection(this.textarea!, selectionLocation);
     });
+
+    if (onSelect) {
+      onSelect(option, measurePrefix);
+    }
   };
 
   public setActiveIndex = (activeIndex: number) => {
@@ -257,21 +299,21 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
 
   public render() {
     const { value, measureLocation, measurePrefix, measuring, activeIndex } = this.state;
-    const { prefixCls, className, style, ...restProps } = this.props;
-
-    const props = omit(restProps, ['onChange', 'prefix']);
+    const { prefixCls, className, style, autoFocus } = this.props;
 
     const options = measuring ? this.getOptions() : [];
 
     return (
       <div className={classNames(prefixCls, className)} style={style}>
         <textarea
-          {...props}
+          autoFocus={autoFocus}
           ref={this.setTextAreaRef}
           value={value}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
           onKeyUp={this.onKeyUp}
+          onFocus={this.onInputFocus}
+          onBlur={this.onInputBlur}
         />
         {measuring && (
           <div ref={this.setMeasureRef} className={`${prefixCls}-measure`}>
@@ -281,6 +323,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
                 activeIndex,
                 setActiveIndex: this.setActiveIndex,
                 selectOption: this.selectOption,
+                onFocus: this.onDropdownFocus,
               }}
             >
               <KeywordTrigger prefixCls={prefixCls} options={options} visible={true}>
