@@ -25,7 +25,7 @@ React Mentions
 
 ## Screenshots
 
-<img src="https://user-images.githubusercontent.com/8186664/50768510-a8b30680-12bb-11e9-8251-0e0ed82c5076.png" />
+<img src="https://user-images.githubusercontent.com/5378891/57270721-17b03880-70bf-11e9-9a5d-67ebf501aef1.png" />
 
 ## Feature
 
