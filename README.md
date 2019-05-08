@@ -65,14 +65,15 @@ React.render(<Demo />, container);
 
 | name     | description    | type     | default      |
 |----------|----------------|----------|--------------|
-| defaultValue | Default value | string | - |
-| value | Set value of mentions | string | - |
-| prefix | Set trigger prefix keyword | string \| string[] | '@' |
 | autoFocus | Auto get focus when component mounted | boolean | `false` |
-| split | Set split string before and after selected mention | string | ' ' |
-| validateSearch | Customize trigger search logic | (text: string, props: MentionsProps) => void | - |
+| defaultValue | Default value | string | - |
 | filterOption | Customize filter option logic | false \| (input: string, option: OptionProps) => boolean | - |
 | notFoundContent | Set mentions content when not match | ReactNode | 'Not Found' |
+| prefix | Set trigger prefix keyword | string \| string[] | '@' |
+| rows | Set row count | number | 1 |
+| split | Set split string before and after selected mention | string | ' ' |
+| validateSearch | Customize trigger search logic | (text: string, props: MentionsProps) => void | - |
+| value | Set value of mentions | string | - |
 | onChange | Trigger when value changed |(text: string) => void | - |
 | onSelect | Trigger when user select the option | (option: OptionProps, prefix: string) => void | - |
 | onSearch | Trigger when prefix hit | (text: string, prefix: string) => void | - |
