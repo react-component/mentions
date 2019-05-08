@@ -17,7 +17,7 @@ React Mentions
 [travis-image]: https://img.shields.io/travis/react-component/mentions.svg?style=flat-square
 [travis-url]: https://travis-ci.org/react-component/mentions
 [coveralls-image]: https://img.shields.io/coveralls/react-component/mentions.svg?style=flat-square
-[coveralls-url]: https://coveralls.io/r/react-component/mentions?branch=maste
+[coveralls-url]: https://coveralls.io/r/react-component/mentions?branch=master
 [node-image]: https://img.shields.io/badge/node.js-%3E=_0.10-green.svg?style=flat-square
 [node-url]: http://nodejs.org/download/
 [download-image]: https://img.shields.io/npm/dm/rc-mentions.svg?style=flat-square
