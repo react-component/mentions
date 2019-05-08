@@ -10,7 +10,7 @@ export interface MentionsContextProps {
   onFocus: () => void;
 }
 
-const MentionsContext: Context<MentionsContextProps> = createReactContext(null);
+const MentionsContext: Context<MentionsContextProps | null> = createReactContext(null);
 
 export const MentionsContextProvider = MentionsContext.Provider;
 export const MentionsContextConsumer = MentionsContext.Consumer;
