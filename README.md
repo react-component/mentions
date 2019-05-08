@@ -5,7 +5,7 @@ React Mentions
 
 [![NPM version][npm-image]][npm-url]
 [![build status][travis-image]][travis-url]
-[![Test coverage][coveralls-image]][coveralls-url]
+[![Test coverage][codecov-image]][codecov-url]
 [![Dependencies](https://img.shields.io/david/react-component/mentions.svg?style=flat-square)](https://david-dm.org/react-component/mentions)
 [![DevDependencies](https://img.shields.io/david/dev/react-component/mentions.svg?style=flat-square)](https://david-dm.org/react-component/mentions?type=dev)
 [![npm download][download-image]][download-url]
@@ -16,8 +16,8 @@ React Mentions
 [npm-url]: http://npmjs.org/package/rc-mentions
 [travis-image]: https://img.shields.io/travis/react-component/mentions.svg?style=flat-square
 [travis-url]: https://travis-ci.org/react-component/mentions
-[coveralls-image]: https://img.shields.io/coveralls/react-component/mentions.svg?style=flat-square
-[coveralls-url]: https://coveralls.io/r/react-component/mentions?branch=master
+[codecov-image]: https://img.shields.io/codecov/c/github/react-component/mentions.svg?style=flat-square
+[codecov-url]: https://codecov.io/gh/react-component/mentions/branch/master
 [node-image]: https://img.shields.io/badge/node.js-%3E=_0.10-green.svg?style=flat-square
 [node-url]: http://nodejs.org/download/
 [download-image]: https://img.shields.io/npm/dm/rc-mentions.svg?style=flat-square
