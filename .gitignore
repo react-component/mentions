@@ -27,6 +27,7 @@ lib
 coverage
 .vscode
 yarn.lock
+storybook/
 es/
 package-lock.json
 src/*.js

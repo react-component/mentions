@@ -28,9 +28,9 @@
     "port": 8093
   },
   "scripts": {
-    "build": "rc-tools run storybook-build",
+    "build": "rc-tools run build",
     "compile": "rc-tools run compile --babel-runtime",
-    "gh-pages": "npm run build && rc-tools run storybook-gh-pages",
+    "gh-pages": "rc-tools run gh-pages",
     "start": "rc-tools run storybook",
     "pub": "rc-tools run pub --babel-runtime",
     "lint": "rc-tools run lint",
@@ -39,7 +39,6 @@
     "test": "rc-tools run test",
     "prepublish": "rc-tools run guard",
     "init-tslint": "rc-tools run gen-lint-config",
-    "init-storybook": "rc-tools run genStorybook",
     "coverage": "rc-tools run test --coverage",
     "pre-commit": "rc-tools run pre-commit",
     "storybook": "rc-tools run storybook",
@@ -59,7 +58,7 @@
     "lodash.debounce": "^4.0.8",
     "pre-commit": "1.x",
     "querystring": "^0.2.0",
-    "rc-tools": "^9.4.1",
+    "rc-tools": "^9.5.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "typescript": "^3.2.2"
