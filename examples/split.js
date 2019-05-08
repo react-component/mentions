@@ -6,28 +6,24 @@ import '../assets/index.less';
 
 const { Option } = Mentions;
 
+function validateSearch(text) {
+  console.log('~~>', text);
+  return text.length <= 3;
+}
+
 class Demo extends React.Component {
-  onSelect = (option, prefix) => {
-    console.log('Select:', prefix, '-', option.value);
-  };
-
-  onFocus = () => {
-    console.log('onFocus');
-  };
-
-  onBlur = () => {
-    console.log('onBlur');
-  };
+  state = {};
 
   render() {
     return (
       <div>
+        <h1>Customize Split Logic</h1>
+        <p>Only validate string length less than 3</p>
         <Mentions
+          style={{ width: '100%', fontSize: 50 }}
+          split=""
+          validateSearch={validateSearch}
           autoFocus
-          defaultValue="Hello World"
-          onSelect={this.onSelect}
-          onFocus={this.onFocus}
-          onBlur={this.onBlur}
         >
           <Option value="light">Light</Option>
           <Option value="bamboo">Bamboo</Option>
