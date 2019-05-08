@@ -32,6 +32,7 @@ export interface MentionsProps {
   validateSearch?: typeof defaultValidateSearch;
   filterOption?: false | typeof defaultFilterOption;
   notFoundContent?: React.ReactNode;
+  rows?: number;
 }
 interface MentionsState {
   value: string;
@@ -52,6 +53,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     validateSearch: defaultValidateSearch,
     filterOption: defaultFilterOption,
     notFoundContent: 'Not Found',
+    rows: 1,
   };
 
   public static getDerivedStateFromProps(props: MentionsProps, prevState: MentionsState) {
@@ -309,7 +311,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
 
   public render() {
     const { value, measureLocation, measurePrefix, measuring, activeIndex } = this.state;
-    const { prefixCls, className, style, autoFocus, notFoundContent } = this.props;
+    const { prefixCls, className, style, autoFocus, notFoundContent, rows } = this.props;
 
     const options = measuring ? this.getOptions() : [];
 
@@ -319,6 +321,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
           autoFocus={autoFocus}
           ref={this.setTextAreaRef}
           value={value}
+          rows={rows}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
           onKeyUp={this.onKeyUp}

@@ -24,6 +24,7 @@ class Demo extends React.Component {
       <div>
         <Mentions
           autoFocus
+          rows={3}
           defaultValue="Hello World"
           onSelect={this.onSelect}
           onFocus={this.onFocus}
