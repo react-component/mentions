@@ -1,6 +1,10 @@
 # History
 ----
 
+## 0.3.0 / 2019-05-14
+
+- Support `placement` prop.
+
 ## 0.2.0 / 2019-05-08
 
 - Support `rows` prop.
