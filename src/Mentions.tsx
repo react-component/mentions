@@ -22,23 +22,27 @@ type BaseTextareaAttrs = Omit<
   'prefix' | 'onChange' | 'onSelect'
 >;
 
+export type Placement = 'top' | 'bottom';
+
 export interface MentionsProps extends BaseTextareaAttrs {
+  autoFocus?: boolean;
+  className?: string;
   defaultValue?: string;
+  notFoundContent?: React.ReactNode;
+  split?: string;
+  style?: React.CSSProperties;
+  transitionName?: string;
+  placement?: Placement;
+  prefix?: string | string[];
+  prefixCls?: string;
   value?: string;
+  filterOption?: false | typeof defaultFilterOption;
+  validateSearch?: typeof defaultValidateSearch;
   onChange?: (text: string) => void;
   onSelect?: (option: OptionProps, prefix: string) => void;
   onSearch?: (text: string, prefix: string) => void;
   onFocus?: React.FocusEventHandler<HTMLTextAreaElement>;
   onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
-  prefixCls?: string;
-  prefix?: string | string[];
-  className?: string;
-  style?: React.CSSProperties;
-  autoFocus?: boolean;
-  split?: string;
-  validateSearch?: typeof defaultValidateSearch;
-  filterOption?: false | typeof defaultFilterOption;
-  notFoundContent?: React.ReactNode;
 }
 interface MentionsState {
   value: string;
@@ -206,7 +210,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
   };
 
   public onInputBlur: React.FocusEventHandler<HTMLTextAreaElement> = event => {
-    this.onBlur(event);
+    // this.onBlur(event);
   };
 
   public onDropdownFocus = () => {
@@ -317,7 +321,16 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
 
   public render() {
     const { value, measureLocation, measurePrefix, measuring, activeIndex } = this.state;
-    const { prefixCls, className, style, autoFocus, notFoundContent, ...restProps } = this.props;
+    const {
+      prefixCls,
+      placement,
+      transitionName,
+      className,
+      style,
+      autoFocus,
+      notFoundContent,
+      ...restProps
+    } = this.props;
 
     const inputProps = omit(
       restProps,
@@ -359,7 +372,13 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
                 onFocus: this.onDropdownFocus,
               }}
             >
-              <KeywordTrigger prefixCls={prefixCls} options={options} visible={true}>
+              <KeywordTrigger
+                prefixCls={prefixCls}
+                transitionName={transitionName}
+                placement={placement}
+                options={options}
+                visible={true}
+              >
                 <span>{measurePrefix}</span>
               </KeywordTrigger>
             </MentionsContextProvider>

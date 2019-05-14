@@ -3,6 +3,8 @@ import * as React from 'react';
 import DropdownMenu from './DropdownMenu';
 import { OptionProps } from './Option';
 
+import { Placement } from './Mentions';
+
 const BUILT_IN_PLACEMENTS = {
   bottomRight: {
     points: ['tl', 'br'],
@@ -23,10 +25,12 @@ const BUILT_IN_PLACEMENTS = {
 };
 
 interface KeywordTriggerProps {
-  visible?: boolean;
   loading?: boolean;
-  prefixCls?: string;
   options: OptionProps[];
+  prefixCls?: string;
+  placement?: Placement;
+  visible?: boolean;
+  transitionName?: string;
 }
 
 class KeywordTrigger extends React.Component<KeywordTriggerProps, {}> {
@@ -38,7 +42,7 @@ class KeywordTrigger extends React.Component<KeywordTriggerProps, {}> {
   };
 
   public render() {
-    const { children, visible } = this.props;
+    const { children, visible, placement, transitionName } = this.props;
 
     const popupElement = this.getDropdownElement();
 
@@ -47,7 +51,8 @@ class KeywordTrigger extends React.Component<KeywordTriggerProps, {}> {
         prefixCls={this.getDropdownPrefix()}
         popupVisible={visible}
         popup={popupElement}
-        popupPlacement="bottomRight"
+        popupPlacement={placement === 'top' ? 'topRight' : 'bottomRight'}
+        popupTransitionName={transitionName}
         builtinPlacements={BUILT_IN_PLACEMENTS}
       >
         {children}
