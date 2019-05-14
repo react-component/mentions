@@ -210,7 +210,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
   };
 
   public onInputBlur: React.FocusEventHandler<HTMLTextAreaElement> = event => {
-    // this.onBlur(event);
+    this.onBlur(event);
   };
 
   public onDropdownFocus = () => {
