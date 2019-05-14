@@ -319,7 +319,15 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     const { value, measureLocation, measurePrefix, measuring, activeIndex } = this.state;
     const { prefixCls, className, style, autoFocus, notFoundContent, ...restProps } = this.props;
 
-    const inputProps = omit(restProps, 'prefix', 'onSelect');
+    const inputProps = omit(
+      restProps,
+      'prefix',
+      'split',
+      'validateSearch',
+      'filterOption',
+      'onSelect',
+      'onSearch',
+    );
 
     const options = measuring ? this.getOptions() : [];
 
