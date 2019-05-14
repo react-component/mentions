@@ -323,6 +323,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
       restProps,
       'prefix',
       'split',
+      'children',
       'validateSearch',
       'filterOption',
       'onSelect',
