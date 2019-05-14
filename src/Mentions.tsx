@@ -321,6 +321,8 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
 
     const inputProps = omit(
       restProps,
+      'value',
+      'defaultValue',
       'prefix',
       'split',
       'children',
