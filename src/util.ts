@@ -1,6 +1,24 @@
 import { MentionsProps } from './Mentions';
 import { OptionProps } from './Option';
 
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+
+type OmitFunc = <T extends object, K extends [...Array<keyof T>]>(
+  obj: T,
+  ...keys: K
+) => { [K2 in Exclude<keyof T, K[number]>]: T[K2] };
+
+export const omit: OmitFunc = (obj, ...keys) => {
+  const clone = {
+    ...obj,
+  };
+  keys.forEach(key => {
+    delete clone[key];
+  });
+
+  return clone;
+};
+
 /**
  * Cut input selection into 2 part and return text before selection start
  */

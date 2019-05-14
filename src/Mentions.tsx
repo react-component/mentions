@@ -10,12 +10,19 @@ import {
   filterOption as defaultFilterOption,
   getBeforeSelectionText,
   getLastMeasureIndex,
+  omit,
+  Omit,
   replaceWithMeasure,
   setInputSelection,
   validateSearch as defaultValidateSearch,
 } from './util';
 
-export interface MentionsProps {
+type BaseTextareaAttrs = Omit<
+  React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+  'prefix' | 'onChange' | 'onSelect'
+>;
+
+export interface MentionsProps extends BaseTextareaAttrs {
   defaultValue?: string;
   value?: string;
   onChange?: (text: string) => void;
@@ -32,7 +39,6 @@ export interface MentionsProps {
   validateSearch?: typeof defaultValidateSearch;
   filterOption?: false | typeof defaultFilterOption;
   notFoundContent?: React.ReactNode;
-  rows?: number;
 }
 interface MentionsState {
   value: string;
@@ -311,7 +317,9 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
 
   public render() {
     const { value, measureLocation, measurePrefix, measuring, activeIndex } = this.state;
-    const { prefixCls, className, style, autoFocus, notFoundContent, rows } = this.props;
+    const { prefixCls, className, style, autoFocus, notFoundContent, ...restProps } = this.props;
+
+    const inputProps = omit(restProps, 'prefix', 'onSelect');
 
     const options = measuring ? this.getOptions() : [];
 
@@ -321,7 +329,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
           autoFocus={autoFocus}
           ref={this.setTextAreaRef}
           value={value}
-          rows={rows}
+          {...inputProps}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
           onKeyUp={this.onKeyUp}
