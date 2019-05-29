@@ -349,6 +349,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
       style,
       autoFocus,
       notFoundContent,
+      textAreaStyle,
       ...restProps
     } = this.props;
 
@@ -374,6 +375,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
           ref={this.setTextAreaRef}
           value={value}
           {...inputProps}
+          style={textAreaStyle}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
           onKeyUp={this.onKeyUp}
