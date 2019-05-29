@@ -76,9 +76,12 @@ React.render(<Demo />, container);
 | split | Set split string before and after selected mention | string | ' ' |
 | validateSearch | Customize trigger search logic | (text: string, props: MentionsProps) => void | - |
 | value | Set value of mentions | string | - |
+| textAreaStyle | textarea style | React.CSSProperties | - |
 | onChange | Trigger when value changed |(text: string) => void | - |
 | onSelect | Trigger when user select the option | (option: OptionProps, prefix: string) => void | - |
 | onSearch | Trigger when prefix hit | (text: string, prefix: string) => void | - |
+| onKeyDown | Trigger when textarea keyDown before measuring detect | (event: React.KeyboardEvent<HTMLTextAreaElement>, measuring?: boolean) => void; | - |
+| onKeyUp | Trigger when textarea keyUp before measuring detect | (event: React.KeyboardEvent<HTMLTextAreaElement>, measuring?: boolean) => void; | - |
 | onFocus | Trigger when mentions get focus | React.FocusEventHandler<HTMLTextAreaElement> | - |
 | onBlur | Trigger when mentions lose focus | React.FocusEventHandler<HTMLTextAreaElement> | - |
 | getPopupContainer | DOM Container for suggestions | () => HTMLElement | - |

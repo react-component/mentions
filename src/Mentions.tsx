@@ -40,6 +40,8 @@ export interface MentionsProps extends BaseTextareaAttrs {
   onChange?: (text: string) => void;
   onSelect?: (option: OptionProps, prefix: string) => void;
   onSearch?: (text: string, prefix: string) => void;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLTextAreaElement>, measuring?: boolean) => void;
+  onKeyUp?: (event: React.KeyboardEvent<HTMLTextAreaElement>, measuring?: boolean) => void;
   onFocus?: React.FocusEventHandler<HTMLTextAreaElement>;
   onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
   getPopupContainer?: () => HTMLElement;
@@ -123,6 +125,15 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
   public onKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> = (event) => {
     const { which } = event;
     const { activeIndex, measuring } = this.state;
+    const { onKeyDown } = this.props;
+
+    try {
+      if (onKeyDown) {
+        onKeyDown(event, measuring);
+      }
+    } catch (e) {
+      // do nothing
+    }
 
     // Skip if not measuring
     if (!measuring) {
@@ -168,13 +179,21 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
   public onKeyUp: React.KeyboardEventHandler<HTMLTextAreaElement> = (event) => {
     const { key, which } = event;
     const { measureText: prevMeasureText, measuring } = this.state;
-    const { prefix = '', onSearch, validateSearch } = this.props;
+    const { prefix = '', onSearch, validateSearch, onKeyUp } = this.props;
     const target = event.target as HTMLTextAreaElement;
     const selectionStartText = getBeforeSelectionText(target);
     const { location: measureIndex, prefix: measurePrefix } = getLastMeasureIndex(
       selectionStartText,
       prefix,
     );
+
+    try {
+      if (onKeyUp) {
+        onKeyUp(event, measuring);
+      }
+    } catch (err) {
+      // do nothing
+    }
 
     // Skip if match the white key list
     if ([KeyCode.ESC, KeyCode.UP, KeyCode.DOWN, KeyCode.ENTER].indexOf(which) !== -1) {
