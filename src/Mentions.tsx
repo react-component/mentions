@@ -24,6 +24,15 @@ type BaseTextareaAttrs = Omit<
 
 export type Placement = 'top' | 'bottom';
 
+export interface MentionKeyBoardEventPayload {
+  measuring: MentionsState['measuring'];
+}
+
+export type MentionKeyBoardEventHandler = (
+  event: React.KeyboardEvent<HTMLTextAreaElement>,
+  payload?: MentionKeyBoardEventPayload,
+) => void;
+
 export interface MentionsProps extends BaseTextareaAttrs {
   autoFocus?: boolean;
   className?: string;
@@ -41,11 +50,10 @@ export interface MentionsProps extends BaseTextareaAttrs {
   onChange?: (text: string) => void;
   onSelect?: (option: OptionProps, prefix: string) => void;
   onSearch?: (text: string, prefix: string) => void;
-  onKeyDown?: (event: React.KeyboardEvent<HTMLTextAreaElement>, measuring?: boolean) => void;
-  onKeyUp?: (event: React.KeyboardEvent<HTMLTextAreaElement>, measuring?: boolean) => void;
+  onKeyDown?: MentionKeyBoardEventHandler;
+  onKeyUp?: MentionKeyBoardEventHandler;
   onFocus?: React.FocusEventHandler<HTMLTextAreaElement>;
   onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
-  textAreaStyle?: React.CSSProperties;
 }
 interface MentionsState {
   value: string;
@@ -126,12 +134,8 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     const { activeIndex, measuring } = this.state;
     const { onKeyDown } = this.props;
 
-    try {
-      if (onKeyDown) {
-        onKeyDown(event, measuring);
-      }
-    } catch (e) {
-      // do nothing
+    if (onKeyDown) {
+      onKeyDown(event, { measuring });
     }
 
     // Skip if not measuring
@@ -182,12 +186,8 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
       prefix,
     );
 
-    try {
-      if (onKeyUp) {
-        onKeyUp(event, measuring);
-      }
-    } catch (err) {
-      // do nothing
+    if (onKeyUp) {
+      onKeyUp(event, { measuring });
     }
 
     // Skip if match the white key list
@@ -349,7 +349,6 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
       style,
       autoFocus,
       notFoundContent,
-      textAreaStyle,
       ...restProps
     } = this.props;
 
@@ -375,7 +374,6 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
           ref={this.setTextAreaRef}
           value={value}
           {...inputProps}
-          style={textAreaStyle}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
           onKeyUp={this.onKeyUp}
