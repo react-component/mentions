@@ -19,18 +19,18 @@ import {
 
 type BaseTextareaAttrs = Omit<
   React.TextareaHTMLAttributes<HTMLTextAreaElement>,
-  'prefix' | 'onChange' | 'onSelect'
+  'prefix' | 'onChange' | 'onSelect' | 'onKeyDown' | 'onKeyUp'
 >;
 
 export type Placement = 'top' | 'bottom';
 
 export interface MentionKeyBoardEventPayload {
-  measuring: MentionsState['measuring'];
+  measuring: boolean;
 }
 
 export type MentionKeyBoardEventHandler = (
   event: React.KeyboardEvent<HTMLTextAreaElement>,
-  payload?: MentionKeyBoardEventPayload,
+  payload: MentionKeyBoardEventPayload,
 ) => void;
 
 export interface MentionsProps extends BaseTextareaAttrs {
