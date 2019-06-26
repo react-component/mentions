@@ -79,8 +79,8 @@ React.render(<Demo />, container);
 | onChange | Trigger when value changed |(text: string) => void | - |
 | onSelect | Trigger when user select the option | (option: OptionProps, prefix: string) => void | - |
 | onSearch | Trigger when prefix hit | (text: string, prefix: string) => void | - |
-| onKeyDown | Trigger when textarea keyDown before measuring detect | (event: React.KeyboardEvent<HTMLTextAreaElement>, payload?: { measuring: boolean }) => void; | - |
-| onKeyUp | Trigger when textarea keyUp before measuring detect | (event: React.KeyboardEvent<HTMLTextAreaElement>, payload?: { measuring: boolean }) => void; | - |
+| onKeyDown | Trigger when textarea keyDown before measuring detect | (event: React.KeyboardEvent<HTMLTextAreaElement>, payload: { measuring: boolean }) => void; | - |
+| onKeyUp | Trigger when textarea keyUp before measuring detect | (event: React.KeyboardEvent<HTMLTextAreaElement>, payload: { measuring: boolean }) => void; | - |
 | onFocus | Trigger when mentions get focus | React.FocusEventHandler<HTMLTextAreaElement> | - |
 | onBlur | Trigger when mentions lose focus | React.FocusEventHandler<HTMLTextAreaElement> | - |
 | getPopupContainer | DOM Container for suggestions | () => HTMLElement | - |

@@ -17,18 +17,21 @@ import {
   validateSearch as defaultValidateSearch,
 } from './util';
 
-type BaseTextareaAttrs = Omit<TextAreaProps, 'prefix' | 'onChange' | 'onSelect'>;
+type BaseTextareaAttrs = Omit<
+  React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+  'prefix' | 'onChange' | 'onSelect' | 'onKeyDown' | 'onKeyUp'
+>;
 
 export type Placement = 'top' | 'bottom';
 export type Direction = 'ltr' | 'rtl';
 
 export interface MentionKeyBoardEventPayload {
-  measuring: MentionsState['measuring'];
+  measuring: boolean;
 }
 
 export type MentionKeyBoardEventHandler = (
   event: React.KeyboardEvent<HTMLTextAreaElement>,
-  payload?: MentionKeyBoardEventPayload,
+  payload: MentionKeyBoardEventPayload,
 ) => void;
 
 export interface MentionsProps extends BaseTextareaAttrs {
