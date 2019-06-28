@@ -34,6 +34,7 @@ export interface MentionsProps extends BaseTextareaAttrs {
   transitionName?: string;
   placement?: Placement;
   prefix?: string | string[];
+  suffix?: string;
   prefixCls?: string;
   value?: string;
   filterOption?: false | typeof defaultFilterOption;
@@ -240,13 +241,14 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
 
   public selectOption = (option: OptionProps) => {
     const { value, measureLocation, measurePrefix } = this.state;
-    const { split, onSelect } = this.props;
+    const { split, suffix = '', onSelect } = this.props;
 
     const { value: mentionValue = '' } = option;
     const { text, selectionLocation } = replaceWithMeasure(value, {
       measureLocation,
       targetText: mentionValue,
       prefix: measurePrefix,
+      suffix,
       selectionStart: this.textarea!.selectionStart,
       split: split!,
     });

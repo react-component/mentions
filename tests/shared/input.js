@@ -5,6 +5,10 @@ export function simulateInput(wrapper, text = '', keyEvent) {
   const myKeyEvent = keyEvent || {
     which: lastChar.charCodeAt(0),
     key: lastChar,
+    target: {
+      value: text,
+      selectionStart: text.length,
+    },
   };
 
   wrapper.find('textarea').simulate('keyDown', myKeyEvent);

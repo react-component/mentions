@@ -31,6 +31,8 @@ describe('Full Process', () => {
     ]);
 
     simulateInput(wrapper, '@a');
+    wrapper.find('textarea').instance().selectionStart = 2;
+    wrapper.find('textarea').simulate('keyUp', {});
     expect(wrapper.find('DropdownMenu').props().options).toMatchObject([
       { value: 'bamboo' },
       { value: 'cat' },
@@ -109,5 +111,28 @@ describe('Full Process', () => {
     });
 
     expect(wrapper.state().measuring).toBe(false);
+  });
+
+  it('add suffix after target if suffix exists', () => {
+    const onChange = jest.fn();
+    const onKeyDown = jest.fn();
+    const wrapper = createMentions({
+      prefix: '{',
+      suffix: '}',
+      split: ' ',
+      onChange,
+      onKeyDown,
+    });
+
+    simulateInput(wrapper, '{');
+    wrapper.find('textarea').instance().selectionStart = 1;
+    expect(wrapper.state().measuring).toBe(true);
+
+    wrapper.find('textarea').simulate('keyDown', {
+      which: KeyCode.ENTER,
+    });
+
+    expect(wrapper.state().measuring).toBe(false);
+    expect(onChange).toBeCalledWith('{bamboo} ');
   });
 });
