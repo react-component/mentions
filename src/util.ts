@@ -54,6 +54,7 @@ export function getLastMeasureIndex(text: string, prefix: string | string[] = ''
 interface MeasureConfig {
   measureLocation: number;
   prefix: string;
+  suffix: string;
   targetText: string;
   selectionStart: number;
   split: string;
@@ -91,7 +92,7 @@ function reduceText(text: string, targetText: string, split: string) {
  *  => little @light test
  */
 export function replaceWithMeasure(text: string, measureConfig: MeasureConfig) {
-  const { measureLocation, prefix, targetText, selectionStart, split } = measureConfig;
+  const { measureLocation, prefix, suffix, targetText, selectionStart, split } = measureConfig;
 
   // Before text will append one space if have other text
   let beforeMeasureText = text.slice(0, measureLocation);
@@ -112,8 +113,7 @@ export function replaceWithMeasure(text: string, measureConfig: MeasureConfig) {
     restText = restText.slice(split.length);
   }
 
-  const connectedStartText = `${beforeMeasureText}${prefix}${targetText}${split}`;
-
+  const connectedStartText = `${beforeMeasureText}${prefix}${targetText}${suffix}${split}`;
   return {
     text: `${connectedStartText}${restText}`,
     selectionLocation: connectedStartText.length,

@@ -71,6 +71,7 @@ React.render(<Demo />, container);
 | notFoundContent | Set mentions content when not match | ReactNode | 'Not Found' |
 | placement | Set popup placement | 'top' \| 'bottom' | 'bottom' |
 | prefix | Set trigger prefix keyword | string \| string[] | '@' |
+| suffix | Set suffix string when option is selected | string | '' |
 | rows | Set row count | number | 1 |
 | split | Set split string before and after selected mention | string | ' ' |
 | validateSearch | Customize trigger search logic | (text: string, props: MentionsProps) => void | - |
