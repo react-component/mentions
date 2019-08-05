@@ -43,6 +43,7 @@ export interface MentionsProps extends BaseTextareaAttrs {
   onSearch?: (text: string, prefix: string) => void;
   onFocus?: React.FocusEventHandler<HTMLTextAreaElement>;
   onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
+  getPopupContainer: () => HTMLElement;
 }
 interface MentionsState {
   value: string;
@@ -329,6 +330,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
       style,
       autoFocus,
       notFoundContent,
+      getPopupContainer,
       ...restProps
     } = this.props;
 
@@ -378,6 +380,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
                 placement={placement}
                 options={options}
                 visible={true}
+                getPopupContainer={getPopupContainer}
               >
                 <span>{measurePrefix}</span>
               </KeywordTrigger>
