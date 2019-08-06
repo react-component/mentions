@@ -31,6 +31,7 @@ interface KeywordTriggerProps {
   placement?: Placement;
   visible?: boolean;
   transitionName?: string;
+  getPopupContainer?: () => HTMLElement;
 }
 
 class KeywordTrigger extends React.Component<KeywordTriggerProps, {}> {
@@ -42,7 +43,7 @@ class KeywordTrigger extends React.Component<KeywordTriggerProps, {}> {
   };
 
   public render() {
-    const { children, visible, placement, transitionName } = this.props;
+    const { children, visible, placement, transitionName, getPopupContainer } = this.props;
 
     const popupElement = this.getDropdownElement();
 
@@ -54,6 +55,7 @@ class KeywordTrigger extends React.Component<KeywordTriggerProps, {}> {
         popupPlacement={placement === 'top' ? 'topRight' : 'bottomRight'}
         popupTransitionName={transitionName}
         builtinPlacements={BUILT_IN_PLACEMENTS}
+        getPopupContainer={getPopupContainer}
       >
         {children}
       </Trigger>

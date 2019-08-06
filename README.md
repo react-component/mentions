@@ -80,6 +80,7 @@ React.render(<Demo />, container);
 | onSearch | Trigger when prefix hit | (text: string, prefix: string) => void | - |
 | onFocus | Trigger when mentions get focus | React.FocusEventHandler<HTMLTextAreaElement> | - |
 | onBlur | Trigger when mentions lose focus | React.FocusEventHandler<HTMLTextAreaElement> | - |
+| getPopupContainer | DOM Container for suggestions | () => HTMLElement | - |
 
 ### Methods
 
