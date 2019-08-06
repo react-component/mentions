@@ -12,7 +12,6 @@ export function simulateInput(wrapper, text = '', keyEvent) {
   const textareaInstance = wrapper.find('textarea').instance();
   textareaInstance.value = text;
   textareaInstance.selectionStart = text.length;
-  textareaInstance.selectionStart = text.length;
 
   if (!keyEvent) {
     wrapper.find('textarea').simulate('change', {
@@ -20,6 +19,9 @@ export function simulateInput(wrapper, text = '', keyEvent) {
     });
   }
 
+  textareaInstance.selectionStart = text.length;
   wrapper.find('textarea').simulate('keyUp', myKeyEvent);
+
   wrapper.update();
 }
+/* eslint-enable */
