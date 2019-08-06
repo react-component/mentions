@@ -12,9 +12,7 @@ export interface MentionsContextProps {
 }
 
 // We will never use default, here only to fix TypeScript warning
-const MentionsContext: Context<MentionsContextProps> = createReactContext(
-  {} as MentionsContextProps,
-);
+const MentionsContext: Context<MentionsContextProps> = createReactContext(null);
 
 export const MentionsContextProvider = MentionsContext.Provider;
 export const MentionsContextConsumer = MentionsContext.Consumer;
