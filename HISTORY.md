@@ -1,6 +1,10 @@
 # History
 ----
 
+## 0.4.0 / 2019-08-06
+
+- Support `getPopupContainer` prop.
+
 ## 0.3.0 / 2019-05-14
 
 - Support `placement` prop.
