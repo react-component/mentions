@@ -3,7 +3,7 @@ import { OptionProps } from './Option';
 
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
-type OmitFunc = <T extends object, K extends [...Array<keyof T>]>(
+type OmitFunc = <T extends object, K extends [...(keyof T)[]]>(
   obj: T,
   ...keys: K
 ) => { [K2 in Exclude<keyof T, K[number]>]: T[K2] };
@@ -23,7 +23,7 @@ export const omit: OmitFunc = (obj, ...keys) => {
  * Cut input selection into 2 part and return text before selection start
  */
 export function getBeforeSelectionText(input: HTMLTextAreaElement) {
-  const { selectionStart } = input as any;
+  const { selectionStart } = input;
   return input.value.slice(0, selectionStart);
 }
 

@@ -77,7 +77,9 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
   }
 
   public textarea?: HTMLTextAreaElement;
+
   public measure?: HTMLDivElement;
+
   public focusId: number | undefined = undefined;
 
   constructor(props: MentionsProps) {
@@ -98,7 +100,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
 
     // Sync measure div top with textarea for rc-trigger usage
     if (measuring) {
-      this.measure!.scrollTop = this.textarea!.scrollTop;
+      this.measure.scrollTop = this.textarea.scrollTop;
     }
   }
 
@@ -138,7 +140,6 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
       event.preventDefault();
     } else if (which === KeyCode.ESC) {
       this.stopMeasure();
-      return;
     } else if (which === KeyCode.ENTER) {
       // Measure hit
       const option = this.getOptions()[activeIndex];
@@ -177,8 +178,8 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
 
     if (measureIndex !== -1) {
       const measureText = selectionStartText.slice(measureIndex + measurePrefix.length);
-      const validateMeasure: boolean = validateSearch!(measureText, this.props);
-      const matchOption: boolean = !!this.getOptions(measureText).length;
+      const validateMeasure: boolean = validateSearch(measureText, this.props);
+      const matchOption = !!this.getOptions(measureText).length;
 
       if (validateMeasure) {
         if (
@@ -247,13 +248,13 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
       measureLocation,
       targetText: mentionValue,
       prefix: measurePrefix,
-      selectionStart: this.textarea!.selectionStart,
-      split: split!,
+      selectionStart: this.textarea.selectionStart,
+      split,
     });
     this.triggerChange(text);
     this.stopMeasure(() => {
       // We need restore the selection position
-      setInputSelection(this.textarea!, selectionLocation);
+      setInputSelection(this.textarea, selectionLocation);
     });
 
     if (onSelect) {
@@ -285,7 +286,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
         if (filterOption === false) {
           return true;
         }
-        return filterOption!(targetMeasureText, option);
+        return filterOption(targetMeasureText, option);
       });
     return list;
   };
@@ -312,11 +313,11 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
   }
 
   public focus() {
-    this.textarea!.focus();
+    this.textarea.focus();
   }
 
   public blur() {
-    this.textarea!.blur();
+    this.textarea.blur();
   }
 
   public render() {
@@ -377,7 +378,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
                 transitionName={transitionName}
                 placement={placement}
                 options={options}
-                visible={true}
+                visible
               >
                 <span>{measurePrefix}</span>
               </KeywordTrigger>

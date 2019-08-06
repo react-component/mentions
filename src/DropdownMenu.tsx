@@ -29,7 +29,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps, {}> {
         activeKey={activeOption.value}
         onSelect={({ key }: { key: string }) => {
           const option = options.find(({ value }) => value === key);
-          selectOption(option!);
+          selectOption(option);
         }}
         onFocus={onFocus}
       >
@@ -50,7 +50,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps, {}> {
           );
         })}
 
-        {!options.length && <MenuItem disabled={true}>{notFoundContent}</MenuItem>}
+        {!options.length && <MenuItem disabled>{notFoundContent}</MenuItem>}
       </Menu>
     );
   };
