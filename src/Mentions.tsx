@@ -26,6 +26,7 @@ export type Placement = 'top' | 'bottom';
 
 export interface MentionsProps extends BaseTextareaAttrs {
   autoFocus?: boolean;
+  enableClick?: boolean;
   className?: string;
   defaultValue?: string;
   notFoundContent?: React.ReactNode;
@@ -149,61 +150,14 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     }
   };
 
-  /**
-   * When to start measure:
-   * 1. When user press `prefix`
-   * 2. When measureText !== prevMeasureText
-   *  - If measure hit
-   *  - If measuring
-   *
-   * When to stop measure:
-   * 1. Selection is out of range
-   * 2. Contains `space`
-   * 3. ESC or select one
-   */
   public onKeyUp: React.KeyboardEventHandler<HTMLTextAreaElement> = event => {
-    const { key, which } = event;
-    const { measureText: prevMeasureText, measuring } = this.state;
-    const { prefix = '', onSearch, validateSearch } = this.props;
-    const target = event.target as HTMLTextAreaElement;
-    const selectionStartText = getBeforeSelectionText(target);
-    const { location: measureIndex, prefix: measurePrefix } = getLastMeasureIndex(
-      selectionStartText,
-      prefix,
-    );
+    this.handleMeasure(event);
+  };
 
-    // Skip if match the white key list
-    if ([KeyCode.ESC, KeyCode.UP, KeyCode.DOWN, KeyCode.ENTER].indexOf(which) !== -1) {
-      return;
-    }
-
-    if (measureIndex !== -1) {
-      const measureText = selectionStartText.slice(measureIndex + measurePrefix.length);
-      const validateMeasure: boolean = validateSearch(measureText, this.props);
-      const matchOption = !!this.getOptions(measureText).length;
-
-      if (validateMeasure) {
-        if (
-          key === measurePrefix ||
-          measuring ||
-          (measureText !== prevMeasureText && matchOption)
-        ) {
-          this.startMeasure(measureText, measurePrefix, measureIndex);
-        }
-      } else if (measuring) {
-        // Stop if measureText is invalidate
-        this.stopMeasure();
-      }
-
-      /**
-       * We will trigger `onSearch` to developer since they may use for async update.
-       * If met `space` means user finished searching.
-       */
-      if (onSearch && validateMeasure) {
-        onSearch(measureText, measurePrefix);
-      }
-    } else if (measuring) {
-      this.stopMeasure();
+  public onMouseSelect: React.MouseEventHandler<HTMLTextAreaElement> = event => {
+    const { enableClick } = this.props;
+    if (enableClick) {
+      this.handleMeasure(event);
     }
   };
 
@@ -238,6 +192,65 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
         onBlur(event);
       }
     }, 0);
+  };
+
+  /**
+   * When to start measure:
+   * 1. When user press `prefix`
+   * 2. When measureText !== prevMeasureText
+   *  - If measure hit
+   *  - If measuring
+   * 3. When user click on mentions
+   *
+   * When to stop measure:
+   * 1. Selection is out of range
+   * 2. Contains `space`
+   * 3. ESC or select one
+   */
+  public handleMeasure = event => {
+    const { measureText: prevMeasureText, measuring } = this.state;
+    const { prefix = '', onSearch, validateSearch } = this.props;
+    const target = event.target as HTMLTextAreaElement;
+    const selectionStartText = getBeforeSelectionText(target);
+    const { location: measureIndex, prefix: measurePrefix } = getLastMeasureIndex(
+      selectionStartText,
+      prefix,
+    );
+    const { key = measurePrefix, which } = event;
+
+    // Skip if match the white key list
+    if ([KeyCode.ESC, KeyCode.UP, KeyCode.DOWN, KeyCode.ENTER].indexOf(which) !== -1) {
+      return;
+    }
+
+    if (measureIndex !== -1) {
+      const measureText = selectionStartText.slice(measureIndex + measurePrefix.length);
+      const validateMeasure: boolean = validateSearch(measureText, this.props);
+      const matchOption = !!this.getOptions(measureText).length;
+
+      if (validateMeasure) {
+        if (
+          key === measurePrefix ||
+          measuring ||
+          (measureText !== prevMeasureText && matchOption)
+        ) {
+          this.startMeasure(measureText, measurePrefix, measureIndex);
+        }
+      } else if (measuring) {
+        // Stop if measureText is invalidate
+        this.stopMeasure();
+      }
+
+      /**
+       * We will trigger `onSearch` to developer since they may use for async update.
+       * If met `space` means user finished searching.
+       */
+      if (onSearch && validateMeasure) {
+        onSearch(measureText, measurePrefix);
+      }
+    } else if (measuring) {
+      this.stopMeasure();
+    }
   };
 
   public selectOption = (option: OptionProps) => {
@@ -362,6 +375,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
           onKeyUp={this.onKeyUp}
           onFocus={this.onInputFocus}
           onBlur={this.onInputBlur}
+          onMouseUp={this.onMouseSelect}
         />
         {measuring && (
           <div ref={this.setMeasureRef} className={`${prefixCls}-measure`}>
