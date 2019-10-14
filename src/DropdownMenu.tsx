@@ -19,6 +19,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps, {}> {
     setActiveIndex,
     selectOption,
     onFocus,
+    onBlur,
   }: MentionsContextProps) => {
     const { prefixCls, options } = this.props;
     const activeOption = options[activeIndex] || {};
@@ -32,6 +33,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps, {}> {
           selectOption(option);
         }}
         onFocus={onFocus}
+        onBlur={onBlur}
       >
         {options.map((option, index) => {
           const { value, disabled, children, className, style } = option;

@@ -219,6 +219,10 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     this.onFocus();
   };
 
+  public onDropdownBlur = () => {
+    this.onBlur();
+  };
+
   public onFocus = (event?: React.FocusEvent<HTMLTextAreaElement>) => {
     window.clearTimeout(this.focusId);
     const { isFocus } = this.state;
@@ -229,7 +233,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     this.setState({ isFocus: true });
   };
 
-  public onBlur = (event: React.FocusEvent<HTMLTextAreaElement>) => {
+  public onBlur = (event?: React.FocusEvent<HTMLTextAreaElement>) => {
     this.focusId = window.setTimeout(() => {
       const { onBlur } = this.props;
       this.setState({ isFocus: false });
@@ -373,6 +377,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
                 setActiveIndex: this.setActiveIndex,
                 selectOption: this.selectOption,
                 onFocus: this.onDropdownFocus,
+                onBlur: this.onDropdownBlur,
               }}
             >
               <KeywordTrigger
