@@ -28,7 +28,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps, {}> {
       <Menu
         prefixCls={`${prefixCls}-menu`}
         activeKey={activeOption.value}
-        onSelect={({ key }: { key: string }) => {
+        onSelect={({ key }) => {
           const option = options.find(({ value }) => value === key);
           selectOption(option);
         }}

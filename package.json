@@ -55,9 +55,8 @@
   "dependencies": {
     "@ant-design/create-react-context": "^0.2.4",
     "classnames": "^2.2.6",
-    "rc-menu": "^7.4.22",
-    "rc-trigger": "^2.6.2",
-    "rc-util": "^4.6.0",
-    "react-lifecycles-compat": "^3.0.4"
+    "rc-menu": "^8.0.0-alpha.1",
+    "rc-trigger": "^4.0.0-alpha.4",
+    "rc-util": "^4.6.0"
   }
 }
