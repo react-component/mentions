@@ -54,6 +54,8 @@ interface MentionsState {
   isFocus: boolean;
 }
 class Mentions extends React.Component<MentionsProps, MentionsState> {
+  public static Option = Option;
+
   public textarea?: HTMLTextAreaElement;
 
   public measure?: HTMLDivElement;
@@ -321,8 +323,6 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
   public blur() {
     this.textarea.blur();
   }
-
-  public static Option = Option;
 
   public render() {
     const { value, measureLocation, measurePrefix, measuring, activeIndex } = this.state;
