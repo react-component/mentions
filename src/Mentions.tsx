@@ -2,7 +2,6 @@ import classNames from 'classnames';
 import toArray from 'rc-util/lib/Children/toArray';
 import KeyCode from 'rc-util/lib/KeyCode';
 import * as React from 'react';
-import { polyfill } from 'react-lifecycles-compat';
 import KeywordTrigger from './KeywordTrigger';
 import { MentionsContextProvider } from './MentionsContext';
 import Option, { OptionProps } from './Option';
@@ -57,6 +56,12 @@ interface MentionsState {
 class Mentions extends React.Component<MentionsProps, MentionsState> {
   public static Option = Option;
 
+  public textarea?: HTMLTextAreaElement;
+
+  public measure?: HTMLDivElement;
+
+  public focusId: number | undefined = undefined;
+
   public static defaultProps = {
     prefixCls: 'rc-mentions',
     prefix: '@',
@@ -76,12 +81,6 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
 
     return newState;
   }
-
-  public textarea?: HTMLTextAreaElement;
-
-  public measure?: HTMLDivElement;
-
-  public focusId: number | undefined = undefined;
 
   constructor(props: MentionsProps) {
     super(props);
@@ -398,7 +397,5 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     );
   }
 }
-
-polyfill(Mentions);
 
 export default Mentions;

@@ -31,6 +31,7 @@ interface KeywordTriggerProps {
   placement?: Placement;
   visible?: boolean;
   transitionName?: string;
+  children?: React.ReactElement;
   getPopupContainer?: () => HTMLElement;
 }
 

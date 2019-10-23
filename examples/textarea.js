@@ -22,7 +22,7 @@ export default () => (
     </Mentions>
 
     <div style={{ paddingTop: 200 }}>
-      <Mentions placeholder="placement: top" placement="top" transitionName="motion">
+      <Mentions placeholder="placement: top" placement="top" transitionName="motion-zoom">
         <Option value="light">Light</Option>
         <Option value="bamboo">Bamboo</Option>
         <Option value="cat">Cat</Option>
