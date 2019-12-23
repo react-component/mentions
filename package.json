@@ -1,6 +1,6 @@
 {
   "name": "rc-mentions",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.1",
   "description": "React Mentions",
   "keywords": [
     "react",
@@ -53,7 +53,6 @@
     "typescript": "^3.2.2"
   },
   "dependencies": {
-    "@ant-design/create-react-context": "^0.2.4",
     "classnames": "^2.2.6",
     "rc-menu": "^8.0.0-alpha.2",
     "rc-trigger": "^4.0.0-alpha.4",
