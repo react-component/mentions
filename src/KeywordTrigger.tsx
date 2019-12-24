@@ -32,6 +32,7 @@ interface KeywordTriggerProps {
   visible?: boolean;
   transitionName?: string;
   getPopupContainer?: () => HTMLElement;
+  children?: React.ReactElement;
 }
 
 class KeywordTrigger extends React.Component<KeywordTriggerProps, {}> {
@@ -39,11 +40,19 @@ class KeywordTrigger extends React.Component<KeywordTriggerProps, {}> {
 
   public getDropdownElement = () => {
     const { options } = this.props;
-    return <DropdownMenu prefixCls={this.getDropdownPrefix()} options={options} />;
+    return (
+      <DropdownMenu prefixCls={this.getDropdownPrefix()} options={options} />
+    );
   };
 
   public render() {
-    const { children, visible, placement, transitionName, getPopupContainer } = this.props;
+    const {
+      children,
+      visible,
+      placement,
+      transitionName,
+      getPopupContainer,
+    } = this.props;
 
     const popupElement = this.getDropdownElement();
 

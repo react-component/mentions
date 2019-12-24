@@ -1,6 +1,9 @@
 import Menu, { MenuItem } from 'rc-menu';
 import * as React from 'react';
-import { MentionsContextConsumer, MentionsContextProps } from './MentionsContext';
+import {
+  MentionsContextConsumer,
+  MentionsContextProps,
+} from './MentionsContext';
 import { OptionProps } from './Option';
 
 interface DropdownMenuProps {
@@ -28,7 +31,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps, {}> {
       <Menu
         prefixCls={`${prefixCls}-menu`}
         activeKey={activeOption.value}
-        onSelect={({ key }: { key: string }) => {
+        onSelect={({ key }: { key: React.Key }) => {
           const option = options.find(({ value }) => value === key);
           selectOption(option);
         }}
@@ -58,7 +61,9 @@ class DropdownMenu extends React.Component<DropdownMenuProps, {}> {
   };
 
   public render() {
-    return <MentionsContextConsumer>{this.renderDropdown}</MentionsContextConsumer>;
+    return (
+      <MentionsContextConsumer>{this.renderDropdown}</MentionsContextConsumer>
+    );
   }
 }
 
