@@ -32,7 +32,11 @@ describe('Mentions', () => {
 
     it('not lose focus if click on dropdown', () => {
       const onBlur = jest.fn();
-      const wrapper = createMentions({ autoFocus: true, defaultValue: '@', onBlur });
+      const wrapper = createMentions({
+        autoFocus: true,
+        defaultValue: '@',
+        onBlur,
+      });
 
       // Inject to trigger measure
       wrapper.instance().startMeasure('b', '@', 1);
@@ -45,14 +49,14 @@ describe('Mentions', () => {
       wrapper.find('textarea').simulate('focus'); // This is not good but code focus not work in simulate
       jest.runAllTimers();
 
-      expect(onBlur).not.toBeCalled();
+      expect(onBlur).not.toHaveBeenCalled();
     });
 
     it('focus', () => {
       const onFocus = jest.fn();
       const wrapper = createMentions({ onFocus });
       wrapper.find('textarea').simulate('focus');
-      expect(onFocus).toBeCalled();
+      expect(onFocus).toHaveBeenCalled();
     });
 
     it('blur', () => {
@@ -60,7 +64,7 @@ describe('Mentions', () => {
       const wrapper = createMentions({ onBlur });
       wrapper.find('textarea').simulate('blur');
       jest.runAllTimers();
-      expect(onBlur).toBeCalled();
+      expect(onBlur).toHaveBeenCalled();
     });
 
     it('focus() & blur()', () => {
@@ -69,7 +73,9 @@ describe('Mentions', () => {
       expect(document.activeElement).toBe(wrapper.find('textarea').instance());
 
       wrapper.instance().blur();
-      expect(document.activeElement).not.toBe(wrapper.find('textarea').instance());
+      expect(document.activeElement).not.toBe(
+        wrapper.find('textarea').instance(),
+      );
     });
   });
 
@@ -85,6 +91,9 @@ describe('Mentions', () => {
 
       wrapper.setProps({ value: 'cat' });
       expect(wrapper.find('textarea').props().value).toBe('cat');
+
+      wrapper.setProps({ value: undefined });
+      expect(wrapper.find('textarea').props().value).toBe('');
     });
 
     it('onChange', () => {
@@ -93,7 +102,7 @@ describe('Mentions', () => {
       wrapper.find('textarea').simulate('change', {
         target: { value: 'bamboo' },
       });
-      expect(onChange).toBeCalledWith('bamboo');
+      expect(onChange).toHaveBeenCalledWith('bamboo');
     });
   });
 
@@ -105,7 +114,9 @@ describe('Mentions', () => {
     });
 
     it('function', () => {
-      const wrapper = createMentions({ filterOption: (_, { value }) => value.includes('a') });
+      const wrapper = createMentions({
+        filterOption: (_, { value }) => value.includes('a'),
+      });
       simulateInput(wrapper, '@notExist');
       expect(wrapper.find('DropdownMenu').props().options.length).toBe(2);
     });
