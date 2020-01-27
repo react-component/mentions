@@ -51,7 +51,8 @@
     "np": "^5.0.3",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "typescript": "^3.2.2"
+    "typescript": "^3.2.2",
+    "react-textarea-autosize": "^7.1.2"
   },
   "dependencies": {
     "classnames": "^2.2.6",

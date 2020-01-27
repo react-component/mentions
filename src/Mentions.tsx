@@ -37,6 +37,8 @@ export interface MentionsProps extends BaseTextareaAttrs {
   value?: string;
   filterOption?: false | typeof defaultFilterOption;
   validateSearch?: typeof defaultValidateSearch;
+  inputComponent?: React.Component;
+  inputRefKey?: string;
   onChange?: (text: string) => void;
   onSelect?: (option: OptionProps, prefix: string) => void;
   onSearch?: (text: string, prefix: string) => void;
@@ -69,6 +71,8 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     validateSearch: defaultValidateSearch,
     filterOption: defaultFilterOption,
     notFoundContent: 'Not Found',
+    inputComponent: 'textarea',
+    inputRefKey: 'ref',
     rows: 1,
   };
 
@@ -355,6 +359,8 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
       autoFocus,
       notFoundContent,
       getPopupContainer,
+      inputComponent: InputComponent,
+      inputRefKey,
       ...restProps
     } = this.props;
 
@@ -375,9 +381,9 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
 
     return (
       <div className={classNames(prefixCls, className)} style={style}>
-        <textarea
+        <InputComponent
           autoFocus={autoFocus}
-          ref={this.setTextAreaRef}
+          {...{[inputRefKey]: this.setTextAreaRef}}
           value={value}
           {...inputProps}
           onChange={this.onChange}
