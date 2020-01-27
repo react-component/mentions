@@ -75,6 +75,8 @@ React.render(<Demo />, container);
 | split | Set split string before and after selected mention | string | ' ' |
 | validateSearch | Customize trigger search logic | (text: string, props: MentionsProps) => void | - |
 | value | Set value of mentions | string | - |
+| inputComponent | The component to render as the input | React.Component | 'textarea' |
+| inputRefKey | The name of the textbox's ref prop in `inputComponent` | string | 'ref' |
 | onChange | Trigger when value changed |(text: string) => void | - |
 | onSelect | Trigger when user select the option | (option: OptionProps, prefix: string) => void | - |
 | onSearch | Trigger when prefix hit | (text: string, prefix: string) => void | - |
