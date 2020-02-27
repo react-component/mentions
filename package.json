@@ -55,8 +55,8 @@
   },
   "dependencies": {
     "classnames": "^2.2.6",
-    "rc-menu": "^8.0.0-alpha.2",
-    "rc-trigger": "^4.0.0-alpha.4",
+    "rc-menu": "^8.0.1",
+    "rc-trigger": "^4.0.0",
     "rc-util": "^4.6.0"
   }
 }
