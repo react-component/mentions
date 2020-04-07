@@ -21,8 +21,16 @@ export default () => (
       <Option value="cat">Cat</Option>
     </Mentions>
 
-    <div style={{ paddingTop: 200 }}>
+    <div style={{ paddingTop: 100 }}>
       <Mentions placeholder="placement: top" placement="top" transitionName="motion-zoom">
+        <Option value="light">Light</Option>
+        <Option value="bamboo">Bamboo</Option>
+        <Option value="cat">Cat</Option>
+      </Mentions>
+    </div>
+
+    <div style={{ padding: '100px 0', width: 200, direction: 'rtl' }}>
+      <Mentions placeholder="direction: rtl" direction="rtl" transitionName="motion-zoom">
         <Option value="light">Light</Option>
         <Option value="bamboo">Bamboo</Option>
         <Option value="cat">Cat</Option>

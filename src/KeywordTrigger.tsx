@@ -15,7 +15,7 @@ const BUILT_IN_PLACEMENTS = {
     },
   },
   bottomLeft: {
-    points: ['tl', 'bl'],
+    points: ['tr', 'bl'],
     offset: [0, 4],
     overflow: {
       adjustX: 0,
@@ -31,7 +31,7 @@ const BUILT_IN_PLACEMENTS = {
     },
   },
   topLeft: {
-    points: ['bl', 'tl'],
+    points: ['br', 'tl'],
     offset: [0, -4],
     overflow: {
       adjustX: 0,
