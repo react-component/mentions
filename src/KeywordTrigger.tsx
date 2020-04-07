@@ -62,17 +62,17 @@ class KeywordTrigger extends React.Component<KeywordTriggerProps, {}> {
 
   public getDropDownPlacement = () => {
     const { placement, direction } = this.props;
-    let popupPlacement = 'topRight'
+    let popupPlacement = 'topRight';
     if (direction === 'rtl') {
-      popupPlacement = placement === 'top' ? 'topRight' : 'bottomRight';
-    } else {
       popupPlacement = placement === 'top' ? 'topLeft' : 'bottomLeft';
+    } else {
+      popupPlacement = placement === 'top' ? 'topRight' : 'bottomRight';
     }
-    return popupPlacement
+    return popupPlacement;
   };
 
   public render() {
-    const { children, visible, placement, direction, transitionName, getPopupContainer } = this.props;
+    const { children, visible, transitionName, getPopupContainer } = this.props;
 
     const popupElement = this.getDropdownElement();
 
