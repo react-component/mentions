@@ -3,11 +3,19 @@ import * as React from 'react';
 import DropdownMenu from './DropdownMenu';
 import { OptionProps } from './Option';
 
-import { Placement } from './Mentions';
+import { Placement, Direction } from './Mentions';
 
 const BUILT_IN_PLACEMENTS = {
   bottomRight: {
     points: ['tl', 'br'],
+    offset: [0, 4],
+    overflow: {
+      adjustX: 0,
+      adjustY: 1,
+    },
+  },
+  bottomLeft: {
+    points: ['tl', 'bl'],
     offset: [0, 4],
     overflow: {
       adjustX: 0,
@@ -22,6 +30,14 @@ const BUILT_IN_PLACEMENTS = {
       adjustY: 1,
     },
   },
+  topLeft: {
+    points: ['bl', 'tl'],
+    offset: [0, -4],
+    overflow: {
+      adjustX: 0,
+      adjustY: 1,
+    },
+  },
 };
 
 interface KeywordTriggerProps {
@@ -29,6 +45,7 @@ interface KeywordTriggerProps {
   options: OptionProps[];
   prefixCls?: string;
   placement?: Placement;
+  direction?: Direction;
   visible?: boolean;
   transitionName?: string;
   children?: React.ReactElement;
@@ -43,8 +60,19 @@ class KeywordTrigger extends React.Component<KeywordTriggerProps, {}> {
     return <DropdownMenu prefixCls={this.getDropdownPrefix()} options={options} />;
   };
 
+  public getDropDownPlacement = () => {
+    const { placement, direction } = this.props;
+    let popupPlacement = 'topRight'
+    if (direction === 'rtl') {
+      popupPlacement = placement === 'top' ? 'topRight' : 'bottomRight';
+    } else {
+      popupPlacement = placement === 'top' ? 'topLeft' : 'bottomLeft';
+    }
+    return popupPlacement
+  };
+
   public render() {
-    const { children, visible, placement, transitionName, getPopupContainer } = this.props;
+    const { children, visible, placement, direction, transitionName, getPopupContainer } = this.props;
 
     const popupElement = this.getDropdownElement();
 
@@ -53,7 +81,7 @@ class KeywordTrigger extends React.Component<KeywordTriggerProps, {}> {
         prefixCls={this.getDropdownPrefix()}
         popupVisible={visible}
         popup={popupElement}
-        popupPlacement={placement === 'top' ? 'topRight' : 'bottomRight'}
+        popupPlacement={this.getDropDownPlacement()}
         popupTransitionName={transitionName}
         builtinPlacements={BUILT_IN_PLACEMENTS}
         getPopupContainer={getPopupContainer}

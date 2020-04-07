@@ -22,6 +22,7 @@ type BaseTextareaAttrs = Omit<
 >;
 
 export type Placement = 'top' | 'bottom';
+export type Direction = 'ltr' | 'rtl';
 
 export interface MentionsProps extends BaseTextareaAttrs {
   autoFocus?: boolean;
@@ -32,6 +33,7 @@ export interface MentionsProps extends BaseTextareaAttrs {
   style?: React.CSSProperties;
   transitionName?: string;
   placement?: Placement;
+  direction?: Direction;
   prefix?: string | string[];
   prefixCls?: string;
   value?: string;
@@ -349,6 +351,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     const {
       prefixCls,
       placement,
+      direction,
       transitionName,
       className,
       style,
@@ -403,6 +406,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
                 prefixCls={prefixCls}
                 transitionName={transitionName}
                 placement={placement}
+                direction={direction}
                 options={options}
                 visible
                 getPopupContainer={getPopupContainer}
