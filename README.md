@@ -70,6 +70,7 @@ React.render(<Demo />, container);
 | filterOption | Customize filter option logic | false \| (input: string, option: OptionProps) => boolean | - |
 | notFoundContent | Set mentions content when not match | ReactNode | 'Not Found' |
 | placement | Set popup placement | 'top' \| 'bottom' | 'bottom' |
+| direction | Set popup direction | 'ltr' \| 'rtl' | 'ltr' |
 | prefix | Set trigger prefix keyword | string \| string[] | '@' |
 | rows | Set row count | number | 1 |
 | split | Set split string before and after selected mention | string | ' ' |
