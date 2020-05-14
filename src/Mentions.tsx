@@ -249,7 +249,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
   public onBlur = (event?: React.FocusEvent<HTMLTextAreaElement>) => {
     // the timeout causes onBlur to be called async, which causes the react synthetic
     // event to be nullified. persist it if possible so clients can use it.
-    if (event.persist) {
+    if (event && event.persist) {
       event.persist();
     }
     this.focusId = window.setTimeout(() => {
