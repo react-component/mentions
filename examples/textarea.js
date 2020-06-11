@@ -22,6 +22,14 @@ export default () => (
     </Mentions>
 
     <div style={{ paddingTop: 100 }}>
+      <Mentions placeholder="Support AutoSize" autoSize transitionName="motion-zoom">
+        <Option value="light">Light</Option>
+        <Option value="bamboo">Bamboo</Option>
+        <Option value="cat">Cat</Option>
+      </Mentions>
+    </div>
+
+    <div style={{ paddingTop: 100 }}>
       <Mentions placeholder="placement: top" placement="top" transitionName="motion-zoom">
         <Option value="light">Light</Option>
         <Option value="bamboo">Bamboo</Option>

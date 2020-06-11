@@ -82,6 +82,9 @@ React.render(<Demo />, container);
 | onFocus | Trigger when mentions get focus | React.FocusEventHandler<HTMLTextAreaElement> | - |
 | onBlur | Trigger when mentions lose focus | React.FocusEventHandler<HTMLTextAreaElement> | - |
 | getPopupContainer | DOM Container for suggestions | () => HTMLElement | - |
+| autoSize     | Textarea height autosize feature, can be set to `true\|false` or an object `{ minRows: 2, maxRows: 6 }`          | boolean \| object | - |
+| onPressEnter | The callback function that is triggered when Enter key is pressed | function(e)  | - |
+| onResize     | The callback function that is triggered when textarea resize |  function({ width, height })  | - |
 
 ### Methods
 

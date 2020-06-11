@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import toArray from 'rc-util/lib/Children/toArray';
 import KeyCode from 'rc-util/lib/KeyCode';
 import * as React from 'react';
+import TextArea, { TextAreaProps } from 'rc-textarea';
 import KeywordTrigger from './KeywordTrigger';
 import { MentionsContextProvider } from './MentionsContext';
 import Option, { OptionProps } from './Option';
@@ -16,10 +17,7 @@ import {
   validateSearch as defaultValidateSearch,
 } from './util';
 
-type BaseTextareaAttrs = Omit<
-  React.TextareaHTMLAttributes<HTMLTextAreaElement>,
-  'prefix' | 'onChange' | 'onSelect'
->;
+type BaseTextareaAttrs = Omit<TextAreaProps, 'prefix' | 'onChange' | 'onSelect'>;
 
 export type Placement = 'top' | 'bottom';
 export type Direction = 'ltr' | 'rtl';
@@ -74,10 +72,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     rows: 1,
   };
 
-  public static getDerivedStateFromProps(
-    props: MentionsProps,
-    prevState: MentionsState,
-  ) {
+  public static getDerivedStateFromProps(props: MentionsProps, prevState: MentionsState) {
     const newState: Partial<MentionsState> = {};
 
     if ('value' in props && props.value !== prevState.value) {
@@ -120,9 +115,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     }
   };
 
-  public onChange: React.ChangeEventHandler<HTMLTextAreaElement> = ({
-    target: { value },
-  }) => {
+  public onChange: React.ChangeEventHandler<HTMLTextAreaElement> = ({ target: { value } }) => {
     this.triggerChange(value);
   };
 
@@ -173,23 +166,18 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     const { prefix = '', onSearch, validateSearch } = this.props;
     const target = event.target as HTMLTextAreaElement;
     const selectionStartText = getBeforeSelectionText(target);
-    const {
-      location: measureIndex,
-      prefix: measurePrefix,
-    } = getLastMeasureIndex(selectionStartText, prefix);
+    const { location: measureIndex, prefix: measurePrefix } = getLastMeasureIndex(
+      selectionStartText,
+      prefix,
+    );
 
     // Skip if match the white key list
-    if (
-      [KeyCode.ESC, KeyCode.UP, KeyCode.DOWN, KeyCode.ENTER].indexOf(which) !==
-      -1
-    ) {
+    if ([KeyCode.ESC, KeyCode.UP, KeyCode.DOWN, KeyCode.ENTER].indexOf(which) !== -1) {
       return;
     }
 
     if (measureIndex !== -1) {
-      const measureText = selectionStartText.slice(
-        measureIndex + measurePrefix.length,
-      );
+      const measureText = selectionStartText.slice(measureIndex + measurePrefix.length);
       const validateMeasure: boolean = validateSearch(measureText, this.props);
       const matchOption = !!this.getOptions(measureText).length;
 
@@ -284,8 +272,8 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     });
   };
 
-  public setTextAreaRef = (element: HTMLTextAreaElement) => {
-    this.textarea = element;
+  public setTextAreaRef = (element: TextArea) => {
+    this.textarea = element?.resizableTextArea?.textArea;
   };
 
   public setMeasureRef = (element: HTMLDivElement) => {
@@ -307,11 +295,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     return list;
   };
 
-  public startMeasure(
-    measureText: string,
-    measurePrefix: string,
-    measureLocation: number,
-  ) {
+  public startMeasure(measureText: string, measurePrefix: string, measureLocation: number) {
     this.setState({
       measuring: true,
       measureText,
@@ -341,13 +325,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
   }
 
   public render() {
-    const {
-      value,
-      measureLocation,
-      measurePrefix,
-      measuring,
-      activeIndex,
-    } = this.state;
+    const { value, measureLocation, measurePrefix, measuring, activeIndex } = this.state;
     const {
       prefixCls,
       placement,
@@ -378,7 +356,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
 
     return (
       <div className={classNames(prefixCls, className)} style={style}>
-        <textarea
+        <TextArea
           autoFocus={autoFocus}
           ref={this.setTextAreaRef}
           value={value}
