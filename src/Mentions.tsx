@@ -273,7 +273,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
   };
 
   public setTextAreaRef = (element: TextArea) => {
-    this.textarea = element.resizableTextArea.textArea;
+    this.textarea = element?.resizableTextArea?.textArea;
   };
 
   public setMeasureRef = (element: HTMLDivElement) => {
