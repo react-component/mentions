@@ -1,5 +1,6 @@
 import { mount } from 'enzyme';
 import React from 'react';
+import KeyCode from 'rc-util/lib/KeyCode';
 import Mentions from '../src';
 import { simulateInput } from './shared/input';
 
@@ -73,9 +74,7 @@ describe('Mentions', () => {
       expect(document.activeElement).toBe(wrapper.find('textarea').instance());
 
       wrapper.instance().blur();
-      expect(document.activeElement).not.toBe(
-        wrapper.find('textarea').instance(),
-      );
+      expect(document.activeElement).not.toBe(wrapper.find('textarea').instance());
     });
   });
 
@@ -129,6 +128,13 @@ describe('Mentions', () => {
     simulateInput(wrapper, '@notExist');
     expect(wrapper.find('DropdownMenu').props().options.length).toBe(0);
     expect(wrapper.find('MenuItem').props().children).toBe(notFoundContent);
+    // https://github.com/ant-design/ant-design/issues/26097
+    wrapper.find('textarea').simulate('keyDown', {
+      which: KeyCode.ENTER,
+    });
+    // stop measure
+    expect(wrapper.find('DropdownMenu').exists()).toBe(false);
+    expect(wrapper.find('textarea').prop('value')).toBe('@notExist');
   });
 
   describe('accessibility', () => {
