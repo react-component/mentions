@@ -98,6 +98,23 @@ describe('Full Process', () => {
     expect(wrapper.state().measuring).toBeFalsy();
   });
 
+  it('should not call onPressEnter when measuring', () => {
+    const onPressEnter = jest.fn();
+    const wrapper = createMentions({ onPressEnter });
+
+    simulateInput(wrapper, '@');
+    wrapper.find('textarea').simulate('keyDown', {
+      keyCode: KeyCode.ENTER,
+    });
+    expect(onPressEnter).not.toHaveBeenCalled();
+
+    simulateInput(wrapper, 'test');
+    wrapper.find('textarea').simulate('keyDown', {
+      keyCode: KeyCode.ENTER,
+    });
+    expect(onPressEnter).toHaveBeenCalled();
+  });
+
   it('ESC', () => {
     const wrapper = createMentions();
 
