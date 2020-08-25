@@ -211,6 +211,14 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     }
   };
 
+  public onPressEnter: React.KeyboardEventHandler<HTMLTextAreaElement> = event => {
+    const { measuring } = this.state;
+    const { onPressEnter } = this.props;
+    if (!measuring && onPressEnter) {
+      onPressEnter(event);
+    }
+  };
+
   public onInputFocus: React.FocusEventHandler<HTMLTextAreaElement> = event => {
     this.onFocus(event);
   };
@@ -369,6 +377,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
           onKeyUp={this.onKeyUp}
+          onPressEnter={this.onPressEnter}
           onFocus={this.onInputFocus}
           onBlur={this.onInputBlur}
         />
