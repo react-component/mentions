@@ -27,19 +27,19 @@ class DropdownMenu extends React.Component<DropdownMenuProps, {}> {
     return (
       <Menu
         prefixCls={`${prefixCls}-menu`}
-        activeKey={activeOption.value}
+        activeKey={activeOption.key}
         onSelect={({ key }) => {
-          const option = options.find(({ value }) => value === key);
+          const option = options.find(({ key: optionKey }) => optionKey === key);
           selectOption(option);
         }}
         onFocus={onFocus}
         onBlur={onBlur}
       >
         {options.map((option, index) => {
-          const { value, disabled, children, className, style } = option;
+          const { key, disabled, children, className, style } = option;
           return (
             <MenuItem
-              key={value}
+              key={key}
               disabled={disabled}
               className={className}
               style={style}

@@ -297,7 +297,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     const targetMeasureText = measureText || this.state.measureText || '';
     const { children, filterOption } = this.props;
     const list = toArray(children)
-      .map(({ props }: { props: OptionProps }) => props)
+      .map(({ props, key }: { props: OptionProps, key: string }) => ({ ...props, key: key || props.value }))
       .filter((option: OptionProps) => {
         /** Return all result if `filterOption` is false. */
         if (filterOption === false) {
