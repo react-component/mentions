@@ -189,6 +189,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
       if (validateMeasure) {
         if (
           key === measurePrefix ||
+          key === 'Shift'||
           measuring ||
           (measureText !== prevMeasureText && matchOption)
         ) {
