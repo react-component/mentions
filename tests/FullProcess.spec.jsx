@@ -115,6 +115,22 @@ describe('Full Process', () => {
     expect(onPressEnter).toHaveBeenCalled();
   });
 
+  it('should support same value', () => {
+    const wrapper = mount(
+      <Mentions>
+        <Option value="bamboo">Bamboo</Option>
+        <Option value="bamboo" key="same_bamboo">
+          Bamboo
+        </Option>
+        <Option value="light">Light</Option>
+        <Option value="cat">Cat</Option>
+      </Mentions>,
+    );
+
+    simulateInput(wrapper, '@');
+    expect(wrapper.find('.rc-mentions-dropdown-menu-item-active').length).toBe(1);
+  });
+
   it('ESC', () => {
     const wrapper = createMentions();
 
