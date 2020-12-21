@@ -17,10 +17,7 @@ import {
   validateSearch as defaultValidateSearch,
 } from './util';
 
-type BaseTextareaAttrs = Omit<
-  React.TextareaHTMLAttributes<HTMLTextAreaElement>,
-  'prefix' | 'onChange' | 'onSelect' | 'onKeyDown' | 'onKeyUp'
->;
+type BaseTextareaAttrs = Omit<TextAreaProps, 'prefix' | 'onChange' | 'onSelect' | 'onKeyDown' | 'onKeyUp'>;
 
 export type Placement = 'top' | 'bottom';
 export type Direction = 'ltr' | 'rtl';
