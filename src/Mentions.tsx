@@ -35,11 +35,6 @@ export interface MentionKeyBoardEventPayload {
   measuring: boolean;
 }
 
-export type MentionKeyBoardEventHandler = (
-  event: React.KeyboardEvent<HTMLTextAreaElement>,
-  payload: MentionKeyBoardEventPayload,
-) => void;
-
 export interface MentionsProps extends BaseTextareaAttrs {
   autoFocus?: boolean;
   className?: string;
