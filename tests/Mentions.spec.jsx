@@ -1,6 +1,7 @@
 import { mount } from 'enzyme';
 import React from 'react';
 import KeyCode from 'rc-util/lib/KeyCode';
+import toArray from 'rc-util/lib/Children/toArray';
 import Mentions from '../src';
 import { simulateInput } from './shared/input';
 
@@ -44,9 +45,9 @@ describe('Mentions', () => {
       jest.runAllTimers();
       wrapper.update();
 
-      wrapper.find('MenuItem').simulate('focus');
+      wrapper.find('li.rc-mentions-dropdown-menu-item').simulate('focus');
       wrapper.find('textarea').simulate('blur');
-      wrapper.find('MenuItem').simulate('click');
+      wrapper.find('li.rc-mentions-dropdown-menu-item').simulate('click');
       wrapper.find('textarea').simulate('focus'); // This is not good but code focus not work in simulate
       jest.runAllTimers();
 
@@ -74,7 +75,9 @@ describe('Mentions', () => {
       expect(document.activeElement).toBe(wrapper.find('textarea').instance());
 
       wrapper.instance().blur();
-      expect(document.activeElement).not.toBe(wrapper.find('textarea').instance());
+      expect(document.activeElement).not.toBe(
+        wrapper.find('textarea').instance(),
+      );
     });
   });
 
@@ -127,7 +130,12 @@ describe('Mentions', () => {
     simulateInput(wrapper, '@a');
     simulateInput(wrapper, '@notExist');
     expect(wrapper.find('DropdownMenu').props().options.length).toBe(0);
-    expect(wrapper.find('MenuItem').props().children).toBe(notFoundContent);
+
+    expect(
+      toArray(
+        wrapper.find('li.rc-mentions-dropdown-menu-item').props().children,
+      )[0],
+    ).toBe(notFoundContent);
     // https://github.com/ant-design/ant-design/issues/26097
     wrapper.find('textarea').simulate('keyDown', {
       which: KeyCode.ENTER,
@@ -142,7 +150,7 @@ describe('Mentions', () => {
       const wrapper = createMentions();
       simulateInput(wrapper, '@');
       wrapper
-        .find('MenuItem')
+        .find('li.rc-mentions-dropdown-menu-item')
         .last()
         .simulate('mouseEnter');
       expect(wrapper.find('Menu').props().activeKey).toBe('cat');

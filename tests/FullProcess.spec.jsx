@@ -45,7 +45,10 @@ describe('Full Process', () => {
     });
 
     expect(onChange).toBeCalledWith('@cat ');
-    expect(onSelect).toBeCalledWith(expect.objectContaining({ value: 'cat' }), '@');
+    expect(onSelect).toBeCalledWith(
+      expect.objectContaining({ value: 'cat' }),
+      '@',
+    );
   });
 
   it('insert into half way', () => {
@@ -128,7 +131,9 @@ describe('Full Process', () => {
     );
 
     simulateInput(wrapper, '@');
-    expect(wrapper.find('.rc-mentions-dropdown-menu-item-active').length).toBe(1);
+    expect(
+      wrapper.find('li.rc-mentions-dropdown-menu-item-active').length,
+    ).toBe(1);
   });
 
   it('ESC', () => {
