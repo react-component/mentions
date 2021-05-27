@@ -120,7 +120,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
   };
 
   // Check if hit the measure keyword
-  public onKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> = event => {
+  public onKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> = (event) => {
     const { which } = event;
     const { activeIndex, measuring } = this.state;
 
@@ -146,7 +146,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
       const options = this.getOptions();
       if (!options.length) {
         this.stopMeasure();
-        return
+        return;
       }
       const option = options[activeIndex];
       this.selectOption(option);
@@ -165,7 +165,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
    * 2. Contains `space`
    * 3. ESC or select one
    */
-  public onKeyUp: React.KeyboardEventHandler<HTMLTextAreaElement> = event => {
+  public onKeyUp: React.KeyboardEventHandler<HTMLTextAreaElement> = (event) => {
     const { key, which } = event;
     const { measureText: prevMeasureText, measuring } = this.state;
     const { prefix = '', onSearch, validateSearch } = this.props;
@@ -189,7 +189,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
       if (validateMeasure) {
         if (
           key === measurePrefix ||
-          key === 'Shift'||
+          key === 'Shift' ||
           measuring ||
           (measureText !== prevMeasureText && matchOption)
         ) {
@@ -212,7 +212,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     }
   };
 
-  public onPressEnter: React.KeyboardEventHandler<HTMLTextAreaElement> = event => {
+  public onPressEnter: React.KeyboardEventHandler<HTMLTextAreaElement> = (event) => {
     const { measuring } = this.state;
     const { onPressEnter } = this.props;
     if (!measuring && onPressEnter) {
@@ -220,11 +220,11 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     }
   };
 
-  public onInputFocus: React.FocusEventHandler<HTMLTextAreaElement> = event => {
+  public onInputFocus: React.FocusEventHandler<HTMLTextAreaElement> = (event) => {
     this.onFocus(event);
   };
 
-  public onInputBlur: React.FocusEventHandler<HTMLTextAreaElement> = event => {
+  public onInputBlur: React.FocusEventHandler<HTMLTextAreaElement> = (event) => {
     this.onBlur(event);
   };
 
@@ -298,7 +298,10 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
     const targetMeasureText = measureText || this.state.measureText || '';
     const { children, filterOption } = this.props;
     const list = toArray(children)
-      .map(({ props }: { props: OptionProps }) => props)
+      .map(({ props, key }: { props: OptionProps; key: React.Key }) => ({
+        ...props,
+        key: (key || props.value) as string,
+      }))
       .filter((option: OptionProps) => {
         /** Return all result if `filterOption` is false. */
         if (filterOption === false) {

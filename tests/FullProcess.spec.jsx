@@ -45,7 +45,10 @@ describe('Full Process', () => {
     });
 
     expect(onChange).toBeCalledWith('@cat ');
-    expect(onSelect).toBeCalledWith(expect.objectContaining({ value: 'cat' }), '@');
+    expect(onSelect).toBeCalledWith(
+      expect.objectContaining({ value: 'cat' }),
+      '@',
+    );
   });
 
   it('insert into half way', () => {
@@ -113,6 +116,24 @@ describe('Full Process', () => {
       keyCode: KeyCode.ENTER,
     });
     expect(onPressEnter).toHaveBeenCalled();
+  });
+
+  it('should support same value', () => {
+    const wrapper = mount(
+      <Mentions>
+        <Option value="bamboo">Bamboo</Option>
+        <Option value="bamboo" key="same_bamboo">
+          Bamboo
+        </Option>
+        <Option value="light">Light</Option>
+        <Option value="cat">Cat</Option>
+      </Mentions>,
+    );
+
+    simulateInput(wrapper, '@');
+    expect(
+      wrapper.find('li.rc-mentions-dropdown-menu-item-active').length,
+    ).toBe(1);
   });
 
   it('ESC', () => {
