@@ -17,10 +17,23 @@ import {
   validateSearch as defaultValidateSearch,
 } from './util';
 
-type BaseTextareaAttrs = Omit<TextAreaProps, 'prefix' | 'onChange' | 'onSelect'>;
+type BaseTextareaAttrs = Omit<TextAreaProps, 'prefix' | 'onChange' | 'onSelect' | 'onKeyDown' | 'onKeyUp'>;
 
 export type Placement = 'top' | 'bottom';
 export type Direction = 'ltr' | 'rtl';
+
+export interface MentionKeyBoardEventPayload {
+  measuring: boolean;
+}
+
+export type MentionKeyBoardEventHandler = (
+  event: React.KeyboardEvent<HTMLTextAreaElement>,
+  payload: MentionKeyBoardEventPayload,
+) => void;
+
+export interface MentionKeyBoardEventPayload {
+  measuring: boolean;
+}
 
 export interface MentionsProps extends BaseTextareaAttrs {
   autoFocus?: boolean;
@@ -40,6 +53,8 @@ export interface MentionsProps extends BaseTextareaAttrs {
   onChange?: (text: string) => void;
   onSelect?: (option: OptionProps, prefix: string) => void;
   onSearch?: (text: string, prefix: string) => void;
+  onKeyDown?: MentionKeyBoardEventHandler;
+  onKeyUp?: MentionKeyBoardEventHandler;
   onFocus?: React.FocusEventHandler<HTMLTextAreaElement>;
   onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
   getPopupContainer?: () => HTMLElement;
@@ -123,6 +138,11 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
   public onKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> = (event) => {
     const { which } = event;
     const { activeIndex, measuring } = this.state;
+    const { onKeyDown } = this.props;
+
+    if (onKeyDown) {
+      onKeyDown(event, { measuring });
+    }
 
     // Skip if not measuring
     if (!measuring) {
@@ -168,13 +188,17 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
   public onKeyUp: React.KeyboardEventHandler<HTMLTextAreaElement> = (event) => {
     const { key, which } = event;
     const { measureText: prevMeasureText, measuring } = this.state;
-    const { prefix = '', onSearch, validateSearch } = this.props;
+    const { prefix = '', onSearch, validateSearch, onKeyUp } = this.props;
     const target = event.target as HTMLTextAreaElement;
     const selectionStartText = getBeforeSelectionText(target);
     const { location: measureIndex, prefix: measurePrefix } = getLastMeasureIndex(
       selectionStartText,
       prefix,
     );
+
+    if (onKeyUp) {
+      onKeyUp(event, { measuring });
+    }
 
     // Skip if match the white key list
     if ([KeyCode.ESC, KeyCode.UP, KeyCode.DOWN, KeyCode.ENTER].indexOf(which) !== -1) {
