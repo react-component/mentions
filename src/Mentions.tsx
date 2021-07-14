@@ -123,6 +123,11 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
   public onKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> = (event) => {
     const { which } = event;
     const { activeIndex, measuring } = this.state;
+    const { onKeyDown: clientOnKeyDown } = this.props;
+
+    if (clientOnKeyDown) {
+      clientOnKeyDown(event);
+    }
 
     // Skip if not measuring
     if (!measuring) {
