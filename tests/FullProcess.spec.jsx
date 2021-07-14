@@ -21,7 +21,8 @@ describe('Full Process', () => {
     const onChange = jest.fn();
     const onSelect = jest.fn();
     const onSearch = jest.fn();
-    const wrapper = createMentions({ onChange, onSelect, onSearch });
+    const onKeyUp = jest.fn();
+    const wrapper = createMentions({ onChange, onKeyUp, onSelect, onSearch });
 
     simulateInput(wrapper, '@');
     expect(wrapper.find('DropdownMenu').props().options).toMatchObject([
@@ -49,6 +50,7 @@ describe('Full Process', () => {
       expect.objectContaining({ value: 'cat' }),
       '@',
     );
+    expect(onKeyUp).toHaveBeenCalled();
   });
 
   it('insert into half way', () => {
