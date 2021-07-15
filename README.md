@@ -77,6 +77,8 @@ React.render(<Demo />, container);
 | validateSearch | Customize trigger search logic | (text: string, props: MentionsProps) => void | - |
 | value | Set value of mentions | string | - |
 | onChange | Trigger when value changed |(text: string) => void | - |
+| onKeyDown | Trigger when user hits a key | React.KeyboardEventHandler<HTMLTextAreaElement> | - |
+| onKeyUp | Trigger when user releases a key | React.KeyboardEventHandler<HTMLTextAreaElement> | - |
 | onSelect | Trigger when user select the option | (option: OptionProps, prefix: string) => void | - |
 | onSearch | Trigger when prefix hit | (text: string, prefix: string) => void | - |
 | onFocus | Trigger when mentions get focus | React.FocusEventHandler<HTMLTextAreaElement> | - |
