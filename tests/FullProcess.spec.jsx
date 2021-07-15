@@ -21,8 +21,15 @@ describe('Full Process', () => {
     const onChange = jest.fn();
     const onSelect = jest.fn();
     const onSearch = jest.fn();
+    const onKeyDown = jest.fn();
     const onKeyUp = jest.fn();
-    const wrapper = createMentions({ onChange, onKeyUp, onSelect, onSearch });
+    const wrapper = createMentions({
+      onChange,
+      onKeyDown,
+      onKeyUp,
+      onSelect,
+      onSearch,
+    });
 
     simulateInput(wrapper, '@');
     expect(wrapper.find('DropdownMenu').props().options).toMatchObject([
@@ -50,6 +57,7 @@ describe('Full Process', () => {
       expect.objectContaining({ value: 'cat' }),
       '@',
     );
+    expect(onKeyDown).toHaveBeenCalled();
     expect(onKeyUp).toHaveBeenCalled();
   });
 
