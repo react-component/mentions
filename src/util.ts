@@ -96,7 +96,7 @@ function reduceText(text: string, targetText: string, split: string) {
 export function replaceWithMeasure(
   text: string,
   measureConfig: MeasureConfig,
-  replaceWithoutPrefix,
+  replaceWithoutPrefix?: boolean,
 ) {
   const { measureLocation, prefix, targetText, selectionStart, split } =
     measureConfig;
