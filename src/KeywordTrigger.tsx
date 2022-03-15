@@ -2,6 +2,7 @@ import Trigger from 'rc-trigger';
 import * as React from 'react';
 import DropdownMenu from './DropdownMenu';
 import { OptionProps } from './Option';
+import classnames from 'classnames';
 
 import { Placement, Direction } from './Mentions';
 
@@ -50,14 +51,21 @@ interface KeywordTriggerProps {
   transitionName?: string;
   children?: React.ReactElement;
   getPopupContainer?: () => HTMLElement;
+  dropdownClassName?: string;
 }
 
 class KeywordTrigger extends React.Component<KeywordTriggerProps, {}> {
-  public getDropdownPrefix = () => `${this.props.prefixCls}-dropdown`;
+  public getDropdownPrefix = () =>
+    classnames(
+      `${this.props.prefixCls}-dropdown`,
+      this.props.dropdownClassName,
+    );
 
   public getDropdownElement = () => {
     const { options } = this.props;
-    return <DropdownMenu prefixCls={this.getDropdownPrefix()} options={options} />;
+    return (
+      <DropdownMenu prefixCls={this.getDropdownPrefix()} options={options} />
+    );
   };
 
   public getDropDownPlacement = () => {
