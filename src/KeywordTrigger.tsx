@@ -4,6 +4,7 @@ import DropdownMenu from './DropdownMenu';
 import { OptionProps } from './Option';
 
 import { Placement, Direction } from './Mentions';
+import classNames from 'classnames';
 
 const BUILT_IN_PLACEMENTS = {
   bottomRight: {
@@ -50,10 +51,11 @@ interface KeywordTriggerProps {
   transitionName?: string;
   children?: React.ReactElement;
   getPopupContainer?: () => HTMLElement;
+  dropdownClassName?: string;
 }
 
 class KeywordTrigger extends React.Component<KeywordTriggerProps, {}> {
-  public getDropdownPrefix = () => `${this.props.prefixCls}-dropdown`;
+  public getDropdownPrefix = () => classNames(`${this.props.prefixCls}-dropdown`, this.props.dropdownClassName);
 
   public getDropdownElement = () => {
     const { options } = this.props;

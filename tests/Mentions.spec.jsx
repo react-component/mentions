@@ -158,4 +158,10 @@ describe('Mentions', () => {
       ).toBe('Cat');
     });
   });
+
+  it('dropdownClassName should work', () => {
+    const wrapper = createMentions({ dropdownClassName: 'my-dropdown' });
+    simulateInput(wrapper, '@');
+    expect(wrapper.find('.my-dropdown').length).toBeTruthy();
+  });
 });

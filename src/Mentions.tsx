@@ -43,6 +43,7 @@ export interface MentionsProps extends BaseTextareaAttrs {
   onFocus?: React.FocusEventHandler<HTMLTextAreaElement>;
   onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
   getPopupContainer?: () => HTMLElement;
+  dropdownClassName?: string;
 }
 interface MentionsState {
   value: string;
@@ -363,6 +364,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
       autoFocus,
       notFoundContent,
       getPopupContainer,
+      dropdownClassName,
       ...restProps
     } = this.props;
 
@@ -416,6 +418,7 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
                 options={options}
                 visible
                 getPopupContainer={getPopupContainer}
+                dropdownClassName={dropdownClassName}
               >
                 <span>{measurePrefix}</span>
               </KeywordTrigger>
