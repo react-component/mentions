@@ -156,4 +156,10 @@ describe('Mentions', () => {
       expect(wrapper.find('Menu').props().activeKey).toBe('cat');
     });
   });
+
+  it('dropdownClassName should work', () => {
+    const wrapper = createMentions({ dropdownClassName: 'my-dropdown' });
+    simulateInput(wrapper, '@');
+    expect(wrapper.find('.my-dropdown').length).toBeTruthy();
+  });
 });
