@@ -2,9 +2,9 @@ import Trigger from 'rc-trigger';
 import * as React from 'react';
 import DropdownMenu from './DropdownMenu';
 import { OptionProps } from './Option';
-import classnames from 'classnames';
 
 import { Placement, Direction } from './Mentions';
+import classNames from 'classnames';
 
 const BUILT_IN_PLACEMENTS = {
   bottomRight: {
@@ -55,17 +55,11 @@ interface KeywordTriggerProps {
 }
 
 class KeywordTrigger extends React.Component<KeywordTriggerProps, {}> {
-  public getDropdownPrefix = () =>
-    classnames(
-      `${this.props.prefixCls}-dropdown`,
-      this.props.dropdownClassName,
-    );
+  public getDropdownPrefix = () => classNames(`${this.props.prefixCls}-dropdown`, this.props.dropdownClassName);
 
   public getDropdownElement = () => {
     const { options } = this.props;
-    return (
-      <DropdownMenu prefixCls={this.getDropdownPrefix()} options={options} />
-    );
+    return <DropdownMenu prefixCls={this.getDropdownPrefix()} options={options} />;
   };
 
   public getDropDownPlacement = () => {
