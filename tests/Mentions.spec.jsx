@@ -162,6 +162,8 @@ describe('Mentions', () => {
   it('dropdownClassName should work', () => {
     const wrapper = createMentions({ dropdownClassName: 'my-dropdown' });
     simulateInput(wrapper, '@');
-    expect(wrapper.find('.my-dropdown').length).toBeTruthy();
+    expect(
+      wrapper.find('.my-dropdown.rc-mentions-dropdown').length,
+    ).toBeTruthy();
   });
 });
