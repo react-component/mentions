@@ -153,7 +153,9 @@ describe('Mentions', () => {
         .find('li.rc-mentions-dropdown-menu-item')
         .last()
         .simulate('mouseEnter');
-      expect(wrapper.find('Menu').props().activeKey).toBe('cat');
+      expect(
+        wrapper.find('.rc-mentions-dropdown-menu-item-active').first().text(),
+      ).toBe('Cat');
     });
   });
 });
