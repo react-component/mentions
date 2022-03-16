@@ -28,6 +28,7 @@ class Demo extends React.Component {
           defaultValue="Hello World"
           onSelect={this.onSelect}
           onFocus={this.onFocus}
+          dropdownClassName="me"
         >
           <Option value="light">Light</Option>
           <Option value="bamboo">Bamboo</Option>
