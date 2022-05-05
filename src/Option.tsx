@@ -9,6 +9,6 @@ export interface OptionProps {
   style?: React.CSSProperties;
 }
 
-const Option: React.SFC<OptionProps> = () => null;
+const Option: React.FC<OptionProps> = () => null;
 
 export default Option;
