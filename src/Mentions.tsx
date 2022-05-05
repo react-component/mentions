@@ -165,7 +165,9 @@ class Mentions extends React.Component<MentionsProps, MentionsState> {
         return;
       }
       const option = options[activeIndex];
-      if (option.disabled) return;
+      if (option.disabled) {
+        return;
+      }
       this.selectOption(option);
     }
   };
