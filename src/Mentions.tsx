@@ -8,8 +8,7 @@ import KeywordTrigger from './KeywordTrigger';
 import { MentionsContextProvider } from './MentionsContext';
 import type { OptionProps } from './Option';
 import Option from './Option';
-import type {
-  Omit} from './util';
+import type { Omit } from './util';
 import {
   filterOption as defaultFilterOption,
   getBeforeSelectionText,
