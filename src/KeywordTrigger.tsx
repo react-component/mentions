@@ -1,16 +1,16 @@
 import Trigger from 'rc-trigger';
 import * as React from 'react';
 import DropdownMenu from './DropdownMenu';
-import { OptionProps } from './Option';
+import type { OptionProps } from './Option';
 
-import { Placement, Direction } from './Mentions';
+import type { Direction, Placement } from './Mentions';
 
 const BUILT_IN_PLACEMENTS = {
   bottomRight: {
     points: ['tl', 'br'],
     offset: [0, 4],
     overflow: {
-      adjustX: 0,
+      adjustX: 1,
       adjustY: 1,
     },
   },
@@ -18,7 +18,7 @@ const BUILT_IN_PLACEMENTS = {
     points: ['tr', 'bl'],
     offset: [0, 4],
     overflow: {
-      adjustX: 0,
+      adjustX: 1,
       adjustY: 1,
     },
   },
@@ -26,7 +26,7 @@ const BUILT_IN_PLACEMENTS = {
     points: ['bl', 'tr'],
     offset: [0, -4],
     overflow: {
-      adjustX: 0,
+      adjustX: 1,
       adjustY: 1,
     },
   },
@@ -34,7 +34,7 @@ const BUILT_IN_PLACEMENTS = {
     points: ['br', 'tl'],
     offset: [0, -4],
     overflow: {
-      adjustX: 0,
+      adjustX: 1,
       adjustY: 1,
     },
   },
@@ -50,6 +50,7 @@ interface KeywordTriggerProps {
   transitionName?: string;
   children?: React.ReactElement;
   getPopupContainer?: () => HTMLElement;
+  dropdownClassName?: string;
 }
 
 class KeywordTrigger extends React.Component<KeywordTriggerProps, {}> {
@@ -57,7 +58,9 @@ class KeywordTrigger extends React.Component<KeywordTriggerProps, {}> {
 
   public getDropdownElement = () => {
     const { options } = this.props;
-    return <DropdownMenu prefixCls={this.getDropdownPrefix()} options={options} />;
+    return (
+      <DropdownMenu prefixCls={this.getDropdownPrefix()} options={options} />
+    );
   };
 
   public getDropDownPlacement = () => {
@@ -85,6 +88,7 @@ class KeywordTrigger extends React.Component<KeywordTriggerProps, {}> {
         popupTransitionName={transitionName}
         builtinPlacements={BUILT_IN_PLACEMENTS}
         getPopupContainer={getPopupContainer}
+        popupClassName={this.props.dropdownClassName}
       >
         {children}
       </Trigger>
