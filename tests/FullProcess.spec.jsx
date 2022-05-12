@@ -158,4 +158,16 @@ describe('Full Process', () => {
 
     expect(wrapper.state().measuring).toBe(false);
   });
+
+  it('replace without prefix', () => {
+    const onChange = jest.fn();
+    const wrapper = createMentions({ onChange, replaceWithoutPrefix: true });
+
+    simulateInput(wrapper, '@b');
+    wrapper.find('textarea').simulate('keyDown', {
+      keyCode: KeyCode.ENTER,
+    });
+
+    expect(onChange).toBeCalledWith('bamboo ');
+  });
 });

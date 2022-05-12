@@ -1,5 +1,5 @@
-import { MentionsProps } from './Mentions';
-import { OptionProps } from './Option';
+import type { MentionsProps } from './Mentions';
+import type { OptionProps } from './Option';
 
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
@@ -34,7 +34,10 @@ interface MeasureIndex {
 /**
  * Find the last match prefix index
  */
-export function getLastMeasureIndex(text: string, prefix: string | string[] = ''): MeasureIndex {
+export function getLastMeasureIndex(
+  text: string,
+  prefix: string | string[] = '',
+): MeasureIndex {
   const prefixList: string[] = Array.isArray(prefix) ? prefix : [prefix];
   return prefixList.reduce(
     (lastMatch: MeasureIndex, prefixStr): MeasureIndex => {
@@ -90,13 +93,21 @@ function reduceText(text: string, targetText: string, split: string) {
  *  targetText: light
  *  => little @light test
  */
-export function replaceWithMeasure(text: string, measureConfig: MeasureConfig) {
-  const { measureLocation, prefix, targetText, selectionStart, split } = measureConfig;
+export function replaceWithMeasure(
+  text: string,
+  measureConfig: MeasureConfig,
+  replaceWithoutPrefix?: boolean,
+) {
+  const { measureLocation, prefix, targetText, selectionStart, split } =
+    measureConfig;
 
   // Before text will append one space if have other text
   let beforeMeasureText = text.slice(0, measureLocation);
   if (beforeMeasureText[beforeMeasureText.length - split.length] === split) {
-    beforeMeasureText = beforeMeasureText.slice(0, beforeMeasureText.length - split.length);
+    beforeMeasureText = beforeMeasureText.slice(
+      0,
+      beforeMeasureText.length - split.length,
+    );
   }
   if (beforeMeasureText) {
     beforeMeasureText = `${beforeMeasureText}${split}`;
@@ -112,7 +123,9 @@ export function replaceWithMeasure(text: string, measureConfig: MeasureConfig) {
     restText = restText.slice(split.length);
   }
 
-  const connectedStartText = `${beforeMeasureText}${prefix}${targetText}${split}`;
+  const connectedStartText = `${beforeMeasureText}${
+    replaceWithoutPrefix ? '' : prefix
+  }${targetText}${split}`;
 
   return {
     text: `${connectedStartText}${restText}`,
@@ -120,7 +133,10 @@ export function replaceWithMeasure(text: string, measureConfig: MeasureConfig) {
   };
 }
 
-export function setInputSelection(input: HTMLTextAreaElement, location: number) {
+export function setInputSelection(
+  input: HTMLTextAreaElement,
+  location: number,
+) {
   input.setSelectionRange(location, location);
 
   /**
@@ -136,7 +152,10 @@ export function validateSearch(text: string, props: MentionsProps) {
   return !split || text.indexOf(split) === -1;
 }
 
-export function filterOption(input: string, { value = '' }: OptionProps): boolean {
+export function filterOption(
+  input: string,
+  { value = '' }: OptionProps,
+): boolean {
   const lowerCase = input.toLowerCase();
   return value.toLowerCase().indexOf(lowerCase) !== -1;
 }
