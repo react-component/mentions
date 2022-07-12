@@ -7,7 +7,7 @@ import { useState, useRef } from 'react';
 import TextArea from 'rc-textarea';
 import type { TextAreaProps } from 'rc-textarea';
 import KeywordTrigger from './KeywordTrigger';
-import { MentionsContextProvider } from './MentionsContext';
+import MentionsContext from './MentionsContext';
 import Option from './Option';
 import type { OptionProps } from './Option';
 import {
@@ -18,7 +18,6 @@ import {
   setInputSelection,
   validateSearch as defaultValidateSearch,
 } from './util';
-import type { Omit } from './util';
 import useEffectState from './hooks/useEffectState';
 
 type BaseTextareaAttrs = Omit<
@@ -53,6 +52,7 @@ export interface MentionsProps extends BaseTextareaAttrs {
   dropdownClassName?: string;
   /** @private Testing usage. Do not use in prod. It will not work as your expect. */
   open?: boolean;
+  children?: React.ReactNode;
 }
 
 export interface MentionsRef {
@@ -71,14 +71,13 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
     prefix,
     split,
     notFoundContent,
-    rows = 1,
     value,
     defaultValue,
     children,
 
     // Events
-    validateSearch = defaultValidateSearch,
-    filterOption = defaultFilterOption,
+    validateSearch,
+    filterOption,
     onChange,
     onKeyDown,
     onKeyUp,
@@ -352,7 +351,6 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
       <TextArea
         ref={textareaRef}
         value={mergedValue}
-        rows={rows}
         {...restProps}
         onChange={onInternalChange}
         onKeyDown={onInternalKeyDown}
@@ -364,7 +362,7 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
       {measuring && (
         <div ref={measureRef} className={`${prefixCls}-measure`}>
           {mergedValue.slice(0, measureLocation)}
-          <MentionsContextProvider
+          <MentionsContext.Provider
             value={{
               notFoundContent,
               activeIndex,
@@ -386,7 +384,7 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
             >
               <span>{measurePrefix}</span>
             </KeywordTrigger>
-          </MentionsContextProvider>
+          </MentionsContext.Provider>
           {mergedValue.slice(measureLocation + measurePrefix.length)}
         </div>
       )}

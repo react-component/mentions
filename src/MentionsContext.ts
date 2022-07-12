@@ -1,6 +1,6 @@
 /* tslint:disable: no-object-literal-type-assertion */
 import * as React from 'react';
-import { OptionProps } from './Option';
+import type { OptionProps } from './Option';
 
 export interface MentionsContextProps {
   notFoundContent: React.ReactNode;
@@ -12,7 +12,7 @@ export interface MentionsContextProps {
 }
 
 // We will never use default, here only to fix TypeScript warning
-const MentionsContext: React.Context<MentionsContextProps> = React.createContext(null);
+const MentionsContext: React.Context<MentionsContextProps> =
+  React.createContext(null);
 
-export const MentionsContextProvider = MentionsContext.Provider;
-export const MentionsContextConsumer = MentionsContext.Consumer;
+export default MentionsContext;
