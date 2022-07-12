@@ -9,10 +9,6 @@ export function getBeforeSelectionText(input: HTMLTextAreaElement) {
   return input.value.slice(0, selectionStart);
 }
 
-export function toArr<T>(value: T | T[]): T[] {
-  return Array.isArray(value) ? value : [value];
-}
-
 interface MeasureIndex {
   location: number;
   prefix: string;
@@ -22,10 +18,9 @@ interface MeasureIndex {
  */
 export function getLastMeasureIndex(
   text: string,
-  prefix: string | string[] = '',
+  prefix: string[],
 ): MeasureIndex {
-  const prefixList: string[] = toArr(prefix);
-  return prefixList.reduce(
+  return prefix.reduce(
     (lastMatch: MeasureIndex, prefixStr): MeasureIndex => {
       const lastIndex = text.lastIndexOf(prefixStr);
       if (lastIndex > lastMatch.location) {
