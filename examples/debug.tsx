@@ -7,7 +7,7 @@ import '../assets/index.less';
 const { Option } = Mentions;
 
 export default () => (
-  <Mentions rows={3} defaultValue="Hello @ World" open>
+  <Mentions rows={3} defaultValue="Hello @ World @" open>
     <Option value="light">Light</Option>
     <Option value="bamboo">Bamboo</Option>
     <Option value="cat">Cat</Option>

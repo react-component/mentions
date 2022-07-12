@@ -155,9 +155,8 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
 
       for (let i = 0; i < mergedPrefix.length; i += 1) {
         const curPrefix = mergedPrefix[i];
-        const index = mergedValue.indexOf(curPrefix);
+        const index = mergedValue.lastIndexOf(curPrefix);
         if (index >= 0) {
-          // startMeasure('', curPrefix, index);
           return [true, '', curPrefix, index];
         }
       }
