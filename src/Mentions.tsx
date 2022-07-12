@@ -63,14 +63,14 @@ export interface MentionsRef {
 const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
   const {
     // Style
-    prefixCls = 'rc-mentions',
+    prefixCls,
     className,
     style,
 
     // Misc
-    prefix = '@',
-    split = ' ',
-    notFoundContent = 'Not Found',
+    prefix,
+    split,
+    notFoundContent,
     rows = 1,
     value,
     defaultValue,
@@ -396,6 +396,16 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
   React.PropsWithoutRef<MentionsProps> & React.RefAttributes<MentionsRef>
 > & {
   Option: typeof Option;
+};
+
+Mentions.defaultProps = {
+  prefixCls: 'rc-mentions',
+  prefix: '@',
+  split: ' ',
+  validateSearch: defaultValidateSearch,
+  filterOption: defaultFilterOption,
+  notFoundContent: 'Not Found',
+  rows: 1,
 };
 
 Mentions.Option = Option;

@@ -14,21 +14,13 @@ export function simulateInput(
 
   fireEvent.keyDown(container.querySelector('textarea'), myKeyEvent);
 
-  // const textareaInstance = container.querySelector('textarea');
-  // textareaInstance.value = text;
-  // textareaInstance.selectionStart = text.length;
-
   if (!keyEvent) {
     fireEvent.change(container.querySelector('textarea'), {
       target: { value: text, selectionStart: text.length },
     });
   }
 
-  // textareaInstance.selectionStart = text.length;
-  // wrapper.find('textarea').simulate('keyUp', myKeyEvent);
   fireEvent.keyUp(container.querySelector('textarea'), myKeyEvent);
-
-  // wrapper.update();
 }
 
 export function expectMatchOptions(targetLabels: string[]) {
@@ -36,4 +28,14 @@ export function expectMatchOptions(targetLabels: string[]) {
     document.querySelectorAll('.rc-mentions-dropdown-menu-item'),
   ).map(item => item.textContent);
   expect(list).toEqual(targetLabels);
+}
+
+export function expectMeasuring(container: HTMLElement, measuring = true) {
+  const expected = expect(container.querySelector('.rc-mentions-measure'));
+
+  if (measuring) {
+    expected.toBeTruthy();
+  } else {
+    expected.toBeFalsy();
+  }
 }
