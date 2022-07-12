@@ -27,6 +27,10 @@ export function getBeforeSelectionText(input: HTMLTextAreaElement) {
   return input.value.slice(0, selectionStart);
 }
 
+export function toArr<T>(value: T | T[]): T[] {
+  return Array.isArray(value) ? value : [value];
+}
+
 interface MeasureIndex {
   location: number;
   prefix: string;
@@ -34,8 +38,11 @@ interface MeasureIndex {
 /**
  * Find the last match prefix index
  */
-export function getLastMeasureIndex(text: string, prefix: string | string[] = ''): MeasureIndex {
-  const prefixList: string[] = Array.isArray(prefix) ? prefix : [prefix];
+export function getLastMeasureIndex(
+  text: string,
+  prefix: string | string[] = '',
+): MeasureIndex {
+  const prefixList: string[] = toArr(prefix);
   return prefixList.reduce(
     (lastMatch: MeasureIndex, prefixStr): MeasureIndex => {
       const lastIndex = text.lastIndexOf(prefixStr);
@@ -91,12 +98,16 @@ function reduceText(text: string, targetText: string, split: string) {
  *  => little @light test
  */
 export function replaceWithMeasure(text: string, measureConfig: MeasureConfig) {
-  const { measureLocation, prefix, targetText, selectionStart, split } = measureConfig;
+  const { measureLocation, prefix, targetText, selectionStart, split } =
+    measureConfig;
 
   // Before text will append one space if have other text
   let beforeMeasureText = text.slice(0, measureLocation);
   if (beforeMeasureText[beforeMeasureText.length - split.length] === split) {
-    beforeMeasureText = beforeMeasureText.slice(0, beforeMeasureText.length - split.length);
+    beforeMeasureText = beforeMeasureText.slice(
+      0,
+      beforeMeasureText.length - split.length,
+    );
   }
   if (beforeMeasureText) {
     beforeMeasureText = `${beforeMeasureText}${split}`;
@@ -120,7 +131,10 @@ export function replaceWithMeasure(text: string, measureConfig: MeasureConfig) {
   };
 }
 
-export function setInputSelection(input: HTMLTextAreaElement, location: number) {
+export function setInputSelection(
+  input: HTMLTextAreaElement,
+  location: number,
+) {
   input.setSelectionRange(location, location);
 
   /**
@@ -136,7 +150,10 @@ export function validateSearch(text: string, props: MentionsProps) {
   return !split || text.indexOf(split) === -1;
 }
 
-export function filterOption(input: string, { value = '' }: OptionProps): boolean {
+export function filterOption(
+  input: string,
+  { value = '' }: OptionProps,
+): boolean {
   const lowerCase = input.toLowerCase();
   return value.toLowerCase().indexOf(lowerCase) !== -1;
 }
