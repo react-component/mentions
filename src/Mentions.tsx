@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import toArray from 'rc-util/lib/Children/toArray';
 import KeyCode from 'rc-util/lib/KeyCode';
+import warning from 'rc-util/lib/warning';
 import * as React from 'react';
 import { useState, useRef } from 'react';
 import TextArea from 'rc-textarea';
@@ -75,6 +76,8 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
     defaultValue,
     children,
 
+    open,
+
     // Events
     validateSearch,
     filterOption,
@@ -99,6 +102,12 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
     ...restProps
   } = props;
 
+  const mergedPrefix = Array.isArray(prefix) ? prefix : [prefix];
+  const mergedProps = {
+    ...props,
+    prefix: mergedPrefix,
+  };
+
   // =============================== Refs ===============================
   const textareaRef = useRef<TextArea>(null);
   const measureRef = useRef<HTMLDivElement>(null);
@@ -121,6 +130,48 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
     defaultValue,
     value: value,
   });
+
+  // =============================== Open ===============================
+  const [
+    mergedMeasuring,
+    mergedMeasureText,
+    mergedMeasurePrefix,
+    mergedMeasureLocation,
+  ] = React.useMemo<
+    [
+      typeof measuring,
+      typeof measureText,
+      typeof measurePrefix,
+      typeof measureLocation,
+    ]
+  >(() => {
+    if (open) {
+      if (process.env.NODE_ENV !== 'production') {
+        warning(
+          false,
+          '`open` of Mentions is only used for debug usage. Do not use in you production.',
+        );
+      }
+
+      for (let i = 0; i < mergedPrefix.length; i += 1) {
+        const curPrefix = mergedPrefix[i];
+        const index = mergedValue.lastIndexOf(curPrefix);
+        if (index >= 0) {
+          return [true, '', curPrefix, index];
+        }
+      }
+    }
+
+    return [measuring, measureText, measurePrefix, measureLocation];
+  }, [
+    open,
+    measuring,
+    mergedPrefix,
+    mergedValue,
+    measureText,
+    measurePrefix,
+    measureLocation,
+  ]);
 
   // ============================== Option ==============================
   const getOptions = React.useCallback(
@@ -151,8 +202,8 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
   );
 
   const options = React.useMemo(
-    () => getOptions(measureText),
-    [getOptions, measureText],
+    () => getOptions(mergedMeasureText),
+    [getOptions, mergedMeasureText],
   );
 
   // ============================= Measure ==============================
@@ -195,9 +246,9 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
 
     const { value: mentionValue = '' } = option;
     const { text, selectionLocation } = replaceWithMeasure(mergedValue, {
-      measureLocation,
+      measureLocation: mergedMeasureLocation,
       targetText: mentionValue,
-      prefix: measurePrefix,
+      prefix: mergedMeasurePrefix,
       selectionStart: getTextArea()?.selectionStart,
       split,
     });
@@ -207,7 +258,7 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
       setInputSelection(getTextArea(), selectionLocation);
     });
 
-    onSelect?.(option, measurePrefix);
+    onSelect?.(option, mergedMeasurePrefix);
   };
 
   // ============================= KeyEvent =============================
@@ -220,7 +271,7 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
     onKeyDown?.(event);
 
     // Skip if not measuring
-    if (!measuring) {
+    if (!mergedMeasuring) {
       return;
     }
 
@@ -264,7 +315,7 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
     const target = event.target as HTMLTextAreaElement;
     const selectionStartText = getBeforeSelectionText(target);
     const { location: measureIndex, prefix: nextMeasurePrefix } =
-      getLastMeasureIndex(selectionStartText, prefix);
+      getLastMeasureIndex(selectionStartText, mergedPrefix);
 
     // If the client implements an onKeyUp handler, call it
     onKeyUp?.(event);
@@ -281,19 +332,22 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
       const nextMeasureText = selectionStartText.slice(
         measureIndex + nextMeasurePrefix.length,
       );
-      const validateMeasure: boolean = validateSearch(nextMeasureText, props);
+      const validateMeasure: boolean = validateSearch(
+        nextMeasureText,
+        mergedProps,
+      );
       const matchOption = !!getOptions(nextMeasureText).length;
 
       if (validateMeasure) {
         if (
           key === nextMeasurePrefix ||
           key === 'Shift' ||
-          measuring ||
-          (nextMeasureText !== measureText && matchOption)
+          mergedMeasuring ||
+          (nextMeasureText !== mergedMeasureText && matchOption)
         ) {
           startMeasure(nextMeasureText, nextMeasurePrefix, measureIndex);
         }
-      } else if (measuring) {
+      } else if (mergedMeasuring) {
         // Stop if measureText is invalidate
         stopMeasure();
       }
@@ -305,7 +359,7 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
       if (onSearch && validateMeasure) {
         onSearch(nextMeasureText, nextMeasurePrefix);
       }
-    } else if (measuring) {
+    } else if (mergedMeasuring) {
       stopMeasure();
     }
   };
@@ -313,7 +367,7 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
   const onInternalPressEnter: React.KeyboardEventHandler<
     HTMLTextAreaElement
   > = event => {
-    if (!measuring && onPressEnter) {
+    if (!mergedMeasuring && onPressEnter) {
       onPressEnter(event);
     }
   };
@@ -359,9 +413,9 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
         onFocus={onInternalFocus}
         onBlur={onInternalBlur}
       />
-      {measuring && (
+      {mergedMeasuring && (
         <div ref={measureRef} className={`${prefixCls}-measure`}>
-          {mergedValue.slice(0, measureLocation)}
+          {mergedValue.slice(0, mergedMeasureLocation)}
           <MentionsContext.Provider
             value={{
               notFoundContent,
@@ -382,10 +436,12 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
               getPopupContainer={getPopupContainer}
               dropdownClassName={dropdownClassName}
             >
-              <span>{measurePrefix}</span>
+              <span>{mergedMeasurePrefix}</span>
             </KeywordTrigger>
           </MentionsContext.Provider>
-          {mergedValue.slice(measureLocation + measurePrefix.length)}
+          {mergedValue.slice(
+            mergedMeasureLocation + mergedMeasurePrefix.length,
+          )}
         </div>
       )}
     </div>
