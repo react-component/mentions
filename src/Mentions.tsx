@@ -3,8 +3,7 @@ import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import toArray from 'rc-util/lib/Children/toArray';
 import KeyCode from 'rc-util/lib/KeyCode';
 import warning from 'rc-util/lib/warning';
-import * as React from 'react';
-import { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import TextArea from 'rc-textarea';
 import type { TextAreaProps } from 'rc-textarea';
 import KeywordTrigger from './KeywordTrigger';
@@ -112,6 +111,8 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
   const textareaRef = useRef<TextArea>(null);
   const measureRef = useRef<HTMLDivElement>(null);
 
+  const getTextArea = () => textareaRef.current?.resizableTextArea?.textArea;
+
   React.useImperativeHandle(ref, () => ({
     focus: () => textareaRef.current?.focus(),
     blur: () => textareaRef.current?.blur(),
@@ -132,6 +133,13 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
   });
 
   // =============================== Open ===============================
+  useEffect(() => {
+    // Sync measure div top with textarea for rc-trigger usage
+    if (measuring && measureRef.current) {
+      measureRef.current.scrollTop = getTextArea().scrollTop;
+    }
+  }, [measuring]);
+
   const [
     mergedMeasuring,
     mergedMeasureText,
@@ -242,8 +250,6 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
   };
 
   const selectOption = (option: OptionProps) => {
-    const getTextArea = () => textareaRef.current?.resizableTextArea?.textArea;
-
     const { value: mentionValue = '' } = option;
     const { text, selectionLocation } = replaceWithMeasure(mergedValue, {
       measureLocation: mergedMeasureLocation,
