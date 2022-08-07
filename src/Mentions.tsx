@@ -55,10 +55,7 @@ export interface MentionsProps extends BaseTextareaAttrs {
   children?: React.ReactNode;
 }
 
-export interface MentionsRef {
-  focus: VoidFunction;
-  blur: VoidFunction;
-}
+export type MentionsRef = TextArea;
 
 const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
   const {
@@ -113,10 +110,7 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
 
   const getTextArea = () => textareaRef.current?.resizableTextArea?.textArea;
 
-  React.useImperativeHandle(ref, () => ({
-    focus: () => textareaRef.current?.focus(),
-    blur: () => textareaRef.current?.blur(),
-  }));
+  React.useImperativeHandle(ref, () => textareaRef.current);
 
   // ============================== State ===============================
   const [measuring, setMeasuring] = useState(false);

@@ -87,14 +87,13 @@ describe('Mentions', () => {
 
     it('focus() & blur()', () => {
       const mentionsRef = React.createRef<MentionsRef>();
-      const { container } = renderMentions({ ref: mentionsRef });
+      renderMentions({ ref: mentionsRef });
+      const { textArea } = mentionsRef.current.resizableTextArea;
       mentionsRef.current.focus();
-      expect(document.activeElement).toBe(container.querySelector('textarea'));
+      expect(document.activeElement).toBe(textArea);
 
       mentionsRef.current.blur();
-      expect(document.activeElement).not.toBe(
-        container.querySelector('textarea'),
-      );
+      expect(document.activeElement).not.toBe(textArea);
     });
   });
 
