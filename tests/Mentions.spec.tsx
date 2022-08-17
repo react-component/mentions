@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import KeyCode from 'rc-util/lib/KeyCode';
 import Mentions from '../src';
 import type { MentionsProps } from '../src';
@@ -178,5 +178,11 @@ describe('Mentions', () => {
     expect(
       container.querySelector('.my-dropdown.rc-mentions-dropdown'),
     ).toBeTruthy();
+  });
+
+  it('should support textarea in ref', () => {
+    const ref = createRef<MentionsRef>();
+    const { container } = render(createMentions({ ref }));
+    expect(ref.current.textarea).toBe(container.querySelector('textarea'));
   });
 });
