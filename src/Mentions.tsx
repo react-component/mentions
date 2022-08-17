@@ -59,7 +59,7 @@ export interface MentionsRef {
   focus: VoidFunction;
   blur: VoidFunction;
 
-  /** @private Private usage. It may not work as expected */
+  /** @deprecated It may not work as expected */
   textarea: HTMLTextAreaElement | null;
 }
 
