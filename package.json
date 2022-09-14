@@ -47,7 +47,7 @@
     "@types/warning": "^3.0.0",
     "@umijs/fabric": "^2.0.8",
     "eslint": "^7.0.0",
-    "father": "^2.13.6",
+    "father": "^4.0.5",
     "jest": "^28.0.3",
     "lodash.debounce": "^4.0.8",
     "np": "^7.0.0",
