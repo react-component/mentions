@@ -23,6 +23,11 @@ class Demo extends React.Component {
   render() {
     const { prefix } = this.state;
 
+    const items = OPTIONS[prefix].map(value => ({
+      value,
+      key: value,
+      label: value,
+    }));
     return (
       <div>
         @ for string, # for number
@@ -31,13 +36,8 @@ class Demo extends React.Component {
           onSearch={this.onSearch}
           style={{ width: '100%', fontSize: 50 }}
           autoFocus
-        >
-          {OPTIONS[prefix].map(value => (
-            <Option value={value} key={value}>
-              {value}
-            </Option>
-          ))}
-        </Mentions>
+          items={items}
+        ></Mentions>
       </div>
     );
   }

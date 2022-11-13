@@ -1,15 +1,15 @@
 import classNames from 'classnames';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import toArray from 'rc-util/lib/Children/toArray';
+// import toArray from 'rc-util/lib/Children/toArray';
 import KeyCode from 'rc-util/lib/KeyCode';
 import warning from 'rc-util/lib/warning';
-import React, { useState, useRef, useEffect } from 'react';
-import TextArea from 'rc-textarea';
+import React, { useEffect, useRef, useState } from 'react';
 import type { TextAreaProps } from 'rc-textarea';
+import TextArea from 'rc-textarea';
 import KeywordTrigger from './KeywordTrigger';
 import MentionsContext from './MentionsContext';
-import Option from './Option';
 import type { OptionProps } from './Option';
+import Option from './Option';
 import {
   filterOption as defaultFilterOption,
   getBeforeSelectionText,
@@ -53,6 +53,7 @@ export interface MentionsProps extends BaseTextareaAttrs {
   /** @private Testing usage. Do not use in prod. It will not work as your expect. */
   open?: boolean;
   children?: React.ReactNode;
+  items?: OptionProps[];
 }
 
 export interface MentionsRef {
@@ -76,8 +77,8 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
     notFoundContent,
     value,
     defaultValue,
-    children,
-
+    // children,
+    items = [],
     open,
 
     // Events
@@ -188,19 +189,11 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
   // ============================== Option ==============================
   const getOptions = React.useCallback(
     (targetMeasureText: string) => {
-      const list = toArray(children)
-        .map(
-          ({
-            props: optionProps,
-            key,
-          }: {
-            props: OptionProps;
-            key: React.Key;
-          }) => ({
-            ...optionProps,
-            key: (key || optionProps.value) as string,
-          }),
-        )
+      return items
+        .map(item => ({
+          ...item,
+          key: item?.key ?? item.value,
+        }))
         .filter((option: OptionProps) => {
           /** Return all result if `filterOption` is false. */
           if (filterOption === false) {
@@ -208,9 +201,8 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
           }
           return filterOption(targetMeasureText, option);
         });
-      return list;
     },
-    [children, filterOption],
+    [items, filterOption],
   );
 
   const options = React.useMemo(

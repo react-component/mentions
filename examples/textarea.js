@@ -9,40 +9,108 @@ const { Option } = Mentions;
 
 export default () => (
   <div>
-    <Mentions placeholder="disabled" disabled>
-      <Option value="light">Light</Option>
-      <Option value="bamboo">Bamboo</Option>
-      <Option value="cat">Cat</Option>
-    </Mentions>
+    <Mentions
+      placeholder="disabled"
+      disabled
+      items={[
+        {
+          value: 'light',
+          label: 'Light',
+        },
+        {
+          value: 'bamboo',
+          label: 'Bamboo',
+        },
+        {
+          value: 'cat',
+          label: 'Cat',
+        },
+      ]}
+    />
 
-    <Mentions placeholder="readonly" readOnly>
-      <Option value="light">Light</Option>
-      <Option value="bamboo">Bamboo</Option>
-      <Option value="cat">Cat</Option>
-    </Mentions>
+    <Mentions
+      placeholder="readonly"
+      readOnly
+      items={[
+        {
+          value: 'light',
+          label: 'Light',
+        },
+        {
+          value: 'bamboo',
+          label: 'Bamboo',
+        },
+        {
+          value: 'cat',
+          label: 'Cat',
+        },
+      ]}
+    />
 
     <div style={{ paddingTop: 100 }}>
-      <Mentions placeholder="Support AutoSize" autoSize transitionName="motion-zoom">
-        <Option value="light">Light</Option>
-        <Option value="bamboo">Bamboo</Option>
-        <Option value="cat">Cat</Option>
-      </Mentions>
+      <Mentions
+        placeholder="Support AutoSize"
+        autoSize
+        transitionName="motion-zoom"
+        items={[
+          {
+            value: 'light',
+            label: 'Light',
+          },
+          {
+            value: 'bamboo',
+            label: 'Bamboo',
+          },
+          {
+            value: 'cat',
+            label: 'Cat',
+          },
+        ]}
+      />
     </div>
 
     <div style={{ paddingTop: 100 }}>
-      <Mentions placeholder="placement: top" placement="top" transitionName="motion-zoom">
-        <Option value="light">Light</Option>
-        <Option value="bamboo">Bamboo</Option>
-        <Option value="cat">Cat</Option>
-      </Mentions>
+      <Mentions
+        placeholder="placement: top"
+        placement="top"
+        transitionName="motion-zoom"
+        items={[
+          {
+            value: 'light',
+            label: 'Light',
+          },
+          {
+            value: 'bamboo',
+            label: 'Bamboo',
+          },
+          {
+            value: 'cat',
+            label: 'Cat',
+          },
+        ]}
+      />
     </div>
 
     <div style={{ padding: '100px 0', width: 200, direction: 'rtl' }}>
-      <Mentions placeholder="direction: rtl" direction="rtl" transitionName="motion-zoom">
-        <Option value="light">Light</Option>
-        <Option value="bamboo">Bamboo</Option>
-        <Option value="cat">Cat</Option>
-      </Mentions>
+      <Mentions
+        placeholder="direction: rtl"
+        direction="rtl"
+        transitionName="motion-zoom"
+        items={[
+          {
+            value: 'light',
+            label: 'Light',
+          },
+          {
+            value: 'bamboo',
+            label: 'Bamboo',
+          },
+          {
+            value: 'cat',
+            label: 'Cat',
+          },
+        ]}
+      />
     </div>
   </div>
 );

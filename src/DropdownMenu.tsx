@@ -37,7 +37,7 @@ function DropdownMenu(props: DropdownMenuProps) {
       onBlur={onBlur}
     >
       {options.map((option, index) => {
-        const { key, disabled, children, className, style } = option;
+        const { key, disabled, className, style, label, children } = option;
         return (
           <MenuItem
             key={key}
@@ -48,7 +48,7 @@ function DropdownMenu(props: DropdownMenuProps) {
               setActiveIndex(index);
             }}
           >
-            {children}
+            {label || children}
           </MenuItem>
         );
       })}

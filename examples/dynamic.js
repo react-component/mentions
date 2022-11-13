@@ -6,8 +6,6 @@ import Mentions from '../src';
 import '../assets/index.less';
 import './dynamic.less';
 
-const { Option } = Mentions;
-
 class Demo extends React.Component {
   constructor(props) {
     super(props);
@@ -55,27 +53,37 @@ class Demo extends React.Component {
   render() {
     const { users, loading, search } = this.state;
 
-    let options;
+    let items;
     if (loading) {
-      options = (
-        <Option value={search} disabled>
-          Searching {`'${search}'`}...
-        </Option>
-      );
+      items = [
+        {
+          value: search,
+          disabled: true,
+          label: `Searching '${search}'...`,
+        },
+      ];
     } else {
-      options = users.map(({ login, avatar_url: avatar }) => (
-        <Option key={login} value={login} className="dynamic-option">
-          <img src={avatar} alt={login} />
-          <span>{login}</span>
-        </Option>
-      ));
+      items = users.map(({ login, avatar_url: avatar }) => ({
+        key: login,
+        value: login,
+        className: 'dynamic-option',
+        label: (
+          <>
+            <img src={avatar} alt={login} />
+            <span>{login}</span>
+          </>
+        ),
+      }));
     }
 
     return (
       <div>
-        <Mentions onSearch={this.onSearch} style={{ width: '100%' }} autoFocus>
-          {options}
-        </Mentions>
+        <Mentions
+          onSearch={this.onSearch}
+          style={{ width: '100%' }}
+          autoFocus
+          items={items}
+        />
         search: <code>{search}</code>
       </div>
     );
