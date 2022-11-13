@@ -7,18 +7,28 @@ import { fireEvent, render } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import type { MentionsRef } from '../src/Mentions';
 
-const { Option } = Mentions;
-
 describe('Mentions', () => {
   function createMentions(
     props?: MentionsProps & { ref?: React.Ref<MentionsRef> },
   ) {
     return (
-      <Mentions {...props}>
-        <Option value="bamboo">Bamboo</Option>
-        <Option value="light">Light</Option>
-        <Option value="cat">Cat</Option>
-      </Mentions>
+      <Mentions
+        items={[
+          {
+            value: 'bamboo',
+            label: 'Bamboo',
+          },
+          {
+            value: 'light',
+            label: 'Light',
+          },
+          {
+            value: 'cat',
+            label: 'Cat',
+          },
+        ]}
+        {...props}
+      />
     );
   }
 
