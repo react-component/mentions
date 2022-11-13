@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-// import toArray from 'rc-util/lib/Children/toArray';
+import toArray from 'rc-util/lib/Children/toArray';
 import KeyCode from 'rc-util/lib/KeyCode';
 import warning from 'rc-util/lib/warning';
 import React, { useEffect, useRef, useState } from 'react';
@@ -77,8 +77,8 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
     notFoundContent,
     value,
     defaultValue,
-    // children,
-    items = [],
+    children,
+    items,
     open,
 
     // Events
@@ -189,20 +189,36 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
   // ============================== Option ==============================
   const getOptions = React.useCallback(
     (targetMeasureText: string) => {
-      return items
-        .map(item => ({
+      let list;
+      if (items && items.length > 0) {
+        list = items.map(item => ({
           ...item,
           key: item?.key ?? item.value,
-        }))
-        .filter((option: OptionProps) => {
-          /** Return all result if `filterOption` is false. */
-          if (filterOption === false) {
-            return true;
-          }
-          return filterOption(targetMeasureText, option);
-        });
+        }));
+      } else {
+        list = toArray(children).map(
+          ({
+            props: optionProps,
+            key,
+          }: {
+            props: OptionProps;
+            key: React.Key;
+          }) => ({
+            ...optionProps,
+            key: (key || optionProps.value) as string,
+          }),
+        );
+      }
+
+      return list.filter((option: OptionProps) => {
+        /** Return all result if `filterOption` is false. */
+        if (filterOption === false) {
+          return true;
+        }
+        return filterOption(targetMeasureText, option);
+      });
     },
-    [items, filterOption],
+    [children, items, filterOption],
   );
 
   const options = React.useMemo(
