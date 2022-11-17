@@ -28,14 +28,8 @@ type BaseTextareaAttrs = Omit<
 export type Placement = 'top' | 'bottom';
 export type Direction = 'ltr' | 'rtl';
 
-export interface DataDrivenOptionProps {
-  value?: string;
-  label?: string | React.ReactNode;
-  key?: string;
-  disabled?: boolean;
-  children?: React.ReactNode;
-  className?: string;
-  style?: React.CSSProperties;
+export interface DataDrivenOptionProps extends Omit<OptionProps, 'children'> {
+  label?: React.ReactNode;
 }
 
 export interface MentionsProps extends BaseTextareaAttrs {
