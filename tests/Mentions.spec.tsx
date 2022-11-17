@@ -137,7 +137,7 @@ describe('Mentions', () => {
     });
   });
 
-  describe('support option', () => {
+  describe('support children Option', () => {
     function renderOptionsMentions(
       props?: MentionsProps & { ref?: React.Ref<MentionsRef> },
     ) {
