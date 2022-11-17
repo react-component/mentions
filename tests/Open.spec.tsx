@@ -3,18 +3,29 @@ import Mentions from '../src';
 import { expectMeasuring } from './util';
 import { render } from '@testing-library/react';
 
-const { Option } = Mentions;
-
 describe('Mentions.Open', () => {
   it('force open', () => {
     const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
     const { container } = render(
-      <Mentions open defaultValue="@cat @">
-        <Option value="bamboo">Bamboo</Option>
-        <Option value="light">Light</Option>
-        <Option value="cat">Cat</Option>
-      </Mentions>,
+      <Mentions
+        open
+        defaultValue="@cat @"
+        options={[
+          {
+            value: 'light',
+            label: 'Light',
+          },
+          {
+            value: 'bamboo',
+            label: 'Bamboo',
+          },
+          {
+            value: 'cat',
+            label: 'Cat',
+          },
+        ]}
+      />,
     );
 
     expectMeasuring(container);

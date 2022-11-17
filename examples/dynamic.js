@@ -6,8 +6,6 @@ import Mentions from '../src';
 import '../assets/index.less';
 import './dynamic.less';
 
-const { Option } = Mentions;
-
 class Demo extends React.Component {
   constructor(props) {
     super(props);
@@ -37,16 +35,16 @@ class Demo extends React.Component {
 
     fetch(`https://api.github.com/search/users?q=${key}`)
       .then(res => res.json())
-      .then(({ items = [] }) => {
+      .then(({ options = [] }) => {
         const { search } = this.state;
         if (search !== key) {
-          console.log('Out Of Date >', key, items);
+          console.log('Out Of Date >', key, options);
           return;
         }
 
-        console.log('Fetch Users >', items);
+        console.log('Fetch Users >', options);
         this.setState({
-          users: items.slice(0, 10),
+          users: options.slice(0, 10),
           loading: false,
         });
       });
@@ -57,25 +55,35 @@ class Demo extends React.Component {
 
     let options;
     if (loading) {
-      options = (
-        <Option value={search} disabled>
-          Searching {`'${search}'`}...
-        </Option>
-      );
+      options = [
+        {
+          value: search,
+          disabled: true,
+          label: `Searching '${search}'...`,
+        },
+      ];
     } else {
-      options = users.map(({ login, avatar_url: avatar }) => (
-        <Option key={login} value={login} className="dynamic-option">
-          <img src={avatar} alt={login} />
-          <span>{login}</span>
-        </Option>
-      ));
+      options = users.map(({ login, avatar_url: avatar }) => ({
+        key: login,
+        value: login,
+        className: 'dynamic-option',
+        label: (
+          <>
+            <img src={avatar} alt={login} />
+            <span>{login}</span>
+          </>
+        ),
+      }));
     }
 
     return (
       <div>
-        <Mentions onSearch={this.onSearch} style={{ width: '100%' }} autoFocus>
-          {options}
-        </Mentions>
+        <Mentions
+          onSearch={this.onSearch}
+          style={{ width: '100%' }}
+          autoFocus
+          options={options}
+        />
         search: <code>{search}</code>
       </div>
     );

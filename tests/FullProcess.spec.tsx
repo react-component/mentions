@@ -5,16 +5,26 @@ import Mentions from '../src';
 import type { MentionsProps } from '../src';
 import { expectMatchOptions, expectMeasuring, simulateInput } from './util';
 
-const { Option } = Mentions;
-
 describe('Full Process', () => {
   function createMentions(props?: MentionsProps) {
     return render(
-      <Mentions {...props}>
-        <Option value="bamboo">Bamboo</Option>
-        <Option value="light">Light</Option>
-        <Option value="cat">Cat</Option>
-      </Mentions>,
+      <Mentions
+        {...props}
+        options={[
+          {
+            value: 'bamboo',
+            label: 'Bamboo',
+          },
+          {
+            value: 'light',
+            label: 'Light',
+          },
+          {
+            value: 'cat',
+            label: 'Cat',
+          },
+        ]}
+      />,
     );
   }
 
@@ -136,20 +146,32 @@ describe('Full Process', () => {
 
   it('should support same value', () => {
     const { container } = render(
-      <Mentions>
-        <Option value="bamboo">Bamboo</Option>
-        <Option value="bamboo" key="same_bamboo">
-          Bamboo
-        </Option>
-        <Option value="light">Light</Option>
-        <Option value="cat">Cat</Option>
-      </Mentions>,
+      <Mentions
+        options={[
+          {
+            value: 'bamboo',
+            label: 'Bamboo',
+          },
+          {
+            value: 'bamboo',
+            label: 'same_bamboo',
+          },
+          {
+            value: 'light',
+            label: 'Light',
+          },
+          {
+            value: 'cat',
+            label: 'Cat',
+          },
+        ]}
+      />,
     );
 
     simulateInput(container, '@');
     expect(
       container.querySelectorAll('li.rc-mentions-dropdown-menu-item-active'),
-    ).toHaveLength(1);
+    ).toHaveLength(2);
   });
 
   it('ESC', () => {

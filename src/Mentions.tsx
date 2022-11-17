@@ -3,13 +3,13 @@ import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import toArray from 'rc-util/lib/Children/toArray';
 import KeyCode from 'rc-util/lib/KeyCode';
 import warning from 'rc-util/lib/warning';
-import React, { useState, useRef, useEffect } from 'react';
-import TextArea from 'rc-textarea';
+import React, { useEffect, useRef, useState } from 'react';
 import type { TextAreaProps } from 'rc-textarea';
+import TextArea from 'rc-textarea';
 import KeywordTrigger from './KeywordTrigger';
 import MentionsContext from './MentionsContext';
-import Option from './Option';
 import type { OptionProps } from './Option';
+import Option from './Option';
 import {
   filterOption as defaultFilterOption,
   getBeforeSelectionText,
@@ -27,6 +27,10 @@ type BaseTextareaAttrs = Omit<
 
 export type Placement = 'top' | 'bottom';
 export type Direction = 'ltr' | 'rtl';
+
+export interface DataDrivenOptionProps extends Omit<OptionProps, 'children'> {
+  label?: React.ReactNode;
+}
 
 export interface MentionsProps extends BaseTextareaAttrs {
   autoFocus?: boolean;
@@ -53,6 +57,7 @@ export interface MentionsProps extends BaseTextareaAttrs {
   /** @private Testing usage. Do not use in prod. It will not work as your expect. */
   open?: boolean;
   children?: React.ReactNode;
+  options?: DataDrivenOptionProps[];
 }
 
 export interface MentionsRef {
@@ -77,7 +82,7 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
     value,
     defaultValue,
     children,
-
+    options,
     open,
 
     // Events
@@ -188,8 +193,14 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
   // ============================== Option ==============================
   const getOptions = React.useCallback(
     (targetMeasureText: string) => {
-      const list = toArray(children)
-        .map(
+      let list;
+      if (options && options.length > 0) {
+        list = options.map(item => ({
+          ...item,
+          key: item?.key ?? item.value,
+        }));
+      } else {
+        list = toArray(children).map(
           ({
             props: optionProps,
             key,
@@ -200,20 +211,21 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
             ...optionProps,
             key: (key || optionProps.value) as string,
           }),
-        )
-        .filter((option: OptionProps) => {
-          /** Return all result if `filterOption` is false. */
-          if (filterOption === false) {
-            return true;
-          }
-          return filterOption(targetMeasureText, option);
-        });
-      return list;
+        );
+      }
+
+      return list.filter((option: OptionProps) => {
+        /** Return all result if `filterOption` is false. */
+        if (filterOption === false) {
+          return true;
+        }
+        return filterOption(targetMeasureText, option);
+      });
     },
-    [children, filterOption],
+    [children, options, filterOption],
   );
 
-  const options = React.useMemo(
+  const mergedOptions = React.useMemo(
     () => getOptions(mergedMeasureText),
     [getOptions, mergedMeasureText],
   );
@@ -287,7 +299,7 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
 
     if (which === KeyCode.UP || which === KeyCode.DOWN) {
       // Control arrow function
-      const optionLen = options.length;
+      const optionLen = mergedOptions.length;
       const offset = which === KeyCode.UP ? -1 : 1;
       const newActiveIndex = (activeIndex + offset + optionLen) % optionLen;
       setActiveIndex(newActiveIndex);
@@ -297,11 +309,11 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
     } else if (which === KeyCode.ENTER) {
       // Measure hit
       event.preventDefault();
-      if (!options.length) {
+      if (!mergedOptions.length) {
         stopMeasure();
         return;
       }
-      const option = options[activeIndex];
+      const option = mergedOptions[activeIndex];
       selectOption(option);
     }
   };
@@ -441,7 +453,7 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
               transitionName={transitionName}
               placement={placement}
               direction={direction}
-              options={options}
+              options={mergedOptions}
               visible
               getPopupContainer={getPopupContainer}
               dropdownClassName={dropdownClassName}

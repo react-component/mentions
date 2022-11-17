@@ -14,11 +14,23 @@ describe('Mentions', () => {
     props?: MentionsProps & { ref?: React.Ref<MentionsRef> },
   ) {
     return (
-      <Mentions {...props}>
-        <Option value="bamboo">Bamboo</Option>
-        <Option value="light">Light</Option>
-        <Option value="cat">Cat</Option>
-      </Mentions>
+      <Mentions
+        options={[
+          {
+            value: 'bamboo',
+            label: 'Bamboo',
+          },
+          {
+            value: 'light',
+            label: 'Light',
+          },
+          {
+            value: 'cat',
+            label: 'Cat',
+          },
+        ]}
+        {...props}
+      />
     );
   }
 
@@ -106,6 +118,46 @@ describe('Mentions', () => {
 
     it('controlled value', () => {
       const { container, rerender } = renderMentions({ value: 'bamboo' });
+      expect(container.querySelector('textarea').value).toBe('bamboo');
+
+      rerender(createMentions({ value: 'cat' }));
+      expect(container.querySelector('textarea').value).toBe('cat');
+
+      rerender(createMentions({ value: undefined }));
+      expect(container.querySelector('textarea').value).toBe('');
+    });
+
+    it('onChange', () => {
+      const onChange = jest.fn();
+      const { container } = renderMentions({ onChange });
+      fireEvent.change(container.querySelector('textarea'), {
+        target: { value: 'bamboo' },
+      });
+      expect(onChange).toHaveBeenCalledWith('bamboo');
+    });
+  });
+
+  describe('support children Option', () => {
+    function renderOptionsMentions(
+      props?: MentionsProps & { ref?: React.Ref<MentionsRef> },
+    ) {
+      return render(
+        <Mentions {...props}>
+          <Option value="bamboo">Bamboo</Option>
+          <Option value="light">Light</Option>
+          <Option value="cat">Cat</Option>
+        </Mentions>,
+      );
+    }
+    it('defaultValue', () => {
+      const { container } = renderOptionsMentions({ defaultValue: 'light' });
+      expect(container.querySelector('textarea').value).toBe('light');
+    });
+
+    it('controlled value', () => {
+      const { container, rerender } = renderOptionsMentions({
+        value: 'bamboo',
+      });
       expect(container.querySelector('textarea').value).toBe('bamboo');
 
       rerender(createMentions({ value: 'cat' }));
