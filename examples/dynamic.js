@@ -35,16 +35,16 @@ class Demo extends React.Component {
 
     fetch(`https://api.github.com/search/users?q=${key}`)
       .then(res => res.json())
-      .then(({ items = [] }) => {
+      .then(({ options = [] }) => {
         const { search } = this.state;
         if (search !== key) {
-          console.log('Out Of Date >', key, items);
+          console.log('Out Of Date >', key, options);
           return;
         }
 
-        console.log('Fetch Users >', items);
+        console.log('Fetch Users >', options);
         this.setState({
-          users: items.slice(0, 10),
+          users: options.slice(0, 10),
           loading: false,
         });
       });
@@ -53,9 +53,9 @@ class Demo extends React.Component {
   render() {
     const { users, loading, search } = this.state;
 
-    let items;
+    let options;
     if (loading) {
-      items = [
+      options = [
         {
           value: search,
           disabled: true,
@@ -63,7 +63,7 @@ class Demo extends React.Component {
         },
       ];
     } else {
-      items = users.map(({ login, avatar_url: avatar }) => ({
+      options = users.map(({ login, avatar_url: avatar }) => ({
         key: login,
         value: login,
         className: 'dynamic-option',
@@ -82,7 +82,7 @@ class Demo extends React.Component {
           onSearch={this.onSearch}
           style={{ width: '100%' }}
           autoFocus
-          items={items}
+          options={options}
         />
         search: <code>{search}</code>
       </div>

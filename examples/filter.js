@@ -20,7 +20,7 @@ class Demo extends React.Component {
           style={{ width: '100%', fontSize: 30 }}
           filterOption={filterOption}
           autoFocus
-          items={[
+          options={[
             {
               value: 'light',
               id: '1128',

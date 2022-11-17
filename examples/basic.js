@@ -26,7 +26,7 @@ class Demo extends React.Component {
           defaultValue="Hello World"
           onSelect={this.onSelect}
           onFocus={this.onFocus}
-          items={[
+          options={[
             {
               value: 'light',
               label: 'Light',

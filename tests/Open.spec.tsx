@@ -11,7 +11,7 @@ describe('Mentions.Open', () => {
       <Mentions
         open
         defaultValue="@cat @"
-        items={[
+        options={[
           {
             value: 'light',
             label: 'Light',

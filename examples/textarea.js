@@ -5,14 +5,12 @@ import Mentions from '../src';
 import '../assets/index.less';
 import './textarea.less';
 
-const { Option } = Mentions;
-
 export default () => (
   <div>
     <Mentions
       placeholder="disabled"
       disabled
-      items={[
+      options={[
         {
           value: 'light',
           label: 'Light',
@@ -31,7 +29,7 @@ export default () => (
     <Mentions
       placeholder="readonly"
       readOnly
-      items={[
+      options={[
         {
           value: 'light',
           label: 'Light',
@@ -52,7 +50,7 @@ export default () => (
         placeholder="Support AutoSize"
         autoSize
         transitionName="motion-zoom"
-        items={[
+        options={[
           {
             value: 'light',
             label: 'Light',
@@ -74,7 +72,7 @@ export default () => (
         placeholder="placement: top"
         placement="top"
         transitionName="motion-zoom"
-        items={[
+        options={[
           {
             value: 'light',
             label: 'Light',
@@ -96,7 +94,7 @@ export default () => (
         placeholder="direction: rtl"
         direction="rtl"
         transitionName="motion-zoom"
-        items={[
+        options={[
           {
             value: 'light',
             label: 'Light',

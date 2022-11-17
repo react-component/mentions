@@ -13,7 +13,7 @@ describe('Mentions', () => {
   ) {
     return (
       <Mentions
-        items={[
+        options={[
           {
             value: 'bamboo',
             label: 'Bamboo',

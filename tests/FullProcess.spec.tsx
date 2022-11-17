@@ -10,7 +10,7 @@ describe('Full Process', () => {
     return render(
       <Mentions
         {...props}
-        items={[
+        options={[
           {
             value: 'bamboo',
             label: 'Bamboo',
@@ -147,7 +147,7 @@ describe('Full Process', () => {
   it('should support same value', () => {
     const { container } = render(
       <Mentions
-        items={[
+        options={[
           {
             value: 'bamboo',
             label: 'Bamboo',

@@ -53,7 +53,7 @@ export interface MentionsProps extends BaseTextareaAttrs {
   /** @private Testing usage. Do not use in prod. It will not work as your expect. */
   open?: boolean;
   children?: React.ReactNode;
-  items?: OptionProps[];
+  options?: OptionProps[];
 }
 
 export interface MentionsRef {
@@ -78,7 +78,7 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
     value,
     defaultValue,
     children,
-    items,
+    options,
     open,
 
     // Events
@@ -190,8 +190,8 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
   const getOptions = React.useCallback(
     (targetMeasureText: string) => {
       let list;
-      if (items && items.length > 0) {
-        list = items.map(item => ({
+      if (options && options.length > 0) {
+        list = options.map(item => ({
           ...item,
           key: item?.key ?? item.value,
         }));
@@ -218,10 +218,10 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
         return filterOption(targetMeasureText, option);
       });
     },
-    [children, items, filterOption],
+    [children, options, filterOption],
   );
 
-  const options = React.useMemo(
+  const mergedOptions = React.useMemo(
     () => getOptions(mergedMeasureText),
     [getOptions, mergedMeasureText],
   );
@@ -295,7 +295,7 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
 
     if (which === KeyCode.UP || which === KeyCode.DOWN) {
       // Control arrow function
-      const optionLen = options.length;
+      const optionLen = mergedOptions.length;
       const offset = which === KeyCode.UP ? -1 : 1;
       const newActiveIndex = (activeIndex + offset + optionLen) % optionLen;
       setActiveIndex(newActiveIndex);
@@ -305,11 +305,11 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
     } else if (which === KeyCode.ENTER) {
       // Measure hit
       event.preventDefault();
-      if (!options.length) {
+      if (!mergedOptions.length) {
         stopMeasure();
         return;
       }
-      const option = options[activeIndex];
+      const option = mergedOptions[activeIndex];
       selectOption(option);
     }
   };
@@ -449,7 +449,7 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
               transitionName={transitionName}
               placement={placement}
               direction={direction}
-              options={options}
+              options={mergedOptions}
               visible
               getPopupContainer={getPopupContainer}
               dropdownClassName={dropdownClassName}

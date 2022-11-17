@@ -9,7 +9,7 @@ export default () => (
     rows={3}
     defaultValue="Hello @ World @"
     open
-    items={[
+    options={[
       {
         value: 'light',
         label: 'Light',
