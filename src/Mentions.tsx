@@ -28,6 +28,16 @@ type BaseTextareaAttrs = Omit<
 export type Placement = 'top' | 'bottom';
 export type Direction = 'ltr' | 'rtl';
 
+export interface DataDrivenOptionProps {
+  value?: string;
+  label?: string | React.ReactNode;
+  key?: string;
+  disabled?: boolean;
+  children?: React.ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+}
+
 export interface MentionsProps extends BaseTextareaAttrs {
   autoFocus?: boolean;
   className?: string;
@@ -53,7 +63,7 @@ export interface MentionsProps extends BaseTextareaAttrs {
   /** @private Testing usage. Do not use in prod. It will not work as your expect. */
   open?: boolean;
   children?: React.ReactNode;
-  options?: OptionProps[];
+  options?: DataDrivenOptionProps[];
 }
 
 export interface MentionsRef {

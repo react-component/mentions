@@ -1,9 +1,7 @@
 import Trigger from 'rc-trigger';
 import * as React from 'react';
 import DropdownMenu from './DropdownMenu';
-import type { OptionProps } from './Option';
-
-import type { Direction, Placement } from './Mentions';
+import type { Direction, Placement, DataDrivenOptionProps } from './Mentions';
 
 const BUILT_IN_PLACEMENTS = {
   bottomRight: {
@@ -42,7 +40,7 @@ const BUILT_IN_PLACEMENTS = {
 
 interface KeywordTriggerProps {
   loading?: boolean;
-  options: OptionProps[];
+  options: DataDrivenOptionProps[];
   prefixCls?: string;
   placement?: Placement;
   direction?: Direction;
@@ -65,7 +63,7 @@ class KeywordTrigger extends React.Component<KeywordTriggerProps, {}> {
 
   public getDropDownPlacement = () => {
     const { placement, direction } = this.props;
-    let popupPlacement = 'topRight';
+    let popupPlacement;
     if (direction === 'rtl') {
       popupPlacement = placement === 'top' ? 'topLeft' : 'bottomLeft';
     } else {

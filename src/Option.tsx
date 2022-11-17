@@ -1,8 +1,7 @@
-import * as React from 'react';
+import type * as React from 'react';
 
 export interface OptionProps {
   value?: string;
-  label?: string | React.ReactNode;
   key?: string;
   disabled?: boolean;
   children?: React.ReactNode;

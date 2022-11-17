@@ -1,11 +1,10 @@
 import Menu, { MenuItem } from 'rc-menu';
 import * as React from 'react';
 import MentionsContext from './MentionsContext';
-import type { OptionProps } from './Option';
-
+import type { DataDrivenOptionProps } from './Mentions';
 interface DropdownMenuProps {
   prefixCls?: string;
-  options: OptionProps[];
+  options: DataDrivenOptionProps[];
 }
 
 /**
@@ -37,7 +36,7 @@ function DropdownMenu(props: DropdownMenuProps) {
       onBlur={onBlur}
     >
       {options.map((option, index) => {
-        const { key, disabled, className, style, label, children } = option;
+        const { key, disabled, className, style, label } = option;
         return (
           <MenuItem
             key={key}
@@ -48,7 +47,7 @@ function DropdownMenu(props: DropdownMenuProps) {
               setActiveIndex(index);
             }}
           >
-            {label || children}
+            {label}
           </MenuItem>
         );
       })}
