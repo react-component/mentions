@@ -7,6 +7,8 @@ import { fireEvent, render } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import type { MentionsRef } from '../src/Mentions';
 
+const { Option } = Mentions;
+
 describe('Mentions', () => {
   function createMentions(
     props?: MentionsProps & { ref?: React.Ref<MentionsRef> },
@@ -116,6 +118,46 @@ describe('Mentions', () => {
 
     it('controlled value', () => {
       const { container, rerender } = renderMentions({ value: 'bamboo' });
+      expect(container.querySelector('textarea').value).toBe('bamboo');
+
+      rerender(createMentions({ value: 'cat' }));
+      expect(container.querySelector('textarea').value).toBe('cat');
+
+      rerender(createMentions({ value: undefined }));
+      expect(container.querySelector('textarea').value).toBe('');
+    });
+
+    it('onChange', () => {
+      const onChange = jest.fn();
+      const { container } = renderMentions({ onChange });
+      fireEvent.change(container.querySelector('textarea'), {
+        target: { value: 'bamboo' },
+      });
+      expect(onChange).toHaveBeenCalledWith('bamboo');
+    });
+  });
+
+  describe('support option', () => {
+    function renderOptionsMentions(
+      props?: MentionsProps & { ref?: React.Ref<MentionsRef> },
+    ) {
+      return render(
+        <Mentions {...props}>
+          <Option value="bamboo">Bamboo</Option>
+          <Option value="light">Light</Option>
+          <Option value="cat">Cat</Option>
+        </Mentions>,
+      );
+    }
+    it('defaultValue', () => {
+      const { container } = renderOptionsMentions({ defaultValue: 'light' });
+      expect(container.querySelector('textarea').value).toBe('light');
+    });
+
+    it('controlled value', () => {
+      const { container, rerender } = renderOptionsMentions({
+        value: 'bamboo',
+      });
       expect(container.querySelector('textarea').value).toBe('bamboo');
 
       rerender(createMentions({ value: 'cat' }));
