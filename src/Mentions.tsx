@@ -209,6 +209,7 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
             key: React.Key;
           }) => ({
             ...optionProps,
+            label: optionProps.children,
             key: (key || optionProps.value) as string,
           }),
         );
