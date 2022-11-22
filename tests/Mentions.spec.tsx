@@ -175,6 +175,18 @@ describe('Mentions', () => {
       });
       expect(onChange).toHaveBeenCalledWith('bamboo');
     });
+
+    it('do not lose label', () => {
+      const { container } = renderOptionsMentions();
+      simulateInput(container, '@');
+      fireEvent.mouseEnter(
+        container.querySelector('li.rc-mentions-dropdown-menu-item:last-child'),
+      );
+      expect(
+        container.querySelector('.rc-mentions-dropdown-menu-item-active')
+          .textContent,
+      ).toBe('Cat');
+    });
   });
 
   describe('filterOption', () => {
