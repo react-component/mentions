@@ -38,3 +38,8 @@ tslint.json
 tsconfig.test.json
 .prettierignore
 .doc/
+
+# dumi
+.dumi/tmp
+.dumi/tmp-test
+.dumi/tmp-production

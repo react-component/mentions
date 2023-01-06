@@ -1,8 +1,6 @@
-/* eslint no-console: 0 */
-
 import React from 'react';
-import Mentions from '../src';
-import '../assets/index.less';
+import Mentions from 'rc-mentions';
+import '../../assets/index.less';
 import './textarea.less';
 
 export default () => (

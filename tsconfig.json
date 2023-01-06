@@ -3,14 +3,14 @@
     "target": "esnext",
     "moduleResolution": "node",
     "baseUrl": "./",
-    "jsx": "preserve",
+    "jsx": "react",
     "declaration": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "paths": {
       "@/*": ["src/*"],
-      "@@/*": ["src/.umi/*"],
-      "rc-menu": ["src/index.tsx"]
+      "@@/*": [".dumi/tmp/*"],
+      "rc-mentions": ["src/index.ts"]
     }
   }
 }
