@@ -33,7 +33,6 @@ es/
 package-lock.json
 src/*.js
 src/*.map
-jest.config.js
 tslint.json
 tsconfig.test.json
 .prettierignore
