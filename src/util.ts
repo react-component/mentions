@@ -122,8 +122,7 @@ export function setInputSelection(
   input.focus();
 }
 
-export function validateSearch(text: string, props: MentionsProps) {
-  const { split } = props;
+export function validateSearch(text: string, split: MentionsProps['split']) {
   return !split || text.indexOf(split) === -1;
 }
 

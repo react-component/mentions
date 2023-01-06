@@ -1,11 +1,11 @@
-import React, { createRef } from 'react';
-import KeyCode from 'rc-util/lib/KeyCode';
-import Mentions from '../src';
-import type { MentionsProps } from '../src';
-import { expectMatchOptions, expectMeasuring, simulateInput } from './util';
 import { fireEvent, render } from '@testing-library/react';
+import KeyCode from 'rc-util/lib/KeyCode';
+import React, { createRef } from 'react';
 import { act } from 'react-dom/test-utils';
+import type { MentionsProps } from '../src';
+import Mentions from '../src';
 import type { MentionsRef } from '../src/Mentions';
+import { expectMatchOptions, expectMeasuring, simulateInput } from './util';
 
 const { Option } = Mentions;
 
@@ -242,6 +242,15 @@ describe('Mentions', () => {
     expect(
       container.querySelector('.my-dropdown.rc-mentions-dropdown'),
     ).toBeTruthy();
+  });
+
+  it('should support direction', () => {
+    const { container } = renderMentions({ direction: 'rtl' });
+    simulateInput(container, '@');
+    act(() => {
+      jest.runAllTimers();
+    });
+    expect(container.querySelector('.rc-mentions-dropdown')).toBeTruthy();
   });
 
   it('should support textarea in ref', () => {

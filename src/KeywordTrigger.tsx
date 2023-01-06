@@ -1,7 +1,8 @@
 import Trigger from 'rc-trigger';
 import * as React from 'react';
+import { FC, useMemo } from 'react';
 import DropdownMenu from './DropdownMenu';
-import type { Direction, Placement, DataDrivenOptionProps } from './Mentions';
+import type { DataDrivenOptionProps, Direction, Placement } from './Mentions';
 
 const BUILT_IN_PLACEMENTS = {
   bottomRight: {
@@ -51,18 +52,26 @@ interface KeywordTriggerProps {
   dropdownClassName?: string;
 }
 
-class KeywordTrigger extends React.Component<KeywordTriggerProps, {}> {
-  public getDropdownPrefix = () => `${this.props.prefixCls}-dropdown`;
+const KeywordTrigger: FC<KeywordTriggerProps> = props => {
+  const {
+    prefixCls,
+    options,
+    children,
+    visible,
+    transitionName,
+    getPopupContainer,
+    dropdownClassName,
+    direction,
+    placement,
+  } = props;
 
-  public getDropdownElement = () => {
-    const { options } = this.props;
-    return (
-      <DropdownMenu prefixCls={this.getDropdownPrefix()} options={options} />
-    );
-  };
+  const dropdownPrefix = `${prefixCls}-dropdown`;
 
-  public getDropDownPlacement = () => {
-    const { placement, direction } = this.props;
+  const dropdownElement = (
+    <DropdownMenu prefixCls={dropdownPrefix} options={options} />
+  );
+
+  const dropdownPlacement = useMemo(() => {
     let popupPlacement;
     if (direction === 'rtl') {
       popupPlacement = placement === 'top' ? 'topLeft' : 'bottomLeft';
@@ -70,28 +79,22 @@ class KeywordTrigger extends React.Component<KeywordTriggerProps, {}> {
       popupPlacement = placement === 'top' ? 'topRight' : 'bottomRight';
     }
     return popupPlacement;
-  };
+  }, [direction, placement]);
 
-  public render() {
-    const { children, visible, transitionName, getPopupContainer } = this.props;
-
-    const popupElement = this.getDropdownElement();
-
-    return (
-      <Trigger
-        prefixCls={this.getDropdownPrefix()}
-        popupVisible={visible}
-        popup={popupElement}
-        popupPlacement={this.getDropDownPlacement()}
-        popupTransitionName={transitionName}
-        builtinPlacements={BUILT_IN_PLACEMENTS}
-        getPopupContainer={getPopupContainer}
-        popupClassName={this.props.dropdownClassName}
-      >
-        {children}
-      </Trigger>
-    );
-  }
-}
+  return (
+    <Trigger
+      prefixCls={dropdownPrefix}
+      popupVisible={visible}
+      popup={dropdownElement}
+      popupPlacement={dropdownPlacement}
+      popupTransitionName={transitionName}
+      builtinPlacements={BUILT_IN_PLACEMENTS}
+      getPopupContainer={getPopupContainer}
+      popupClassName={dropdownClassName}
+    >
+      {children}
+    </Trigger>
+  );
+};
 
 export default KeywordTrigger;

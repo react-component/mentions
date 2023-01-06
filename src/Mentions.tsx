@@ -1,11 +1,12 @@
 import classNames from 'classnames';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import type { TextAreaProps } from 'rc-textarea';
+import TextArea from 'rc-textarea';
 import toArray from 'rc-util/lib/Children/toArray';
+import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import KeyCode from 'rc-util/lib/KeyCode';
 import warning from 'rc-util/lib/warning';
 import React, { useEffect, useRef, useState } from 'react';
-import type { TextAreaProps } from 'rc-textarea';
-import TextArea from 'rc-textarea';
+import useEffectState from './hooks/useEffectState';
 import KeywordTrigger from './KeywordTrigger';
 import MentionsContext from './MentionsContext';
 import type { OptionProps } from './Option';
@@ -18,7 +19,6 @@ import {
   setInputSelection,
   validateSearch as defaultValidateSearch,
 } from './util';
-import useEffectState from './hooks/useEffectState';
 
 type BaseTextareaAttrs = Omit<
   TextAreaProps,
@@ -71,14 +71,14 @@ export interface MentionsRef {
 const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
   const {
     // Style
-    prefixCls,
+    prefixCls = 'rc-mentions',
     className,
     style,
 
     // Misc
-    prefix,
-    split,
-    notFoundContent,
+    prefix = '@',
+    split = ' ',
+    notFoundContent = 'Not Found',
     value,
     defaultValue,
     children,
@@ -86,8 +86,8 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
     open,
 
     // Events
-    validateSearch,
-    filterOption,
+    validateSearch = defaultValidateSearch,
+    filterOption = defaultFilterOption,
     onChange,
     onKeyDown,
     onKeyUp,
@@ -105,15 +105,13 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
     getPopupContainer,
     dropdownClassName,
 
+    rows = 1,
+
     // Rest
     ...restProps
   } = props;
 
   const mergedPrefix = Array.isArray(prefix) ? prefix : [prefix];
-  const mergedProps = {
-    ...props,
-    prefix: mergedPrefix,
-  };
 
   // =============================== Refs ===============================
   const textareaRef = useRef<TextArea>(null);
@@ -355,10 +353,7 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
       const nextMeasureText = selectionStartText.slice(
         measureIndex + nextMeasurePrefix.length,
       );
-      const validateMeasure: boolean = validateSearch(
-        nextMeasureText,
-        mergedProps,
-      );
+      const validateMeasure: boolean = validateSearch(nextMeasureText, split);
       const matchOption = !!getOptions(nextMeasureText).length;
 
       if (validateMeasure) {
@@ -429,6 +424,7 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
         ref={textareaRef}
         value={mergedValue}
         {...restProps}
+        rows={rows}
         onChange={onInternalChange}
         onKeyDown={onInternalKeyDown}
         onKeyUp={onInternalKeyUp}
@@ -473,16 +469,6 @@ const Mentions = React.forwardRef<MentionsRef, MentionsProps>((props, ref) => {
   React.PropsWithoutRef<MentionsProps> & React.RefAttributes<MentionsRef>
 > & {
   Option: typeof Option;
-};
-
-Mentions.defaultProps = {
-  prefixCls: 'rc-mentions',
-  prefix: '@',
-  split: ' ',
-  validateSearch: defaultValidateSearch,
-  filterOption: defaultFilterOption,
-  notFoundContent: 'Not Found',
-  rows: 1,
 };
 
 Mentions.Option = Option;
