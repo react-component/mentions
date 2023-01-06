@@ -1,18 +1,13 @@
 # rc-mentions
 
 [![NPM version][npm-image]][npm-url]
-[![build status][travis-image]][travis-url]
 [![Test coverage][codecov-image]][codecov-url]
 [![Dependencies](https://img.shields.io/david/react-component/mentions.svg?style=flat-square)](https://david-dm.org/react-component/mentions)
 [![DevDependencies](https://img.shields.io/david/dev/react-component/mentions.svg?style=flat-square)](https://david-dm.org/react-component/mentions?type=dev)
 [![npm download][download-image]][download-url]
-[![Storybook](https://gw.alipayobjects.com/mdn/ob_info/afts/img/A*CQXNTZfK1vwAAAAAAAAAAABjAQAAAQ/original)](https://github.com/react-component/mentions)
 
-[storybook]: https://github.com/storybooks/press/blob/master/badges/storybook.svg
 [npm-image]: http://img.shields.io/npm/v/rc-mentions.svg?style=flat-square
 [npm-url]: http://npmjs.org/package/rc-mentions
-[travis-image]: https://img.shields.io/travis/react-component/mentions.svg?style=flat-square
-[travis-url]: https://travis-ci.org/react-component/mentions
 [codecov-image]: https://img.shields.io/codecov/c/github/react-component/mentions.svg?style=flat-square
 [codecov-url]: https://codecov.io/gh/react-component/mentions/branch/master
 [node-image]: https://img.shields.io/badge/node.js-%3E=_0.10-green.svg?style=flat-square
