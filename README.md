@@ -1,9 +1,5 @@
 # rc-mentions
 
----
-
-React Mentions
-
 [![NPM version][npm-image]][npm-url]
 [![build status][travis-image]][travis-url]
 [![Test coverage][codecov-image]][codecov-url]
@@ -67,30 +63,30 @@ React.render(<Demo />, container);
 
 ### Mentions props
 
-| name              | description                                                                                             | type                                                     | default     |
-| ----------------- | ------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- | ----------- |
-| autoFocus         | Auto get focus when component mounted                                                                   | boolean                                                  | `false`     |
-| defaultValue      | Default value                                                                                           | string                                                   | -           |
-| filterOption      | Customize filter option logic                                                                           | false \| (input: string, option: OptionProps) => boolean | -           |
-| notFoundContent   | Set mentions content when not match                                                                     | ReactNode                                                | 'Not Found' |
-| placement         | Set popup placement                                                                                     | 'top' \| 'bottom'                                        | 'bottom'    |
-| direction         | Set popup direction                                                                                     | 'ltr' \| 'rtl'                                           | 'ltr'       |
-| prefix            | Set trigger prefix keyword                                                                              | string \| string[]                                       | '@'         |
-| rows              | Set row count                                                                                           | number                                                   | 1           |
-| split             | Set split string before and after selected mention                                                      | string                                                   | ' '         |
-| validateSearch    | Customize trigger search logic                                                                          | (text: string, props: MentionsProps) => void             | -           |
-| value             | Set value of mentions                                                                                   | string                                                   | -           |
-| onChange          | Trigger when value changed                                                                              | (text: string) => void                                   | -           |
-| onKeyDown         | Trigger when user hits a key                                                                            | React.KeyboardEventHandler&lt;HTMLTextAreaElement&gt;    | -           |
-| onKeyUp           | Trigger when user releases a key                                                                        | React.KeyboardEventHandler&lt;HTMLTextAreaElement&gt;    | -           |
-| onSelect          | Trigger when user select the option                                                                     | (option: OptionProps, prefix: string) => void            | -           |
-| onSearch          | Trigger when prefix hit                                                                                 | (text: string, prefix: string) => void                   | -           |
-| onFocus           | Trigger when mentions get focus                                                                         | React.FocusEventHandler&lt;HTMLTextAreaElement&gt;       | -           |
-| onBlur            | Trigger when mentions lose focus                                                                        | React.FocusEventHandler&lt;HTMLTextAreaElement&gt;       | -           |
-| getPopupContainer | DOM Container for suggestions                                                                           | () => HTMLElement                                        | -           |
-| autoSize          | Textarea height autosize feature, can be set to `true\|false` or an object `{ minRows: 2, maxRows: 6 }` | boolean \| object                                        | -           |
-| onPressEnter      | The callback function that is triggered when Enter key is pressed                                       | function(e)                                              | -           |
-| onResize          | The callback function that is triggered when textarea resize                                            | function({ width, height })                              | -           |
+| name              | description                                                                                             | type                                                       | default     |
+| ----------------- | ------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ----------- |
+| autoFocus         | Auto get focus when component mounted                                                                   | `boolean`                                                  | `false`     |
+| defaultValue      | Default value                                                                                           | `string`                                                   | -           |
+| filterOption      | Customize filter option logic                                                                           | `false \| (input: string, option: OptionProps) => boolean` | -           |
+| notFoundContent   | Set mentions content when not match                                                                     | `ReactNode`                                                | 'Not Found' |
+| placement         | Set popup placement                                                                                     | `'top' \| 'bottom'`                                        | 'bottom'    |
+| direction         | Set popup direction                                                                                     | `'ltr' \| 'rtl'`                                           | 'ltr'       |
+| prefix            | Set trigger prefix keyword                                                                              | `string \| string[]`                                       | '@'         |
+| rows              | Set row count                                                                                           | `number`                                                   | 1           |
+| split             | Set split string before and after selected mention                                                      | `string`                                                   | ' '         |
+| validateSearch    | Customize trigger search logic                                                                          | `(text: string, props: MentionsProps) => void`             | -           |
+| value             | Set value of mentions                                                                                   | `string`                                                   | -           |
+| onChange          | Trigger when value changed                                                                              | `(text: string) => void`                                   | -           |
+| onKeyDown         | Trigger when user hits a key                                                                            | `React.KeyboardEventHandler<HTMLTextAreaElement>`          | -           |
+| onKeyUp           | Trigger when user releases a key                                                                        | `React.KeyboardEventHandler<HTMLTextAreaElement>`          | -           |
+| onSelect          | Trigger when user select the option                                                                     | `(option: OptionProps, prefix: string) => void`            | -           |
+| onSearch          | Trigger when prefix hit                                                                                 | `(text: string, prefix: string) => void`                   | -           |
+| onFocus           | Trigger when mentions get focus                                                                         | `React.FocusEventHandler<HTMLTextAreaElement>`             | -           |
+| onBlur            | Trigger when mentions lose focus                                                                        | `React.FocusEventHandler<HTMLTextAreaElement>`             | -           |
+| getPopupContainer | DOM Container for suggestions                                                                           | `() => HTMLElement`                                        | -           |
+| autoSize          | Textarea height autosize feature, can be set to `true\|false` or an object `{ minRows: 2, maxRows: 6 }` | `boolean \| object`                                        | -           |
+| onPressEnter      | The callback function that is triggered when Enter key is pressed                                       | `function(e)`                                              | -           |
+| onResize          | The callback function that is triggered when textarea resize                                            | `function({ width, height })`                              | -           |
 
 ### Methods
 

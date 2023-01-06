@@ -15,7 +15,7 @@ jobs:
 
       - uses: actions/setup-node@v1
         with:
-          node-version: '16'
+          node-version: '12'
 
       - name: cache package-lock.json
         uses: actions/cache@v2
@@ -32,7 +32,6 @@ jobs:
             mkdir package-temp-dir
           fi
           cp package-lock.json package-temp-dir
-
       - name: cache node_modules
         id: node_modules_cache_id
         uses: actions/cache@v2
