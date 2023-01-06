@@ -27,13 +27,16 @@
   ],
   "scripts": {
     "compile": "father build",
+    "coverage": "rc-test --coverage",
     "docs:build": "dumi build",
+    "docs:deploy": "gh-pages -d .doc",
+    "gh-pages": "npm run docs:build && npm run docs:deploy",
     "lint": "eslint src/ --ext .tsx,.ts",
     "prepare": "husky install",
     "prepublishOnly": "npm run compile && np --yolo --no-publish",
+    "postpublish": "npm run gh-pages",
     "start": "dumi dev",
-    "test": "rc-test",
-    "test:coverage": "rc-test --coverage"
+    "test": "rc-test"
   },
   "lint-staged": {
     "**/*.{js,jsx,tsx,ts,md,json}": [
@@ -61,6 +64,7 @@
     "dumi": "^2.0.18",
     "eslint": "^7.0.0",
     "father": "^4.0.0",
+    "gh-pages": "^4.0.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.1.0",
     "np": "^7.0.0",
