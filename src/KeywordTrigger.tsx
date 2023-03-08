@@ -1,6 +1,7 @@
-import Trigger from 'rc-trigger';
+import Trigger from '@rc-component/trigger';
+import type { FC } from 'react';
 import * as React from 'react';
-import { FC, useMemo } from 'react';
+import { useMemo } from 'react';
 import DropdownMenu from './DropdownMenu';
 import type { DataDrivenOptionProps, Direction, Placement } from './Mentions';
 
