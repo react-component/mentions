@@ -1,8 +1,8 @@
+import { fireEvent, render } from '@testing-library/react';
 import KeyCode from 'rc-util/lib/KeyCode';
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
-import Mentions from '../src';
 import type { MentionsProps } from '../src';
+import Mentions from '../src';
 import { expectMatchOptions, expectMeasuring, simulateInput } from './util';
 
 describe('Full Process', () => {
@@ -145,7 +145,7 @@ describe('Full Process', () => {
   });
 
   it('should support same value', () => {
-    const { container } = render(
+    const { container, baseElement } = render(
       <Mentions
         options={[
           {
@@ -170,7 +170,7 @@ describe('Full Process', () => {
 
     simulateInput(container, '@');
     expect(
-      container.querySelectorAll('li.rc-mentions-dropdown-menu-item-active'),
+      baseElement.querySelectorAll('li.rc-mentions-dropdown-menu-item-active'),
     ).toHaveLength(2);
   });
 
