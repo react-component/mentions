@@ -56,7 +56,7 @@ describe('Mentions', () => {
 
     it('not lose focus if click on dropdown', () => {
       const onBlur = jest.fn();
-      const { container } = renderMentions({
+      const { container, baseElement } = renderMentions({
         autoFocus: true,
         defaultValue: '@',
         onBlur,
@@ -69,11 +69,11 @@ describe('Mentions', () => {
       });
 
       fireEvent.focus(
-        container.querySelector('li.rc-mentions-dropdown-menu-item'),
+        baseElement.querySelector('li.rc-mentions-dropdown-menu-item'),
       );
       fireEvent.blur(container.querySelector('textarea'));
       fireEvent.click(
-        container.querySelector('li.rc-mentions-dropdown-menu-item'),
+        baseElement.querySelector('li.rc-mentions-dropdown-menu-item'),
       );
       fireEvent.focus(container.querySelector('textarea'));
 
@@ -177,13 +177,15 @@ describe('Mentions', () => {
     });
 
     it('do not lose label', () => {
-      const { container } = renderOptionsMentions();
+      const { container, baseElement } = renderOptionsMentions();
       simulateInput(container, '@');
       fireEvent.mouseEnter(
-        container.querySelector('li.rc-mentions-dropdown-menu-item:last-child'),
+        baseElement.querySelector(
+          'li.rc-mentions-dropdown-menu-item:last-child',
+        ),
       );
       expect(
-        container.querySelector('.rc-mentions-dropdown-menu-item-active')
+        baseElement.querySelector('.rc-mentions-dropdown-menu-item-active')
           .textContent,
       ).toBe('Cat');
     });
@@ -224,33 +226,37 @@ describe('Mentions', () => {
 
   describe('accessibility', () => {
     it('hover', () => {
-      const { container } = renderMentions();
+      const { container, baseElement } = renderMentions();
       simulateInput(container, '@');
       fireEvent.mouseEnter(
-        container.querySelector('li.rc-mentions-dropdown-menu-item:last-child'),
+        baseElement.querySelector(
+          'li.rc-mentions-dropdown-menu-item:last-child',
+        ),
       );
       expect(
-        container.querySelector('.rc-mentions-dropdown-menu-item-active')
+        baseElement.querySelector('.rc-mentions-dropdown-menu-item-active')
           .textContent,
       ).toBe('Cat');
     });
   });
 
   it('dropdownClassName should work', () => {
-    const { container } = renderMentions({ dropdownClassName: 'my-dropdown' });
+    const { container, baseElement } = renderMentions({
+      dropdownClassName: 'my-dropdown',
+    });
     simulateInput(container, '@');
     expect(
-      container.querySelector('.my-dropdown.rc-mentions-dropdown'),
+      baseElement.querySelector('.my-dropdown.rc-mentions-dropdown'),
     ).toBeTruthy();
   });
 
   it('should support direction', () => {
-    const { container } = renderMentions({ direction: 'rtl' });
+    const { container, baseElement } = renderMentions({ direction: 'rtl' });
     simulateInput(container, '@');
     act(() => {
       jest.runAllTimers();
     });
-    expect(container.querySelector('.rc-mentions-dropdown')).toBeTruthy();
+    expect(baseElement.querySelector('.rc-mentions-dropdown')).toBeTruthy();
   });
 
   it('should support textarea in ref', () => {
