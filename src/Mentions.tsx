@@ -6,7 +6,7 @@ import toArray from 'rc-util/lib/Children/toArray';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import KeyCode from 'rc-util/lib/KeyCode';
 import warning from 'rc-util/lib/warning';
-import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
 import useEffectState from './hooks/useEffectState';
 import KeywordTrigger from './KeywordTrigger';
 import MentionsContext from './MentionsContext';
@@ -113,7 +113,10 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
       ...restProps
     } = props;
 
-    const mergedPrefix = Array.isArray(prefix) ? prefix : [prefix];
+    const mergedPrefix = useMemo(
+      () => (Array.isArray(prefix) ? prefix : [prefix]),
+      [prefix],
+    );
 
     // =============================== Refs ===============================
     const textareaRef = useRef<TextAreaRef>(null);
