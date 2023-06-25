@@ -1,19 +1,30 @@
 # rc-mentions
 
 [![NPM version][npm-image]][npm-url]
-[![Test coverage][codecov-image]][codecov-url]
-[![Dependencies](https://img.shields.io/david/react-component/mentions.svg?style=flat-square)](https://david-dm.org/react-component/mentions)
-[![DevDependencies](https://img.shields.io/david/dev/react-component/mentions.svg?style=flat-square)](https://david-dm.org/react-component/mentions?type=dev)
 [![npm download][download-image]][download-url]
+[![build status][github-actions-image]][github-actions-url]
+[![Codecov][codecov-image]][codecov-url]
+[![bundle size][bundlephobia-image]][bundlephobia-url]
+[![dumi][dumi-image]][dumi-url]
 
 [npm-image]: http://img.shields.io/npm/v/rc-mentions.svg?style=flat-square
 [npm-url]: http://npmjs.org/package/rc-mentions
-[codecov-image]: https://img.shields.io/codecov/c/github/react-component/mentions.svg?style=flat-square
-[codecov-url]: https://codecov.io/gh/react-component/mentions/branch/master
-[node-image]: https://img.shields.io/badge/node.js-%3E=_0.10-green.svg?style=flat-square
-[node-url]: http://nodejs.org/download/
+[travis-image]: https://img.shields.io/travis/react-component/mentions/master?style=flat-square
+[travis-url]: https://travis-ci.com/react-component/mentions
+[github-actions-image]: https://github.com/react-component/mentions/workflows/CI/badge.svg
+[github-actions-url]: https://github.com/react-component/mentions/actions
+[codecov-image]: https://img.shields.io/codecov/c/github/react-component/mentions/master.svg?style=flat-square
+[codecov-url]: https://app.codecov.io/gh/react-component/mentions
+[david-url]: https://david-dm.org/react-component/mentions
+[david-image]: https://david-dm.org/react-component/mentions/status.svg?style=flat-square
+[david-dev-url]: https://david-dm.org/react-component/mentions?type=dev
+[david-dev-image]: https://david-dm.org/react-component/mentions/dev-status.svg?style=flat-square
 [download-image]: https://img.shields.io/npm/dm/rc-mentions.svg?style=flat-square
 [download-url]: https://npmjs.org/package/rc-mentions
+[bundlephobia-url]: https://bundlephobia.com/package/rc-mentions
+[bundlephobia-image]: https://badgen.net/bundlephobia/minzip/rc-mentions
+[dumi-url]: https://github.com/umijs/dumi
+[dumi-image]: https://img.shields.io/badge/docs%20by-dumi-blue?style=flat-square
 
 ## Screenshots
 
