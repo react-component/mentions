@@ -23,7 +23,7 @@ import {
 
 type BaseTextareaAttrs = Omit<
   TextAreaProps,
-  'prefix' | 'onChange' | 'onSelect' | 'allowClear' | 'showCount'
+  'prefix' | 'onChange' | 'onSelect' | 'showCount'
 >;
 
 export type Placement = 'top' | 'bottom';
@@ -73,7 +73,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
   (props, ref) => {
     const {
       // Style
-      prefixCls = 'rc-mentions',
+      prefixCls,
       className,
       style,
 
@@ -86,6 +86,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
       children,
       options,
       open,
+      allowClear,
 
       // Events
       validateSearch = defaultValidateSearch,
@@ -475,16 +476,56 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
 );
 
 const Mentions = forwardRef<MentionsRef, MentionsProps>(
-  ({ suffix, prefixCls, classes, value, ...rest }, ref) => {
+  (
+    {
+      suffix,
+      prefixCls = 'rc-mentions',
+      classes,
+      defaultValue,
+      value: customValue,
+      allowClear,
+      onChange,
+      ...rest
+    },
+    ref,
+  ) => {
+    // ============================== Value ===============================
+    const [mergedValue, setMergedValue] = useMergedState('', {
+      defaultValue,
+      value: customValue,
+    });
+
+    // ============================== Change ==============================
+    const triggerChange = (currentValue: string) => {
+      setMergedValue(currentValue);
+      onChange?.(currentValue);
+    };
+
+    // ============================== Reset ===============================
+    const handleReset = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+      triggerChange('');
+    };
+
     return (
       <BaseInput
         inputElement={
-          <InternalMentions prefixCls={prefixCls} ref={ref} {...rest} />
+          <InternalMentions
+            prefixCls={prefixCls}
+            ref={ref}
+            onChange={triggerChange}
+            {...rest}
+          />
         }
         suffix={suffix}
         prefixCls={prefixCls}
-        classes={classes}
-        value={value}
+        classes={{
+          affixWrapper: classNames(classes?.affixWrapper, {
+            [`${prefixCls}-mentions-allow-clear`]: allowClear,
+          }),
+        }}
+        value={mergedValue}
+        allowClear={allowClear}
+        handleReset={handleReset}
       />
     );
   },
