@@ -502,7 +502,7 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
     };
 
     // ============================== Reset ===============================
-    const handleReset = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    const handleReset = () => {
       triggerChange('');
     };
 
