@@ -2,8 +2,6 @@ import { fireEvent, render } from '@testing-library/react';
 import type { TextareaHTMLAttributes } from 'react';
 import Mentions from '../src';
 
-const { Option } = Mentions;
-
 describe('should support allowClear', () => {
   it('should change type when click', () => {
     const { container } = render(<Mentions allowClear />);
