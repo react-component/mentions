@@ -518,11 +518,7 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
         }
         suffix={suffix}
         prefixCls={prefixCls}
-        classes={{
-          affixWrapper: classNames(classes?.affixWrapper, {
-            [`${prefixCls}-mentions-allow-clear`]: allowClear,
-          }),
-        }}
+        classes={classes}
         value={mergedValue}
         allowClear={allowClear}
         handleReset={handleReset}

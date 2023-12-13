@@ -66,18 +66,4 @@ describe('should support allowClear', () => {
     expect(onChange).toHaveBeenCalledWith('');
     expect(container.querySelector('textarea')?.value).toBe('');
   });
-
-  it('should show clear className', () => {
-    const { container } = render(<Mentions allowClear />);
-    expect(
-      container.querySelector('.rc-mentions-mentions-allow-clear'),
-    ).toBeTruthy();
-  });
-
-  it('should not mentions clear className', () => {
-    const { container } = render(<Mentions />);
-    expect(
-      container.querySelector('.rc-mentions-mentions-allow-clear'),
-    ).toBeFalsy();
-  });
 });
