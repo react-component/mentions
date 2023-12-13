@@ -264,4 +264,14 @@ describe('Mentions', () => {
     const { container } = render(createMentions({ ref }));
     expect(ref.current.textarea).toBe(container.querySelector('textarea'));
   });
+
+  it('className should always on the root element', () => {
+    const ref = createRef<MentionsRef>();
+    const { container, rerender } = render(
+      createMentions({ ref, className: 'test-cls' }),
+    );
+    expect(container.firstChild).toHaveClass('test-cls');
+    rerender(createMentions({ ref, className: 'test-cls', suffix: '123' }));
+    expect(container.firstChild).toHaveClass('test-cls');
+  });
 });

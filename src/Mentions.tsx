@@ -475,7 +475,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
 );
 
 const Mentions = forwardRef<MentionsRef, MentionsProps>(
-  ({ suffix, prefixCls, classes, value, ...rest }, ref) => {
+  ({ suffix, prefixCls, classes, value, className, ...rest }, ref) => {
     return (
       <BaseInput
         inputElement={
@@ -484,6 +484,7 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
         suffix={suffix}
         prefixCls={prefixCls}
         classes={classes}
+        className={className}
         value={value}
       />
     );
