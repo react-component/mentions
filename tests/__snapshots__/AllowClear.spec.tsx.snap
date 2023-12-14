@@ -1,0 +1,157 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should support allowClear should not show icon if defaultValue is undefined, null or empty string 1`] = `
+<span
+  class="rc-mentions-affix-wrapper"
+>
+  <div
+    class="rc-mentions"
+  >
+    <textarea
+      class="rc-textarea"
+      rows="1"
+    />
+  </div>
+  <span
+    class="rc-mentions-suffix"
+  >
+    <span
+      class="rc-mentions-clear-icon rc-mentions-clear-icon-hidden"
+      role="button"
+      tabindex="-1"
+    >
+      ✖
+    </span>
+  </span>
+</span>
+`;
+
+exports[`should support allowClear should not show icon if defaultValue is undefined, null or empty string 2`] = `
+<span
+  class="rc-mentions-affix-wrapper"
+>
+  <div
+    class="rc-mentions"
+  >
+    <textarea
+      class="rc-textarea"
+      rows="1"
+    />
+  </div>
+  <span
+    class="rc-mentions-suffix"
+  >
+    <span
+      class="rc-mentions-clear-icon rc-mentions-clear-icon-hidden"
+      role="button"
+      tabindex="-1"
+    >
+      ✖
+    </span>
+  </span>
+</span>
+`;
+
+exports[`should support allowClear should not show icon if defaultValue is undefined, null or empty string 3`] = `
+<span
+  class="rc-mentions-affix-wrapper"
+>
+  <div
+    class="rc-mentions"
+  >
+    <textarea
+      class="rc-textarea"
+      rows="1"
+    />
+  </div>
+  <span
+    class="rc-mentions-suffix"
+  >
+    <span
+      class="rc-mentions-clear-icon rc-mentions-clear-icon-hidden"
+      role="button"
+      tabindex="-1"
+    >
+      ✖
+    </span>
+  </span>
+</span>
+`;
+
+exports[`should support allowClear should not show icon if value is undefined, null or empty string 1`] = `
+<span
+  class="rc-mentions-affix-wrapper"
+>
+  <div
+    class="rc-mentions"
+  >
+    <textarea
+      class="rc-textarea"
+      rows="1"
+    />
+  </div>
+  <span
+    class="rc-mentions-suffix"
+  >
+    <span
+      class="rc-mentions-clear-icon rc-mentions-clear-icon-hidden"
+      role="button"
+      tabindex="-1"
+    >
+      ✖
+    </span>
+  </span>
+</span>
+`;
+
+exports[`should support allowClear should not show icon if value is undefined, null or empty string 2`] = `
+<span
+  class="rc-mentions-affix-wrapper"
+>
+  <div
+    class="rc-mentions"
+  >
+    <textarea
+      class="rc-textarea"
+      rows="1"
+    />
+  </div>
+  <span
+    class="rc-mentions-suffix"
+  >
+    <span
+      class="rc-mentions-clear-icon rc-mentions-clear-icon-hidden"
+      role="button"
+      tabindex="-1"
+    >
+      ✖
+    </span>
+  </span>
+</span>
+`;
+
+exports[`should support allowClear should not show icon if value is undefined, null or empty string 3`] = `
+<span
+  class="rc-mentions-affix-wrapper"
+>
+  <div
+    class="rc-mentions"
+  >
+    <textarea
+      class="rc-textarea"
+      rows="1"
+    />
+  </div>
+  <span
+    class="rc-mentions-suffix"
+  >
+    <span
+      class="rc-mentions-clear-icon rc-mentions-clear-icon-hidden"
+      role="button"
+      tabindex="-1"
+    >
+      ✖
+    </span>
+  </span>
+</span>
+`;
