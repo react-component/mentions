@@ -36,3 +36,7 @@ Option has `key` and filter only hit by `key`
 ## Debug
 
 <code src="./examples/debug.tsx"></code>
+
+## Allow Clear
+
+<code src="./examples/allowClear.tsx"></code>

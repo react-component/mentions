@@ -23,7 +23,7 @@ import {
 
 type BaseTextareaAttrs = Omit<
   TextAreaProps,
-  'prefix' | 'onChange' | 'onSelect' | 'allowClear' | 'showCount' | 'classNames'
+  'prefix' | 'onChange' | 'onSelect' | 'showCount' | 'classNames'
 >;
 
 export type Placement = 'top' | 'bottom';
@@ -77,7 +77,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
   (props, ref) => {
     const {
       // Style
-      prefixCls = 'rc-mentions',
+      prefixCls,
       className,
       style,
 
@@ -90,6 +90,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
       children,
       options,
       open,
+      allowClear,
 
       // Events
       validateSearch = defaultValidateSearch,
@@ -479,19 +480,49 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
 );
 
 const Mentions = forwardRef<MentionsRef, MentionsProps>(
-  ({ suffix, prefixCls, value, className, classNames, ...rest }, ref) => {
+  (
+    {
+      suffix,
+      prefixCls = 'rc-mentions',
+      defaultValue,
+      value: customValue,
+      allowClear,
+      onChange,
+      classNames,
+      ...rest
+    },
+    ref,
+  ) => {
+    // ============================== Value ===============================
+    const [mergedValue, setMergedValue] = useMergedState('', {
+      defaultValue,
+      value: customValue,
+    });
+
+    // ============================== Change ==============================
+    const triggerChange = (currentValue: string) => {
+      setMergedValue(currentValue);
+      onChange?.(currentValue);
+    };
+
+    // ============================== Reset ===============================
+    const handleReset = () => {
+      triggerChange('');
+    };
+
     return (
       <BaseInput
         suffix={suffix}
         prefixCls={prefixCls}
-        className={className}
-        classNames={classNames}
-        value={value}
+        value={mergedValue}
+        allowClear={allowClear}
+        handleReset={handleReset}
       >
         <InternalMentions
           className={classNames.mentions}
           prefixCls={prefixCls}
           ref={ref}
+          onChange={triggerChange}
           {...rest}
         />
       </BaseInput>
