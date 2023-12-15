@@ -489,6 +489,7 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
       allowClear,
       onChange,
       classNames,
+      className,
       ...rest
     },
     ref,
@@ -517,9 +518,10 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
         value={mergedValue}
         allowClear={allowClear}
         handleReset={handleReset}
+        className={className}
       >
         <InternalMentions
-          className={classNames.mentions}
+          className={classNames?.mentions}
           prefixCls={prefixCls}
           ref={ref}
           onChange={triggerChange}
