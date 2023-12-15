@@ -23,7 +23,7 @@ import {
 
 type BaseTextareaAttrs = Omit<
   TextAreaProps,
-  'prefix' | 'onChange' | 'onSelect' | 'allowClear' | 'showCount'
+  'prefix' | 'onChange' | 'onSelect' | 'allowClear' | 'showCount' | 'classNames'
 >;
 
 export type Placement = 'top' | 'bottom';
@@ -59,6 +59,10 @@ export interface MentionsProps extends BaseTextareaAttrs {
   open?: boolean;
   children?: React.ReactNode;
   options?: DataDrivenOptionProps[];
+  classNames?: {
+    mentions?: string;
+    affixWrapper?: string;
+  };
 }
 
 export interface MentionsRef {
@@ -475,18 +479,22 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
 );
 
 const Mentions = forwardRef<MentionsRef, MentionsProps>(
-  ({ suffix, prefixCls, classes, value, className, ...rest }, ref) => {
+  ({ suffix, prefixCls, value, className, classNames, ...rest }, ref) => {
     return (
       <BaseInput
-        inputElement={
-          <InternalMentions prefixCls={prefixCls} ref={ref} {...rest} />
-        }
         suffix={suffix}
         prefixCls={prefixCls}
-        classes={classes}
         className={className}
+        classNames={classNames}
         value={value}
-      />
+      >
+        <InternalMentions
+          className={classNames.mentions}
+          prefixCls={prefixCls}
+          ref={ref}
+          {...rest}
+        />
+      </BaseInput>
     );
   },
 ) as React.ForwardRefExoticComponent<
