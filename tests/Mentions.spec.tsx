@@ -274,4 +274,11 @@ describe('Mentions', () => {
     rerender(createMentions({ ref, className: 'test-cls', suffix: '123' }));
     expect(container.firstChild).toHaveClass('test-cls');
   });
+
+  it('disabled should work on affix wrapper', () => {
+    const { container } = render(
+      createMentions({ disabled: true, suffix: '1' }),
+    );
+    expect(container.firstChild).toHaveClass('rc-mentions-disabled');
+  });
 });
