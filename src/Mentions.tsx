@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import { BaseInput } from 'rc-input';
+import type { CommonInputProps } from 'rc-input/lib/interface';
 import type { TextAreaProps, TextAreaRef } from 'rc-textarea';
 import TextArea from 'rc-textarea';
 import toArray from 'rc-util/lib/Children/toArray';
@@ -59,9 +60,8 @@ export interface MentionsProps extends BaseTextareaAttrs {
   open?: boolean;
   children?: React.ReactNode;
   options?: DataDrivenOptionProps[];
-  classNames?: {
+  classNames?: CommonInputProps['classNames'] & {
     mentions?: string;
-    affixWrapper?: string;
   };
 }
 
