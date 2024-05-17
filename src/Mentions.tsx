@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { BaseInput } from 'rc-input';
-import { HolderRef } from 'rc-input/lib/BaseInput';
+import type { HolderRef } from 'rc-input/lib/BaseInput';
 import type { CommonInputProps } from 'rc-input/lib/interface';
 import type { TextAreaProps, TextAreaRef } from 'rc-textarea';
 import TextArea from 'rc-textarea';
