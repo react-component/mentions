@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import { BaseInput } from 'rc-input';
+import type { HolderRef } from 'rc-input/lib/BaseInput';
 import type { CommonInputProps } from 'rc-input/lib/interface';
 import type { TextAreaProps, TextAreaRef } from 'rc-textarea';
 import TextArea from 'rc-textarea';
@@ -7,7 +8,14 @@ import toArray from 'rc-util/lib/Children/toArray';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import KeyCode from 'rc-util/lib/KeyCode';
 import warning from 'rc-util/lib/warning';
-import React, { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import useEffectState from './hooks/useEffectState';
 import KeywordTrigger from './KeywordTrigger';
 import MentionsContext from './MentionsContext';
@@ -71,6 +79,8 @@ export interface MentionsRef {
 
   /** @deprecated It may not work as expected */
   textarea: HTMLTextAreaElement | null;
+
+  nativeElement: HTMLElement;
 }
 
 const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
@@ -124,6 +134,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
     );
 
     // =============================== Refs ===============================
+    const containerRef = useRef<HTMLDivElement>(null);
     const textareaRef = useRef<TextAreaRef>(null);
     const measureRef = useRef<HTMLDivElement>(null);
 
@@ -133,6 +144,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
       focus: () => textareaRef.current?.focus(),
       blur: () => textareaRef.current?.blur(),
       textarea: textareaRef.current?.resizableTextArea?.textArea,
+      nativeElement: containerRef.current,
     }));
 
     // ============================== State ===============================
@@ -430,7 +442,11 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
 
     // ============================== Render ==============================
     return (
-      <div className={classNames(prefixCls, className)} style={style}>
+      <div
+        className={classNames(prefixCls, className)}
+        style={style}
+        ref={containerRef}
+      >
         <TextArea
           ref={textareaRef}
           value={mergedValue}
@@ -495,6 +511,16 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
     },
     ref,
   ) => {
+    // =============================== Ref ================================
+    const holderRef = useRef<HolderRef>(null);
+    const mentionRef = useRef<MentionsRef>(null);
+
+    useImperativeHandle(ref, () => ({
+      ...mentionRef.current,
+      nativeElement:
+        holderRef.current?.nativeElement || mentionRef.current?.nativeElement,
+    }));
+
     // ============================== Value ===============================
     const [mergedValue, setMergedValue] = useMergedState('', {
       defaultValue,
@@ -522,11 +548,12 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
         className={className}
         classNames={classes}
         disabled={disabled}
+        ref={holderRef}
       >
         <InternalMentions
           className={classes?.mentions}
           prefixCls={prefixCls}
-          ref={ref}
+          ref={mentionRef}
           onChange={triggerChange}
           {...rest}
         />

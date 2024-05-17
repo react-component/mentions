@@ -281,4 +281,24 @@ describe('Mentions', () => {
     );
     expect(container.firstChild).toHaveClass('rc-mentions-disabled');
   });
+
+  describe('nativeElement', () => {
+    it('work', () => {
+      const ref = createRef<MentionsRef>();
+      const { container } = render(createMentions({ ref }));
+
+      expect(ref.current.nativeElement).toBe(
+        container.querySelector('.rc-mentions'),
+      );
+    });
+
+    it('wrap ref', () => {
+      const ref = createRef<MentionsRef>();
+      const { container } = render(createMentions({ ref, allowClear: true }));
+
+      expect(ref.current.nativeElement).toBe(
+        container.querySelector('.rc-mentions-affix-wrapper'),
+      );
+    });
+  });
 });
