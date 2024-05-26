@@ -52,6 +52,8 @@
  * inline: true
  */
 import Mentions from 'rc-mentions';
+// Import the default styles
+import './index.less';
 
 const { Option } = Mentions;
 
@@ -64,6 +66,8 @@ var Demo = (
 );
 React.render(<Demo />, container);
 ```
+
+**Note:** We use [index.less](https://github.com/react-component/mentions/blob/master/assets/index.less) for styling, you can convert them into css and properly reference them to the code above.
 
 ## API
 
