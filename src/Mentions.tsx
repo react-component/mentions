@@ -555,6 +555,7 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
           prefixCls={prefixCls}
           ref={mentionRef}
           onChange={triggerChange}
+          disabled={disabled}
           {...rest}
         />
       </BaseInput>
