@@ -40,6 +40,10 @@ describe('Mentions', () => {
     return render(createMentions(props));
   }
 
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
   describe('focus test', () => {
     beforeEach(() => {
       jest.useFakeTimers();
@@ -134,6 +138,24 @@ describe('Mentions', () => {
         target: { value: 'bamboo' },
       });
       expect(onChange).toHaveBeenCalledWith('bamboo');
+    });
+
+    it('Keyboard Enter event', () => {
+      const { container, rerender } = renderMentions();
+      simulateInput(container, '@lig');
+      fireEvent.keyDown(container.querySelector('textarea'), {
+        which: KeyCode.ENTER,
+        keyCode: KeyCode.ENTER,
+      });
+      expect(container.querySelector('textarea').value).toBe('@light ');
+
+      rerender(createMentions({ loading: true }));
+      simulateInput(container, '@lig');
+      fireEvent.keyDown(container.querySelector('textarea'), {
+        which: KeyCode.ENTER,
+        keyCode: KeyCode.ENTER,
+      });
+      expect(container.querySelector('textarea').value).toBe('@lig');
     });
   });
 

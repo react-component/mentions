@@ -55,6 +55,7 @@ export interface MentionsProps extends BaseTextareaAttrs {
   prefix?: string | string[];
   prefixCls?: string;
   value?: string;
+  loading?: boolean;
   filterOption?: false | typeof defaultFilterOption;
   validateSearch?: typeof defaultValidateSearch;
   onChange?: (text: string) => void;
@@ -101,6 +102,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
       options,
       open,
       allowClear,
+      loading,
 
       // Events
       validateSearch = defaultValidateSearch,
@@ -330,6 +332,9 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
       } else if (which === KeyCode.ENTER) {
         // Measure hit
         event.preventDefault();
+        // loading skip
+        if (loading) return;
+
         if (!mergedOptions.length) {
           stopMeasure();
           return;
