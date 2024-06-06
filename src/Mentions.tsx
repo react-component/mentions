@@ -100,7 +100,6 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
       children,
       options,
       open,
-      allowClear,
 
       // Events
       validateSearch = defaultValidateSearch,
