@@ -80,6 +80,7 @@ React.render(<Demo />, container);
 | prefix            | Set trigger prefix keyword                                                                              | `string \| string[]`                                       | '@'         |
 | rows              | Set row count                                                                                           | `number`                                                   | 1           |
 | split             | Set split string before and after selected mention                                                      | `string`                                                   | ' '         |
+| silent            | Used in transition phase, does not respond to keyboard enter events when equal to `true`                | `boolean`                                                  | `false`     |
 | validateSearch    | Customize trigger search logic                                                                          | `(text: string, props: MentionsProps) => void`             | -           |
 | value             | Set value of mentions                                                                                   | `string`                                                   | -           |
 | onChange          | Trigger when value changed                                                                              | `(text: string) => void`                                   | -           |
