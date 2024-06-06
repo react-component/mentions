@@ -44,15 +44,11 @@ describe('Mentions', () => {
     jest.useFakeTimers();
   });
 
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   describe('focus test', () => {
-    beforeEach(() => {
-      jest.useFakeTimers();
-    });
-
-    afterEach(() => {
-      jest.useRealTimers();
-    });
-
     it('autoFocus', () => {
       const { container } = renderMentions({ autoFocus: true });
       expect(document.activeElement).toBe(container.querySelector('textarea'));
