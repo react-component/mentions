@@ -149,7 +149,7 @@ describe('Mentions', () => {
       });
       expect(container.querySelector('textarea').value).toBe('@light ');
 
-      rerender(createMentions({ loading: true }));
+      rerender(createMentions({ silent: true }));
       simulateInput(container, '@lig');
       fireEvent.keyDown(container.querySelector('textarea'), {
         which: KeyCode.ENTER,
