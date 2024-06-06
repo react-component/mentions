@@ -333,7 +333,9 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
         // Measure hit
         event.preventDefault();
         // loading skip
-        if (loading) return;
+        if (loading) {
+          return;
+        }
 
         if (!mergedOptions.length) {
           stopMeasure();
