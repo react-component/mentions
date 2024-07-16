@@ -1,6 +1,6 @@
 {
   "name": "rc-mentions",
-  "version": "2.13.1",
+  "version": "2.14.0",
   "description": "React Mentions",
   "keywords": [
     "react",
@@ -55,7 +55,7 @@
   },
   "devDependencies": {
     "@rc-component/father-plugin": "^1.0.0",
-    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^16.0.0",
     "@types/classnames": "^2.2.6",
     "@types/react": "^18.0.8",
@@ -67,9 +67,9 @@
     "father": "^4.0.0",
     "gh-pages": "^5.0.0",
     "husky": "^8.0.3",
-    "lint-staged": "^13.1.0",
+    "lint-staged": "^15.2.7",
     "np": "^10.0.0",
-    "prettier": "^2.0.5",
+    "prettier": "^3.3.2",
     "rc-test": "^7.0.14",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
