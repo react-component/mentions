@@ -23,11 +23,11 @@ import type { OptionProps } from './Option';
 import Option from './Option';
 import {
   filterOption as defaultFilterOption,
+  validateSearch as defaultValidateSearch,
   getBeforeSelectionText,
   getLastMeasureIndex,
   replaceWithMeasure,
   setInputSelection,
-  validateSearch as defaultValidateSearch,
 } from './util';
 
 type BaseTextareaAttrs = Omit<
@@ -514,6 +514,7 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
       classNames: classes,
       className,
       disabled,
+      onClear,
       ...rest
     },
     ref,
@@ -556,6 +557,7 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
         classNames={classes}
         disabled={disabled}
         ref={holderRef}
+        onClear={onClear}
       >
         <InternalMentions
           className={classes?.mentions}
