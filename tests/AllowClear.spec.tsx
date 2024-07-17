@@ -1,5 +1,5 @@
 import { fireEvent, render } from '@testing-library/react';
-import type { TextareaHTMLAttributes } from 'react';
+import React from 'react';
 import Mentions from '../src';
 
 describe('should support allowClear', () => {
@@ -21,12 +21,7 @@ describe('should support allowClear', () => {
 
   it('should not show icon if value is undefined, null or empty string', () => {
     const wrappers = [null, undefined, ''].map(val =>
-      render(
-        <Mentions
-          allowClear
-          value={val as TextareaHTMLAttributes<HTMLTextAreaElement>['value']}
-        />,
-      ),
+      render(<Mentions allowClear value={val as unknown as string} />),
     );
     wrappers.forEach(({ asFragment, container }) => {
       expect(container.querySelector('textarea')?.value).toEqual('');
@@ -39,14 +34,7 @@ describe('should support allowClear', () => {
 
   it('should not show icon if defaultValue is undefined, null or empty string', () => {
     const wrappers = [null, undefined, ''].map(val =>
-      render(
-        <Mentions
-          allowClear
-          defaultValue={
-            val as TextareaHTMLAttributes<HTMLTextAreaElement>['value']
-          }
-        />,
-      ),
+      render(<Mentions allowClear defaultValue={val as unknown as string} />),
     );
     wrappers.forEach(({ asFragment, container }) => {
       expect(container.querySelector('textarea')?.value).toEqual('');
@@ -65,5 +53,16 @@ describe('should support allowClear', () => {
     fireEvent.click(container.querySelector('.rc-mentions-clear-icon')!);
     expect(onChange).toHaveBeenCalledWith('');
     expect(container.querySelector('textarea')?.value).toBe('');
+  });
+
+  it('should support onClear', () => {
+    const onClear = jest.fn();
+    const { container } = render(
+      <Mentions onClear={onClear} defaultValue="test" allowClear />,
+    );
+    fireEvent.click(
+      container.querySelector<HTMLSpanElement>('.rc-mentions-clear-icon')!,
+    );
+    expect(onClear).toHaveBeenCalled();
   });
 });
