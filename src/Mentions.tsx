@@ -128,6 +128,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
 
       // Fix Warning: Received `false` for a non-boolean attribute `visible`.
       // https://github.com/ant-design/ant-design/blob/df933e94efc8f376003bbdc658d64b64a0e53495/components/mentions/demo/render-panel.tsx
+      // @ts-expect-error
       visible,
       // Rest
       ...restProps
