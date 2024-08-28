@@ -52,7 +52,11 @@ function DropdownMenu(props: DropdownMenuProps) {
         );
       })}
 
-      {!options.length && <MenuItem disabled>{notFoundContent}</MenuItem>}
+      {!options.length && (
+        <MenuItem key="not-found" disabled>
+          {notFoundContent}
+        </MenuItem>
+      )}
     </Menu>
   );
 }
