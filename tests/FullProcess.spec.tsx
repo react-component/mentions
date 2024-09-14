@@ -88,6 +88,25 @@ describe('Full Process', () => {
     expect(onChange).toBeCalledWith('1 @bamboo 2');
   });
 
+  it('azerty Keyboards ', () => {
+    const onChange = jest.fn();
+    const { container } = createMentions({ onChange });
+    simulateInput(container, '@');
+
+    //keyCode for ALTGR
+    fireEvent.keyUp(container.querySelector('textarea'), {
+      keyCode: 'AltGraph',
+      which: 225,
+    });
+    expectMeasuring(container);
+
+    fireEvent.keyDown(container.querySelector('textarea'), {
+      keyCode: KeyCode.ENTER,
+      which: KeyCode.ENTER,
+    });
+
+    expect(onChange).toBeCalledWith('@bamboo ');
+  });
   it('reuse typed text', () => {
     const onChange = jest.fn();
     const { container } = createMentions({ onChange });
