@@ -394,7 +394,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
           if (
             key === nextMeasurePrefix ||
             key === 'Shift' ||
-            key === 'Alt' ||
+            which === KeyCode.ALT ||
             mergedMeasuring ||
             (nextMeasureText !== mergedMeasureText && matchOption)
           ) {
