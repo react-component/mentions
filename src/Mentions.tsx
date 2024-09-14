@@ -391,9 +391,11 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
         const matchOption = !!getOptions(nextMeasureText).length;
 
         if (validateMeasure) {
+          //adding AltGraph also fort azert kjeyboard
           if (
             key === nextMeasurePrefix ||
             key === 'Shift' ||
+            key === 'AltGraph' ||
             mergedMeasuring ||
             (nextMeasureText !== mergedMeasureText && matchOption)
           ) {
