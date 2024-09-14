@@ -187,4 +187,24 @@ describe('Full Process', () => {
 
     expectMeasuring(container, false);
   });
+
+  it('AltGr + à startMeasure', () => {
+    const onChange = jest.fn();
+    const { container } = createMentions({ onChange });
+    simulateInput(container, '@');
+
+    // AZERTY Keyboards (AltGr + à)
+    fireEvent.keyUp(container.querySelector('textarea'), {
+      keyCode: KeyCode.ALT,
+      which: KeyCode.ALT,
+    });
+    expectMeasuring(container);
+
+    fireEvent.keyDown(container.querySelector('textarea'), {
+      keyCode: KeyCode.ENTER,
+      which: KeyCode.ENTER,
+    });
+
+    expect(onChange).toBeCalledWith('@bamboo ');
+  });
 });
