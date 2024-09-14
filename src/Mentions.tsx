@@ -396,6 +396,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
             key === nextMeasurePrefix ||
             key === 'Shift' ||
             key === 'AltGraph' ||
+
             mergedMeasuring ||
             (nextMeasureText !== mergedMeasureText && matchOption)
           ) {
