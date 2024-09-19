@@ -107,6 +107,7 @@ describe('Full Process', () => {
 
     expect(onChange).toBeCalledWith('@bamboo ');
   });
+
   it('reuse typed text', () => {
     const onChange = jest.fn();
     const { container } = createMentions({ onChange });
