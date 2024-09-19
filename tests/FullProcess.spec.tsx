@@ -93,7 +93,7 @@ describe('Full Process', () => {
     const { container } = createMentions({ onChange });
     simulateInput(container, '@');
 
-    //keyCode for ALTGR
+    // keyCode for ALTGR
     fireEvent.keyUp(container.querySelector('textarea'), {
       keyCode: 'AltGraph',
       which: 225,
