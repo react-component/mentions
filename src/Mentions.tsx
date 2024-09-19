@@ -391,10 +391,13 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
         const matchOption = !!getOptions(nextMeasureText).length;
 
         if (validateMeasure) {
+          // adding AltGraph also fort azert keyboard
           if (
             key === nextMeasurePrefix ||
             key === 'Shift' ||
             which === KeyCode.ALT ||
+            key === 'AltGraph' ||
+
             mergedMeasuring ||
             (nextMeasureText !== mergedMeasureText && matchOption)
           ) {
