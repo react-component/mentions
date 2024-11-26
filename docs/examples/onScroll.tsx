@@ -7,7 +7,7 @@ export default () => (
   <Mentions
     rows={3}
     defaultValue="Hello @ World @"
-    onDropdownScroll={console.log}
+    onPopupScroll={console.log}
     dropdownClassName="on-scroll"
     open
     options={Array.from({ length: 1000 }).map((_, index) => ({

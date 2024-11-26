@@ -78,7 +78,7 @@ export interface MentionsProps extends BaseTextareaAttrs {
    * @param containerHeight The height of the mentions container
    * @param currentOffset The current scroll offset
    */
-  onDropdownScroll?: (
+  onPopupScroll?: (
     event: React.UIEvent<HTMLDivElement>,
     containerHeight: number,
     currentOffset: number,
@@ -141,7 +141,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
       // https://github.com/ant-design/ant-design/blob/df933e94efc8f376003bbdc658d64b64a0e53495/components/mentions/demo/render-panel.tsx
       // @ts-expect-error
       visible,
-      onDropdownScroll,
+      onPopupScroll,
 
       // Rest
       ...restProps
@@ -473,7 +473,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
       const containerHeight = currentTarget.getBoundingClientRect().height;
       const currentOffset = currentTarget.scrollTop;
 
-      onDropdownScroll?.(event, containerHeight, currentOffset);
+      onPopupScroll?.(event, containerHeight, currentOffset);
     };
 
     // ============================== Render ==============================
