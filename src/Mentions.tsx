@@ -72,6 +72,16 @@ export interface MentionsProps extends BaseTextareaAttrs {
   classNames?: CommonInputProps['classNames'] & {
     mentions?: string;
   };
+  /**
+   * Callback when the mentions dropdown is scrolled
+   * @param containerHeight The height of the mentions container
+   * @param currentOffset The current scroll offset
+   */
+  onDropdownScroll?: (
+    event: React.UIEvent<HTMLDivElement>,
+    containerHeight: number,
+    currentOffset: number,
+  ) => void;
 }
 
 export interface MentionsRef {
@@ -130,6 +140,8 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
       // https://github.com/ant-design/ant-design/blob/df933e94efc8f376003bbdc658d64b64a0e53495/components/mentions/demo/render-panel.tsx
       // @ts-expect-error
       visible,
+      onDropdownScroll,
+
       // Rest
       ...restProps
     } = props;
@@ -397,7 +409,6 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
             key === 'Shift' ||
             which === KeyCode.ALT ||
             key === 'AltGraph' ||
-
             mergedMeasuring ||
             (nextMeasureText !== mergedMeasureText && matchOption)
           ) {
@@ -456,6 +467,15 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
     };
 
     // ============================== Render ==============================
+    // Handle scroll event
+    const onInternalScroll: React.UIEventHandler<HTMLDivElement> = event => {
+      const { currentTarget } = event;
+      const containerHeight = currentTarget.getBoundingClientRect().height;
+      const currentOffset = currentTarget.scrollTop;
+
+      onDropdownScroll?.(event, containerHeight, currentOffset);
+    };
+
     return (
       <div
         className={classNames(prefixCls, className)}
@@ -485,6 +505,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
                 selectOption,
                 onFocus: onDropdownFocus,
                 onBlur: onDropdownBlur,
+                onScroll: onInternalScroll,
               }}
             >
               <KeywordTrigger

@@ -9,6 +9,7 @@ export interface MentionsContextProps {
   selectOption: (option: OptionProps) => void;
   onFocus: React.FocusEventHandler<HTMLElement>;
   onBlur: React.FocusEventHandler<HTMLElement>;
+  onScroll: React.UIEventHandler<HTMLElement>;
 }
 
 // We will never use default, here only to fix TypeScript warning
