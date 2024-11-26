@@ -467,8 +467,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
       onInternalBlur();
     };
 
-    // ============================== Render ==============================
-    // Handle scroll event
+    // ============================== Scroll ===============================
     const onInternalScroll: React.UIEventHandler<HTMLDivElement> = event => {
       const { currentTarget } = event;
       const containerHeight = currentTarget.getBoundingClientRect().height;
@@ -476,6 +475,8 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
 
       onDropdownScroll?.(event, containerHeight, currentOffset);
     };
+
+    // ============================== Render ==============================
 
     return (
       <div
