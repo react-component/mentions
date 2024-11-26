@@ -74,6 +74,7 @@ export interface MentionsProps extends BaseTextareaAttrs {
   };
   /**
    * Callback when the mentions dropdown is scrolled
+   * @param event The native scroll event from the mentions dropdown
    * @param containerHeight The height of the mentions container
    * @param currentOffset The current scroll offset
    */
