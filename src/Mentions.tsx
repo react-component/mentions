@@ -72,17 +72,7 @@ export interface MentionsProps extends BaseTextareaAttrs {
   classNames?: CommonInputProps['classNames'] & {
     mentions?: string;
   };
-  /**
-   * Callback when the mentions dropdown is scrolled
-   * @param event The native scroll event from the mentions dropdown
-   * @param containerHeight The height of the mentions container
-   * @param currentOffset The current scroll offset
-   */
-  onPopupScroll?: (
-    event: React.UIEvent<HTMLDivElement>,
-    containerHeight: number,
-    currentOffset: number,
-  ) => void;
+  onPopupScroll?: (event: React.UIEvent<HTMLDivElement>) => void;
 }
 
 export interface MentionsRef {
@@ -468,12 +458,10 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
     };
 
     // ============================== Scroll ===============================
-    const onInternalScroll: React.UIEventHandler<HTMLDivElement> = event => {
-      const { currentTarget } = event;
-      const containerHeight = currentTarget.getBoundingClientRect().height;
-      const currentOffset = currentTarget.scrollTop;
-
-      onPopupScroll?.(event, containerHeight, currentOffset);
+    const onInternalPopupScroll: React.UIEventHandler<
+      HTMLDivElement
+    > = event => {
+      onPopupScroll?.(event);
     };
 
     // ============================== Render ==============================
@@ -507,7 +495,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
                 selectOption,
                 onFocus: onDropdownFocus,
                 onBlur: onDropdownBlur,
-                onScroll: onInternalScroll,
+                onScroll: onInternalPopupScroll,
               }}
             >
               <KeywordTrigger
