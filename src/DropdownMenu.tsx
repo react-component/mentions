@@ -1,7 +1,7 @@
-import Menu, { MenuItem } from 'rc-menu';
+import Menu from 'rc-menu';
 import * as React from 'react';
-import MentionsContext from './MentionsContext';
 import type { DataDrivenOptionProps } from './Mentions';
+import MentionsContext from './MentionsContext';
 interface DropdownMenuProps {
   prefixCls?: string;
   options: DataDrivenOptionProps[];
@@ -34,26 +34,23 @@ function DropdownMenu(props: DropdownMenuProps) {
       }}
       onFocus={onFocus}
       onBlur={onBlur}
-    >
-      {options.map((option, index) => {
-        const { key, disabled, className, style, label } = option;
-        return (
-          <MenuItem
-            key={key}
-            disabled={disabled}
-            className={className}
-            style={style}
-            onMouseEnter={() => {
-              setActiveIndex(index);
-            }}
-          >
-            {label}
-          </MenuItem>
-        );
-      })}
-
-      {!options.length && <MenuItem disabled>{notFoundContent}</MenuItem>}
-    </Menu>
+      items={
+        options.length > 0
+          ? options.map(
+              ({ key, disabled, className, label, style }, index) => ({
+                key,
+                disabled,
+                className,
+                style,
+                label,
+                onMouseEnter: () => {
+                  setActiveIndex(index);
+                },
+              }),
+            )
+          : [{ key: 'not-found', disabled: true, label: notFoundContent }]
+      }
+    />
   );
 }
 
