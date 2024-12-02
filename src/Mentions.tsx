@@ -72,6 +72,7 @@ export interface MentionsProps extends BaseTextareaAttrs {
   classNames?: CommonInputProps['classNames'] & {
     mentions?: string;
   };
+  onPopupScroll?: (event: React.UIEvent<HTMLDivElement>) => void;
 }
 
 export interface MentionsRef {
@@ -130,6 +131,8 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
       // https://github.com/ant-design/ant-design/blob/df933e94efc8f376003bbdc658d64b64a0e53495/components/mentions/demo/render-panel.tsx
       // @ts-expect-error
       visible,
+      onPopupScroll,
+
       // Rest
       ...restProps
     } = props;
@@ -397,7 +400,6 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
             key === 'Shift' ||
             which === KeyCode.ALT ||
             key === 'AltGraph' ||
-
             mergedMeasuring ||
             (nextMeasureText !== mergedMeasureText && matchOption)
           ) {
@@ -455,7 +457,15 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
       onInternalBlur();
     };
 
+    // ============================== Scroll ===============================
+    const onInternalPopupScroll: React.UIEventHandler<
+      HTMLDivElement
+    > = event => {
+      onPopupScroll?.(event);
+    };
+
     // ============================== Render ==============================
+
     return (
       <div
         className={classNames(prefixCls, className)}
@@ -485,6 +495,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
                 selectOption,
                 onFocus: onDropdownFocus,
                 onBlur: onDropdownBlur,
+                onScroll: onInternalPopupScroll,
               }}
             >
               <KeywordTrigger

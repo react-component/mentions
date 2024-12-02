@@ -300,6 +300,17 @@ describe('Mentions', () => {
     expect(container.firstChild).toHaveClass('rc-mentions-disabled');
   });
 
+  it('onPopupScroll should work', () => {
+    const onPopupScroll = jest.fn();
+    const { container, baseElement } = renderMentions({ onPopupScroll });
+    simulateInput(container, '@');
+    act(() => {
+      jest.runAllTimers();
+    });
+    fireEvent.scroll(baseElement.querySelector('.rc-mentions-dropdown-menu'));
+    expect(onPopupScroll).toHaveBeenCalled();
+  });
+
   describe('nativeElement', () => {
     it('work', () => {
       const ref = createRef<MentionsRef>();

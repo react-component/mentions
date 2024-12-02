@@ -19,6 +19,7 @@ function DropdownMenu(props: DropdownMenuProps) {
     selectOption,
     onFocus,
     onBlur,
+    onScroll,
   } = React.useContext(MentionsContext);
 
   const { prefixCls, options } = props;
@@ -34,6 +35,7 @@ function DropdownMenu(props: DropdownMenuProps) {
       }}
       onFocus={onFocus}
       onBlur={onBlur}
+      onScroll={onScroll}
     >
       {options.map((option, index) => {
         const { key, disabled, className, style, label } = option;

@@ -6,6 +6,9 @@ export default () => (
   <Mentions
     rows={3}
     defaultValue="Hello @ World @"
+    onScroll={e => {
+      console.log(e);
+    }}
     open
     options={[
       {
