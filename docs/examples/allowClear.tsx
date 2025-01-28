@@ -1,4 +1,4 @@
-import Mentions from 'rc-mentions';
+import Mentions from '@rc-component/mentions';
 import React, { useState } from 'react';
 
 export default function App() {
