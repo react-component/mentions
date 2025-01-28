@@ -1,5 +1,5 @@
 import React from 'react';
-import Mentions from 'rc-mentions';
+import Mentions from '@rc-component/mentions';
 import '../../assets/index.less';
 
 const { Option } = Mentions;

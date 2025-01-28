@@ -1,13 +1,13 @@
 import classNames from 'classnames';
-import { BaseInput } from 'rc-input';
-import type { HolderRef } from 'rc-input/lib/BaseInput';
-import type { CommonInputProps } from 'rc-input/lib/interface';
-import type { TextAreaProps, TextAreaRef } from 'rc-textarea';
-import TextArea from 'rc-textarea';
-import toArray from 'rc-util/lib/Children/toArray';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import KeyCode from 'rc-util/lib/KeyCode';
-import warning from 'rc-util/lib/warning';
+import { BaseInput } from '@rc-component/input';
+import type { HolderRef } from '@rc-component/input/lib/BaseInput';
+import type { CommonInputProps } from '@rc-component/input/lib/interface';
+import type { TextAreaProps, TextAreaRef } from '@rc-component/textarea';
+import TextArea from '@rc-component/textarea';
+import toArray from '@rc-component/util/lib/Children/toArray';
+import useMergedState from '@rc-component/util/lib/hooks/useMergedState';
+import KeyCode from '@rc-component/util/lib/KeyCode';
+import warning from '@rc-component/util/lib/warning';
 import React, {
   forwardRef,
   useEffect,

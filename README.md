@@ -51,7 +51,7 @@
 /**
  * inline: true
  */
-import Mentions from 'rc-mentions';
+import Mentions from '@rc-component/mentions';
 // Import the default styles
 import './index.less';
 
