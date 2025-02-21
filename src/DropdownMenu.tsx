@@ -1,5 +1,5 @@
 import Menu, { MenuItem } from 'rc-menu';
-import * as React from 'react';
+import React, { useEffect, useRef } from 'react';
 import MentionsContext from './MentionsContext';
 import type { DataDrivenOptionProps } from './Mentions';
 interface DropdownMenuProps {
@@ -24,15 +24,35 @@ function DropdownMenu(props: DropdownMenuProps) {
 
   const { prefixCls, options } = props;
   const activeOption = options[activeIndex] || {};
+  const itemRefs = useRef<HTMLElement[]>([]);
+
+  // Monitor the changes in ActiveIndex and scroll to the visible area if there are any changes
+  const scrollToActiveOption = (index: number) => {
+    if (index === -1 || !itemRefs.current[index]) return;
+    const activeRef = itemRefs.current[index];
+    activeRef.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  };
+
+  const handleSelect = (key: string) => {
+    const option = options.find(({ key: optionKey }) => optionKey === key);
+    selectOption(option);
+  };
+
+  const getMenuItemRef = (node: HTMLElement | null, index: number) => {
+    if (node) {
+      itemRefs.current[index] = node;
+    }
+  };
+
+  useEffect(() => {
+    scrollToActiveOption(activeIndex);
+  }, [activeIndex]);
 
   return (
     <Menu
       prefixCls={`${prefixCls}-menu`}
       activeKey={activeOption.key}
-      onSelect={({ key }) => {
-        const option = options.find(({ key: optionKey }) => optionKey === key);
-        selectOption(option);
-      }}
+      onSelect={({ key }) => handleSelect(key)}
       onFocus={onFocus}
       onBlur={onBlur}
       onScroll={onScroll}
@@ -42,6 +62,7 @@ function DropdownMenu(props: DropdownMenuProps) {
         return (
           <MenuItem
             key={key}
+            ref={node => getMenuItemRef(node, index)}
             disabled={disabled}
             className={className}
             style={style}
