@@ -1,5 +1,5 @@
-import Menu, { MenuItem } from 'rc-menu';
-import * as React from 'react';
+import Menu, { MenuItem, MenuRef } from 'rc-menu';
+import React, { useEffect, useRef } from 'react';
 import MentionsContext from './MentionsContext';
 import type { DataDrivenOptionProps } from './Mentions';
 interface DropdownMenuProps {
@@ -24,9 +24,26 @@ function DropdownMenu(props: DropdownMenuProps) {
 
   const { prefixCls, options } = props;
   const activeOption = options[activeIndex] || {};
+  const menuRef = useRef<MenuRef>(null);
+
+  // Monitor the changes in ActiveIndex and scroll to the visible area if there are any changes
+  useEffect(() => {
+    if (activeIndex === -1 || !menuRef.current?.list) {
+      return;
+    }
+    const selector = `.${prefixCls}-menu-item:nth-child(${activeIndex + 1})`;
+    const activeItem = menuRef.current?.list.querySelector(selector);
+    if (activeItem) {
+      activeItem.scrollIntoView({
+        block: 'nearest',
+        inline: 'nearest',
+      });
+    }
+  }, [activeIndex, prefixCls]);
 
   return (
     <Menu
+      ref={menuRef}
       prefixCls={`${prefixCls}-menu`}
       activeKey={activeOption.key}
       onSelect={({ key }) => {
