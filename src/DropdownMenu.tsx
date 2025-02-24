@@ -24,59 +24,58 @@ function DropdownMenu(props: DropdownMenuProps) {
 
   const { prefixCls, options } = props;
   const activeOption = options[activeIndex] || {};
-  const itemRefs = useRef<HTMLElement[]>([]);
+  const menuWrapperRef = useRef<HTMLDivElement>(null);
 
   // Monitor the changes in ActiveIndex and scroll to the visible area if there are any changes
-  const scrollToActiveOption = (index: number) => {
-    if (index === -1 || !itemRefs.current[index]) return;
-    const activeRef = itemRefs.current[index];
-    activeRef.scrollIntoView({ block: 'nearest', inline: 'nearest' });
-  };
-
-  const handleSelect = (key: string) => {
-    const option = options.find(({ key: optionKey }) => optionKey === key);
-    selectOption(option);
-  };
-
-  const getMenuItemRef = (node: HTMLElement | null, index: number) => {
-    if (node) {
-      itemRefs.current[index] = node;
-    }
-  };
-
   useEffect(() => {
-    scrollToActiveOption(activeIndex);
-  }, [activeIndex]);
+    if (activeIndex === -1 || !menuWrapperRef.current) {
+      return;
+    }
+    const selector = `.${prefixCls}-menu-item:nth-child(${activeIndex + 1})`;
+    const activeItem = menuWrapperRef.current.querySelector(selector);
+    if (activeItem) {
+      activeItem.scrollIntoView({
+        block: 'nearest',
+        inline: 'nearest',
+      });
+    }
+  }, [activeIndex, prefixCls]);
 
   return (
-    <Menu
-      prefixCls={`${prefixCls}-menu`}
-      activeKey={activeOption.key}
-      onSelect={({ key }) => handleSelect(key)}
-      onFocus={onFocus}
-      onBlur={onBlur}
-      onScroll={onScroll}
-    >
-      {options.map((option, index) => {
-        const { key, disabled, className, style, label } = option;
-        return (
-          <MenuItem
-            key={key}
-            ref={node => getMenuItemRef(node, index)}
-            disabled={disabled}
-            className={className}
-            style={style}
-            onMouseEnter={() => {
-              setActiveIndex(index);
-            }}
-          >
-            {label}
-          </MenuItem>
-        );
-      })}
+    <div ref={menuWrapperRef}>
+      <Menu
+        prefixCls={`${prefixCls}-menu`}
+        activeKey={activeOption.key}
+        onSelect={({ key }) => {
+          const option = options.find(
+            ({ key: optionKey }) => optionKey === key,
+          );
+          selectOption(option);
+        }}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        onScroll={onScroll}
+      >
+        {options.map((option, index) => {
+          const { key, disabled, className, style, label } = option;
+          return (
+            <MenuItem
+              key={key}
+              disabled={disabled}
+              className={className}
+              style={style}
+              onMouseEnter={() => {
+                setActiveIndex(index);
+              }}
+            >
+              {label}
+            </MenuItem>
+          );
+        })}
 
-      {!options.length && <MenuItem disabled>{notFoundContent}</MenuItem>}
-    </Menu>
+        {!options.length && <MenuItem disabled>{notFoundContent}</MenuItem>}
+      </Menu>
+    </div>
   );
 }
 
