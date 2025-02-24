@@ -10,7 +10,7 @@ export default () => (
     onPopupScroll={console.log}
     dropdownClassName="on-scroll"
     open
-    options={Array.from({ length: 1000 }).map((_, index) => ({
+    options={Array.from({ length: 20 }).map((_, index) => ({
       value: `item-${index}`,
       label: `item-${index}`,
     }))}
