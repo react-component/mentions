@@ -88,7 +88,7 @@ const KeywordTrigger: FC<KeywordTriggerProps> = props => {
       popupVisible={visible}
       popup={dropdownElement}
       popupPlacement={dropdownPlacement}
-      popupTransitionName={transitionName}
+      popupMotion={{ motionName: transitionName }}
       builtinPlacements={BUILT_IN_PLACEMENTS}
       getPopupContainer={getPopupContainer}
       popupClassName={dropdownClassName}
