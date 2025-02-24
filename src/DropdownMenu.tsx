@@ -70,6 +70,7 @@ function DropdownMenu(props: DropdownMenuProps) {
           </MenuItem>
         );
       })}
+
       {!options.length && <MenuItem disabled>{notFoundContent}</MenuItem>}
     </Menu>
   );
