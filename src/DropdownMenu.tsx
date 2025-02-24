@@ -24,7 +24,7 @@ function DropdownMenu(props: DropdownMenuProps) {
 
   const { prefixCls, options } = props;
   const activeOption = options[activeIndex] || {};
-  const menuRef = useRef<MenuRef>();
+  const menuRef = useRef<MenuRef>(null);
 
   // Monitor the changes in ActiveIndex and scroll to the visible area if there are any changes
   useEffect(() => {
