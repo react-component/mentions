@@ -45,12 +45,12 @@
     ]
   },
   "dependencies": {
-    "@rc-component/trigger": "^3.0.0",
-    "classnames": "^2.2.6",
     "@rc-component/input": "~1.0.0",
-    "rc-menu": "~9.16.0",
+    "@rc-component/menu": "^1.0.0",
     "@rc-component/textarea": "~1.0.0",
-    "@rc-component/util": "^1.2.0"
+    "@rc-component/trigger": "^3.0.0",
+    "@rc-component/util": "^1.2.0",
+    "classnames": "^2.2.6"
   },
   "devDependencies": {
     "@rc-component/father-plugin": "^2.0.2",
