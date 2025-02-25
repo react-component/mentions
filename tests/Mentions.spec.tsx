@@ -267,6 +267,29 @@ describe('Mentions', () => {
       baseElement.querySelector('.my-dropdown.rc-mentions-dropdown'),
     ).toBeTruthy();
   });
+  it('dropdownClassName should work', () => {
+    const { container, baseElement } = renderMentions({
+      classNames: {
+        popup: 'test-popup',
+        textarea: 'test-textarea',
+      },
+      styles: {
+        popup: { background: 'red' },
+        textarea: { background: 'blue' },
+      },
+    });
+    simulateInput(container, '@');
+    expect(
+      baseElement.querySelector('.test-popup.rc-mentions-dropdown'),
+    ).toBeTruthy();
+    expect(
+      baseElement.querySelector('.test-popup.rc-mentions-dropdown').style
+        .background,
+    ).toBe('red');
+    const textarea = baseElement.querySelector('.rc-textarea');
+    expect(textarea).toHaveClass('test-textarea');
+    expect(textarea).toHaveStyle('background: blue');
+  });
 
   it('should support direction', () => {
     const { container, baseElement } = renderMentions({ direction: 'rtl' });
