@@ -28,18 +28,18 @@ function DropdownMenu(props: DropdownMenuProps) {
 
   // Monitor the changes in ActiveIndex and scroll to the visible area if there are any changes
   useEffect(() => {
-    if (activeIndex === -1 || !menuRef.current?.list) {
+    if (activeIndex === -1 || !menuRef.current) {
       return;
     }
-    const selector = `.${prefixCls}-menu-item:nth-child(${activeIndex + 1})`;
-    const activeItem = menuRef.current?.list.querySelector(selector);
+    const selector = `[data-menu-id="${menuRef.current?.activeItem.uuid}-${menuRef.current?.activeItem.activeKey}"]`;
+    const activeItem = document.querySelector(selector);
     if (activeItem) {
       activeItem.scrollIntoView({
         block: 'nearest',
         inline: 'nearest',
       });
     }
-  }, [activeIndex, prefixCls]);
+  }, [activeIndex]);
 
   return (
     <Menu
