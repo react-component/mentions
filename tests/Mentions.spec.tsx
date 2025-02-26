@@ -267,7 +267,7 @@ describe('Mentions', () => {
       baseElement.querySelector('.my-dropdown.rc-mentions-dropdown'),
     ).toBeTruthy();
   });
-  it('dropdownClassName should work', () => {
+  it('classNames and styles should work', () => {
     const { container, baseElement } = renderMentions({
       classNames: {
         popup: 'test-popup',
