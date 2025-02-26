@@ -38,6 +38,7 @@ function DropdownMenu(props: DropdownMenuProps) {
       scrollIntoView(activeItem, {
         block: 'nearest',
         inline: 'nearest',
+        scrollMode: 'if-needed',
       });
     }
   }, [activeIndex, activeOption.key]);

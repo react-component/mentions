@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, act } from '@testing-library/react';
+import { render, act, screen } from '@testing-library/react';
 import DropdownMenu, { DropdownMenuProps } from '../src/DropdownMenu';
 import MentionsContext from '../src/MentionsContext';
 import scrollIntoView from 'scroll-into-view-if-needed';
@@ -16,6 +16,10 @@ describe('DropdownMenu useEffect', () => {
     onScroll: jest.fn(),
     notFoundContent: 'No results',
     ...overrides,
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   const setup = (
@@ -44,7 +48,6 @@ describe('DropdownMenu useEffect', () => {
 
     await act(async () => {
       mockContext.activeIndex = 1;
-
       rerender(
         <MentionsContext.Provider value={mockContext}>
           <DropdownMenu
@@ -58,12 +61,20 @@ describe('DropdownMenu useEffect', () => {
       );
     });
 
-    const activeItemNode = document.querySelector(
-      '.rc-mentions-dropdown-menu-item-active',
+    const menuItems = await screen.findAllByRole('menuitem');
+
+    const activeItemNode = menuItems.find(
+      item =>
+        item.textContent === 'Option 2' &&
+        item.classList.contains('rc-mentions-dropdown-menu-item-active'),
     );
+
+    expect(scrollIntoView).toHaveBeenCalled();
+
     expect(scrollIntoView).toHaveBeenCalledWith(activeItemNode, {
       block: 'nearest',
       inline: 'nearest',
+      scrollMode: 'if-needed',
     });
   });
 });
