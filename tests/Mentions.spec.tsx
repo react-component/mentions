@@ -258,14 +258,40 @@ describe('Mentions', () => {
     });
   });
 
-  it('dropdownClassName should work', () => {
+  it('popupClassName should work', () => {
     const { container, baseElement } = renderMentions({
-      dropdownClassName: 'my-dropdown',
+      popupClassName: 'my-dropdown',
     });
     simulateInput(container, '@');
     expect(
       baseElement.querySelector('.my-dropdown.rc-mentions-dropdown'),
     ).toBeTruthy();
+  });
+  it('classNames and styles should work', () => {
+    const { container, baseElement } = renderMentions({
+      classNames: {
+        popup: 'test-popup',
+        textarea: 'test-textarea',
+      },
+      styles: {
+        popup: { background: 'red' },
+        textarea: { background: 'blue' },
+      },
+    });
+    simulateInput(container, '@');
+    expect(
+      baseElement.querySelector('.test-popup.rc-mentions-dropdown'),
+    ).toBeTruthy();
+    expect(
+      (
+        baseElement.querySelector(
+          '.test-popup.rc-mentions-dropdown',
+        ) as HTMLElement
+      ).style.background,
+    ).toBe('red');
+    const textarea = baseElement.querySelector('.rc-textarea');
+    expect(textarea).toHaveClass('test-textarea');
+    expect(textarea).toHaveStyle('background: blue');
   });
 
   it('should support direction', () => {
