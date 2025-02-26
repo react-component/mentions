@@ -2,9 +2,9 @@ import React from 'react';
 import { render, act } from '@testing-library/react';
 import DropdownMenu, { DropdownMenuProps } from '../src/DropdownMenu';
 import MentionsContext from '../src/MentionsContext';
+import scrollIntoView from 'scroll-into-view-if-needed';
 
-// Mocking scrollIntoView to prevent actual DOM manipulation
-global.HTMLElement.prototype.scrollIntoView = jest.fn();
+jest.mock('scroll-into-view-if-needed');
 
 describe('DropdownMenu useEffect', () => {
   const createMockContext = (overrides = {}) => ({
@@ -25,7 +25,7 @@ describe('DropdownMenu useEffect', () => {
     return render(
       <MentionsContext.Provider value={context}>
         <DropdownMenu
-          prefixCls="rc-mentions"
+          prefixCls="rc-mentions-dropdown"
           options={[
             { key: '1', label: 'Option 1' },
             { key: '2', label: 'Option 2' },
@@ -36,25 +36,19 @@ describe('DropdownMenu useEffect', () => {
     );
   };
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
   it('should scroll to active item when activeIndex changes', async () => {
     const mockContext = createMockContext();
     const { rerender } = setup({}, mockContext);
 
-    // No scroll on initial render with activeIndex -1
-    expect(global.HTMLElement.prototype.scrollIntoView).not.toBeCalled();
+    expect(scrollIntoView).not.toHaveBeenCalled();
 
     await act(async () => {
-      // Update context activeIndex
       mockContext.activeIndex = 1;
-      // Re-render the component
+
       rerender(
         <MentionsContext.Provider value={mockContext}>
           <DropdownMenu
-            prefixCls="rc-mentions"
+            prefixCls="rc-mentions-dropdown"
             options={[
               { key: '1', label: 'Option 1' },
               { key: '2', label: 'Option 2' },
@@ -64,8 +58,10 @@ describe('DropdownMenu useEffect', () => {
       );
     });
 
-    // Check that scrollIntoView was called
-    expect(global.HTMLElement.prototype.scrollIntoView).toHaveBeenCalledWith({
+    const activeItemNode = document.querySelector(
+      '.rc-mentions-dropdown-menu-item-active',
+    );
+    expect(scrollIntoView).toHaveBeenCalledWith(activeItemNode, {
       block: 'nearest',
       inline: 'nearest',
     });
