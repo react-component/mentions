@@ -1,4 +1,4 @@
-import Menu, { MenuItem, MenuRef } from 'rc-menu';
+import Menu, { MenuItem, MenuRef } from '@rc-component/menu';
 import React, { useEffect, useRef } from 'react';
 import MentionsContext from './MentionsContext';
 import type { DataDrivenOptionProps } from './Mentions';
