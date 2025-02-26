@@ -2,6 +2,8 @@ import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import Mentions from '../src';
 
+jest.mock('scroll-into-view-if-needed');
+
 describe('should support allowClear', () => {
   it('should change type when click', () => {
     const { container } = render(<Mentions allowClear />);
