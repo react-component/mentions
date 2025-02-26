@@ -64,7 +64,7 @@ export interface MentionsProps extends BaseTextareaAttrs {
   onFocus?: React.FocusEventHandler<HTMLTextAreaElement>;
   onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
   getPopupContainer?: () => HTMLElement;
-  dropdownClassName?: string;
+  popupClassName?: string;
   /** @private Testing usage. Do not use in prod. It will not work as your expect. */
   open?: boolean;
   children?: React.ReactNode;
@@ -131,7 +131,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
       placement,
       direction,
       getPopupContainer,
-      dropdownClassName,
+      popupClassName,
 
       rows = 1,
 
@@ -516,8 +516,8 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
                 options={mergedOptions}
                 visible
                 getPopupContainer={getPopupContainer}
-                dropdownClassName={classNames(
-                  dropdownClassName,
+                popupClassName={classNames(
+                  popupClassName,
                   mentionClassNames?.popup,
                 )}
                 popupStyle={styles?.popup}

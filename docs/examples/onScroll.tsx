@@ -8,7 +8,7 @@ export default () => (
     rows={3}
     defaultValue="Hello @ World @"
     onPopupScroll={console.log}
-    dropdownClassName="on-scroll"
+    popupClassName="on-scroll"
     open
     options={Array.from({ length: 1000 }).map((_, index) => ({
       value: `item-${index}`,

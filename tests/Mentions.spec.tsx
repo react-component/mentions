@@ -258,9 +258,9 @@ describe('Mentions', () => {
     });
   });
 
-  it('dropdownClassName should work', () => {
+  it('popupClassName should work', () => {
     const { container, baseElement } = renderMentions({
-      dropdownClassName: 'my-dropdown',
+      popupClassName: 'my-dropdown',
     });
     simulateInput(container, '@');
     expect(
