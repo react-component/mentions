@@ -31,15 +31,15 @@ function DropdownMenu(props: DropdownMenuProps) {
     if (activeIndex === -1 || !menuRef.current) {
       return;
     }
-    const selector = `[data-menu-id="${menuRef.current?.activeItem.uuid}-${menuRef.current?.activeItem.activeKey}"]`;
-    const activeItem = document.querySelector(selector);
+
+    const activeItem = menuRef.current?.findItem?.({ key: activeOption.key });
     if (activeItem) {
       activeItem.scrollIntoView({
         block: 'nearest',
         inline: 'nearest',
       });
     }
-  }, [activeIndex]);
+  }, [activeIndex, activeOption.key]);
 
   return (
     <Menu
