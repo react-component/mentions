@@ -283,8 +283,11 @@ describe('Mentions', () => {
       baseElement.querySelector('.test-popup.rc-mentions-dropdown'),
     ).toBeTruthy();
     expect(
-      baseElement.querySelector('.test-popup.rc-mentions-dropdown').style
-        .background,
+      (
+        baseElement.querySelector(
+          '.test-popup.rc-mentions-dropdown',
+        ) as HTMLElement
+      ).style.background,
     ).toBe('red');
     const textarea = baseElement.querySelector('.rc-textarea');
     expect(textarea).toHaveClass('test-textarea');
