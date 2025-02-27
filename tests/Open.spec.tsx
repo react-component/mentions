@@ -3,6 +3,8 @@ import Mentions from '../src';
 import { expectMeasuring } from './util';
 import { render } from '@testing-library/react';
 
+global.HTMLElement.prototype.scrollIntoView = jest.fn();
+
 describe('Mentions.Open', () => {
   it('force open', () => {
     const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
