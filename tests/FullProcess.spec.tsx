@@ -5,8 +5,6 @@ import type { MentionsProps } from '../src';
 import Mentions from '../src';
 import { expectMatchOptions, expectMeasuring, simulateInput } from './util';
 
-jest.mock('scroll-into-view-if-needed');
-
 describe('Full Process', () => {
   function createMentions(props?: MentionsProps) {
     return render(

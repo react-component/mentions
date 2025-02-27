@@ -9,8 +9,6 @@ import { expectMatchOptions, expectMeasuring, simulateInput } from './util';
 
 const { Option } = Mentions;
 
-jest.mock('scroll-into-view-if-needed');
-
 describe('Mentions', () => {
   function createMentions(
     props?: MentionsProps & { ref?: React.Ref<MentionsRef> },

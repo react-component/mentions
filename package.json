@@ -50,8 +50,7 @@
     "@rc-component/textarea": "~1.0.0",
     "@rc-component/trigger": "^3.0.0",
     "@rc-component/util": "^1.2.0",
-    "classnames": "^2.2.6",
-    "scroll-into-view-if-needed": "^3.1.0"
+    "classnames": "^2.2.6"
   },
   "devDependencies": {
     "@rc-component/father-plugin": "^2.0.2",

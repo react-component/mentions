@@ -2,8 +2,7 @@ import Menu, { MenuItem, MenuRef } from '@rc-component/menu';
 import React, { useEffect, useRef } from 'react';
 import MentionsContext from './MentionsContext';
 import type { DataDrivenOptionProps } from './Mentions';
-import scrollIntoView from 'scroll-into-view-if-needed';
-export interface DropdownMenuProps {
+interface DropdownMenuProps {
   prefixCls?: string;
   options: DataDrivenOptionProps[];
 }
@@ -35,10 +34,9 @@ function DropdownMenu(props: DropdownMenuProps) {
 
     const activeItem = menuRef.current?.findItem?.({ key: activeOption.key });
     if (activeItem) {
-      scrollIntoView(activeItem, {
+      activeItem.scrollIntoView({
         block: 'nearest',
         inline: 'nearest',
-        scrollMode: 'if-needed',
       });
     }
   }, [activeIndex, activeOption.key]);
