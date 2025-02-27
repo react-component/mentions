@@ -64,13 +64,19 @@ export interface MentionsProps extends BaseTextareaAttrs {
   onFocus?: React.FocusEventHandler<HTMLTextAreaElement>;
   onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
   getPopupContainer?: () => HTMLElement;
-  dropdownClassName?: string;
+  popupClassName?: string;
   /** @private Testing usage. Do not use in prod. It will not work as your expect. */
   open?: boolean;
   children?: React.ReactNode;
   options?: DataDrivenOptionProps[];
   classNames?: CommonInputProps['classNames'] & {
     mentions?: string;
+    textarea?: string;
+    popup?: string;
+  };
+  styles?: {
+    textarea?: React.CSSProperties;
+    popup?: React.CSSProperties;
   };
   onPopupScroll?: (event: React.UIEvent<HTMLDivElement>) => void;
 }
@@ -92,6 +98,8 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
       prefixCls,
       className,
       style,
+      classNames: mentionClassNames,
+      styles,
 
       // Misc
       prefix = '@',
@@ -123,7 +131,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
       placement,
       direction,
       getPopupContainer,
-      dropdownClassName,
+      popupClassName,
 
       rows = 1,
 
@@ -473,6 +481,8 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
         ref={containerRef}
       >
         <TextArea
+          classNames={{ textarea: mentionClassNames?.textarea }}
+          styles={{ textarea: styles?.textarea }}
           ref={textareaRef}
           value={mergedValue}
           {...restProps}
@@ -506,7 +516,11 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
                 options={mergedOptions}
                 visible
                 getPopupContainer={getPopupContainer}
-                dropdownClassName={dropdownClassName}
+                popupClassName={classNames(
+                  popupClassName,
+                  mentionClassNames?.popup,
+                )}
+                popupStyle={styles?.popup}
               >
                 <span>{mergedMeasurePrefix}</span>
               </KeywordTrigger>
@@ -530,7 +544,8 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
       value: customValue,
       allowClear,
       onChange,
-      classNames: classes,
+      classNames: mentionsClassNames,
+      styles,
       className,
       disabled,
       onClear,
@@ -573,13 +588,15 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
         allowClear={allowClear}
         handleReset={handleReset}
         className={className}
-        classNames={classes}
+        classNames={mentionsClassNames}
         disabled={disabled}
         ref={holderRef}
         onClear={onClear}
       >
         <InternalMentions
-          className={classes?.mentions}
+          className={mentionsClassNames?.mentions}
+          styles={styles}
+          classNames={mentionsClassNames}
           prefixCls={prefixCls}
           ref={mentionRef}
           onChange={triggerChange}

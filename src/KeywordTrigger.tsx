@@ -50,7 +50,8 @@ interface KeywordTriggerProps {
   transitionName?: string;
   children?: React.ReactElement;
   getPopupContainer?: () => HTMLElement;
-  dropdownClassName?: string;
+  popupClassName?: string;
+  popupStyle?: React.CSSProperties;
 }
 
 const KeywordTrigger: FC<KeywordTriggerProps> = props => {
@@ -61,7 +62,8 @@ const KeywordTrigger: FC<KeywordTriggerProps> = props => {
     visible,
     transitionName,
     getPopupContainer,
-    dropdownClassName,
+    popupClassName,
+    popupStyle,
     direction,
     placement,
   } = props;
@@ -91,7 +93,8 @@ const KeywordTrigger: FC<KeywordTriggerProps> = props => {
       popupMotion={{ motionName: transitionName }}
       builtinPlacements={BUILT_IN_PLACEMENTS}
       getPopupContainer={getPopupContainer}
-      popupClassName={dropdownClassName}
+      popupClassName={popupClassName}
+      popupStyle={popupStyle}
     >
       {children}
     </Trigger>
