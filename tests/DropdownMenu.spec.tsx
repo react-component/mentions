@@ -3,8 +3,6 @@ import { render, act, screen } from '@testing-library/react';
 import DropdownMenu, { DropdownMenuProps } from '../src/DropdownMenu';
 import MentionsContext from '../src/MentionsContext';
 
-global.HTMLElement.prototype.scrollIntoView = jest.fn();
-
 describe('DropdownMenu useEffect', () => {
   const createMockContext = (overrides = {}) => ({
     activeIndex: -1,
@@ -19,6 +17,7 @@ describe('DropdownMenu useEffect', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+    jest.restoreAllMocks(); // Restore original implementations
   });
 
   const setup = (
@@ -40,8 +39,10 @@ describe('DropdownMenu useEffect', () => {
   };
 
   it('should scroll to active item when activeIndex changes', async () => {
-    const scrollIntoViewMock = jest.fn();
-    global.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
+    // Create the spy and mock the scrollIntoView method
+    const scrollIntoViewMock = jest
+      .spyOn(HTMLElement.prototype, 'scrollIntoView')
+      .mockReset();
 
     const mockContext = createMockContext();
     const { rerender } = setup({}, mockContext);

@@ -45,6 +45,7 @@
     ]
   },
   "dependencies": {
+    "@jest/core": "^29.7.0",
     "@rc-component/input": "~1.0.1",
     "@rc-component/menu": "~1.0.0",
     "@rc-component/textarea": "~1.0.0",

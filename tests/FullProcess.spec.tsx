@@ -5,8 +5,6 @@ import type { MentionsProps } from '../src';
 import Mentions from '../src';
 import { expectMatchOptions, expectMeasuring, simulateInput } from './util';
 
-global.HTMLElement.prototype.scrollIntoView = jest.fn();
-
 describe('Full Process', () => {
   function createMentions(props?: MentionsProps) {
     return render(

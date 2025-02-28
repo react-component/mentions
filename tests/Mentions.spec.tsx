@@ -9,8 +9,6 @@ import { expectMatchOptions, expectMeasuring, simulateInput } from './util';
 
 const { Option } = Mentions;
 
-global.HTMLElement.prototype.scrollIntoView = jest.fn();
-
 describe('Mentions', () => {
   function createMentions(
     props?: MentionsProps & { ref?: React.Ref<MentionsRef> },
