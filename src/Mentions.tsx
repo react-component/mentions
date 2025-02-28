@@ -7,9 +7,9 @@ import TextArea from '@rc-component/textarea';
 import toArray from '@rc-component/util/lib/Children/toArray';
 import useMergedState from '@rc-component/util/lib/hooks/useMergedState';
 import KeyCode from '@rc-component/util/lib/KeyCode';
-import warning from '@rc-component/util/lib/warning';
 import React, {
   forwardRef,
+  useContext,
   useEffect,
   useImperativeHandle,
   useMemo,
@@ -29,6 +29,7 @@ import {
   replaceWithMeasure,
   setInputSelection,
 } from './util';
+import { UnstableContext } from './context';
 
 type BaseTextareaAttrs = Omit<
   TextAreaProps,
@@ -65,8 +66,6 @@ export interface MentionsProps extends BaseTextareaAttrs {
   onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
   getPopupContainer?: () => HTMLElement;
   popupClassName?: string;
-  /** @private Testing usage. Do not use in prod. It will not work as your expect. */
-  open?: boolean;
   children?: React.ReactNode;
   options?: DataDrivenOptionProps[];
   classNames?: CommonInputProps['classNames'] & {
@@ -109,7 +108,6 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
       defaultValue,
       children,
       options,
-      open,
       allowClear,
       silent,
 
@@ -179,6 +177,8 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
     });
 
     // =============================== Open ===============================
+    const { open } = useContext(UnstableContext);
+
     useEffect(() => {
       // Sync measure div top with textarea for rc-trigger usage
       if (measuring && measureRef.current) {
@@ -200,13 +200,6 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
       ]
     >(() => {
       if (open) {
-        if (process.env.NODE_ENV !== 'production') {
-          warning(
-            false,
-            '`open` of Mentions is only used for debug usage. Do not use in you production.',
-          );
-        }
-
         for (let i = 0; i < mergedPrefix.length; i += 1) {
           const curPrefix = mergedPrefix[i];
           const index = mergedValue.lastIndexOf(curPrefix);
