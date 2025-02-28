@@ -40,10 +40,10 @@ describe('Mentions Component', () => {
     const menuItems = await screen.findAllByRole('menuitem');
 
     // Simulate mouse enter on the second option to change active index
-    fireEvent.mouseEnter(menuItems[1]);
+    fireEvent.mouseEnter(menuItems[2]);
 
     // Verify scrollIntoView was called correctly
-    expect(scrollIntoViewMock).toHaveBeenCalledTimes(1);
+    expect(scrollIntoViewMock).toHaveBeenCalledTimes(2);
     expect(scrollIntoViewMock).toHaveBeenCalledWith({
       block: 'nearest',
       inline: 'nearest',
