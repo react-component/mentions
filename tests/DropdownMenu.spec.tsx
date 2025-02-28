@@ -40,9 +40,10 @@ describe('DropdownMenu useEffect', () => {
 
   it('should scroll to active item when activeIndex changes', async () => {
     // Create the spy and mock the scrollIntoView method
-    const scrollIntoViewMock = jest
-      .spyOn(HTMLElement.prototype, 'scrollIntoView')
-      .mockReset();
+    const scrollIntoViewMock = jest.spyOn(
+      HTMLElement.prototype,
+      'scrollIntoView',
+    );
 
     const mockContext = createMockContext();
     const { rerender } = setup({}, mockContext);
@@ -78,5 +79,8 @@ describe('DropdownMenu useEffect', () => {
       block: 'nearest',
       inline: 'nearest',
     });
+
+    scrollIntoViewMock.mockReset();
+    scrollIntoViewMock.mockRestore();
   });
 });
