@@ -7,7 +7,6 @@ import TextArea from '@rc-component/textarea';
 import toArray from '@rc-component/util/lib/Children/toArray';
 import useMergedState from '@rc-component/util/lib/hooks/useMergedState';
 import KeyCode from '@rc-component/util/lib/KeyCode';
-import warning from '@rc-component/util/lib/warning';
 import React, {
   forwardRef,
   useContext,
