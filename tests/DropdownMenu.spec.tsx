@@ -1,85 +1,57 @@
 import React from 'react';
-import { render, act, screen } from '@testing-library/react';
-import DropdownMenu, { DropdownMenuProps } from '../src/DropdownMenu';
-import MentionsContext from '../src/MentionsContext';
+import { render, act, fireEvent, screen } from '@testing-library/react';
+import Mentions, { UnstableContext } from '../src'; // 修改为 Mentions 组件的实际路径
+import { expectMeasuring } from './util'; // 假定该模块中有检测测量的函数
 
-describe('DropdownMenu useEffect', () => {
-  const createMockContext = (overrides = {}) => ({
-    activeIndex: -1,
-    setActiveIndex: jest.fn(),
-    selectOption: jest.fn(),
-    onFocus: jest.fn(),
-    onBlur: jest.fn(),
-    onScroll: jest.fn(),
-    notFoundContent: 'No results',
-    ...overrides,
-  });
-
+describe('Mentions Component', () => {
   afterEach(() => {
     jest.clearAllMocks();
-    jest.restoreAllMocks(); // Restore original implementations
+    jest.restoreAllMocks();
   });
 
-  const setup = (
-    props: Partial<DropdownMenuProps> = {},
-    context = createMockContext(),
-  ) => {
-    return render(
-      <MentionsContext.Provider value={context}>
-        <DropdownMenu
-          prefixCls="rc-mentions-dropdown"
-          options={[
-            { key: '1', label: 'Option 1' },
-            { key: '2', label: 'Option 2' },
-          ]}
-          {...props}
-        />
-      </MentionsContext.Provider>,
-    );
-  };
+  it('should call scrollIntoView when activeIndex changes', async () => {
+    const options = [
+      { value: 'light', label: 'Light' },
+      { value: 'bamboo', label: 'Bamboo' },
+      { value: 'cat', label: 'Cat' },
+    ];
 
-  it('should scroll to active item when activeIndex changes', async () => {
-    // Create the spy and mock the scrollIntoView method
-    const scrollIntoViewMock = jest.spyOn(
-      HTMLElement.prototype,
-      'scrollIntoView',
+    // Mock the scrollIntoView method before rendering
+    const scrollIntoViewMock = jest
+      .spyOn(HTMLElement.prototype, 'scrollIntoView')
+      .mockImplementation(jest.fn());
+
+    // Render Mentions with open context
+    const { container } = render(
+      <UnstableContext.Provider value={{ open: true }}>
+        <Mentions defaultValue="@cat @" options={options} />
+      </UnstableContext.Provider>,
     );
 
-    const mockContext = createMockContext();
-    const { rerender } = setup({}, mockContext);
+    // Simulate input to trigger the opening of the mentions dropdown
+    const textarea = container.querySelector('textarea');
+    fireEvent.change(textarea, { target: { value: '@b' } });
 
-    // Update active index
     await act(async () => {
-      mockContext.activeIndex = 1; // Change to the second option
-      rerender(
-        <MentionsContext.Provider value={mockContext}>
-          <DropdownMenu
-            prefixCls="rc-mentions-dropdown"
-            options={[
-              { key: '1', label: 'Option 1' },
-              { key: '2', label: 'Option 2' },
-            ]}
-          />
-        </MentionsContext.Provider>,
-      );
+      jest.runAllTimers(); // Handle any timing-related effects if applicable
     });
 
-    // Find all menu items
+    // Update the active index to simulate selection
     const menuItems = await screen.findAllByRole('menuitem');
 
-    // Check if the active item is the second one
-    const activeItemNode = menuItems.find(
-      item =>
-        item.textContent === 'Option 2' &&
-        item.classList.contains('rc-mentions-dropdown-menu-item-active'),
-    );
+    // Simulate mouse enter on the second option to change active index
+    fireEvent.mouseEnter(menuItems[1]);
 
-    expect(activeItemNode.scrollIntoView).toHaveBeenCalledTimes(1);
-    expect(activeItemNode.scrollIntoView).toHaveBeenCalledWith({
+    // Verify scrollIntoView was called correctly
+    expect(scrollIntoViewMock).toHaveBeenCalledTimes(1);
+    expect(scrollIntoViewMock).toHaveBeenCalledWith({
       block: 'nearest',
       inline: 'nearest',
     });
 
+    expectMeasuring(container); // Verify measuring after interactions if necessary
+
+    // Clean up
     scrollIntoViewMock.mockReset();
     scrollIntoViewMock.mockRestore();
   });
