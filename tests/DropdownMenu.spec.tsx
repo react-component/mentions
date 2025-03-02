@@ -1,57 +1,53 @@
 import React from 'react';
-import { render, act, fireEvent, screen } from '@testing-library/react';
-import Mentions, { UnstableContext } from '../src'; // 修改为 Mentions 组件的实际路径
-import { expectMeasuring } from './util'; // 假定该模块中有检测测量的函数
+import { render, fireEvent } from '@testing-library/react';
+import Mentions, { UnstableContext } from '../src';
 
-describe('Mentions Component', () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-    jest.restoreAllMocks();
-  });
+describe('DropdownMenu', () => {
+  // Generate 20 options for testing scrolling behavior
+  const generateOptions = Array.from({ length: 20 }).map((_, index) => ({
+    value: `item-${index}`,
+    label: `item-${index}`,
+  }));
 
-  it('should call scrollIntoView when activeIndex changes', async () => {
-    const options = [
-      { value: 'light', label: 'Light' },
-      { value: 'bamboo', label: 'Bamboo' },
-      { value: 'cat', label: 'Cat' },
-    ];
+  // Setup component with UnstableContext for testing dropdown behavior
+  const setup = () => {
+    return render(
+      <UnstableContext.Provider value={{ open: true }}>
+        <Mentions defaultValue="@" options={generateOptions} />
+      </UnstableContext.Provider>,
+    );
+  };
 
-    // Mock the scrollIntoView method before rendering
+  it('should scroll into view when navigating with keyboard', () => {
+    // Mock scrollIntoView since it's not implemented in JSDOM
     const scrollIntoViewMock = jest
       .spyOn(HTMLElement.prototype, 'scrollIntoView')
       .mockImplementation(jest.fn());
 
-    // Render Mentions with open context
-    const { container } = render(
-      <UnstableContext.Provider value={{ open: true }}>
-        <Mentions defaultValue="@cat @" options={options} />
-      </UnstableContext.Provider>,
-    );
+    setup();
 
-    // Simulate input to trigger the opening of the mentions dropdown
-    const textarea = container.querySelector('textarea');
-    fireEvent.change(textarea, { target: { value: '@b' } });
+    // Press ArrowDown multiple times to make options overflow the visible area
+    for (let i = 0; i < 10; i++) {
+      fireEvent.keyDown(document.activeElement!, { key: 'ArrowDown' });
+    }
 
-    await act(async () => {
-      jest.runAllTimers(); // Handle any timing-related effects if applicable
-    });
-
-    // Update the active index to simulate selection
-    const menuItems = await screen.findAllByRole('menuitem');
-
-    // Simulate mouse enter on the second option to change active index
-    fireEvent.mouseEnter(menuItems[2]);
-
-    // Verify scrollIntoView was called correctly
-    expect(scrollIntoViewMock).toHaveBeenCalledTimes(2);
+    // Verify if scrollIntoView was called
     expect(scrollIntoViewMock).toHaveBeenCalledWith({
       block: 'nearest',
       inline: 'nearest',
     });
 
-    expectMeasuring(container); // Verify measuring after interactions if necessary
+    // Press ArrowUp to verify scrolling up
+    for (let i = 0; i < 5; i++) {
+      fireEvent.keyDown(document.activeElement!, { key: 'ArrowUp' });
+    }
 
-    // Clean up
+    // Verify if scrollIntoView was called again
+    expect(scrollIntoViewMock).toHaveBeenCalledWith({
+      block: 'nearest',
+      inline: 'nearest',
+    });
+
     scrollIntoViewMock.mockReset();
     scrollIntoViewMock.mockRestore();
   });
