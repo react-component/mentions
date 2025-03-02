@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import Mentions, { UnstableContext } from '../src';
+import { expectMeasuring } from './util';
 
 describe('DropdownMenu', () => {
   // Generate 20 options for testing scrolling behavior
@@ -10,21 +11,17 @@ describe('DropdownMenu', () => {
   }));
 
   // Setup component with UnstableContext for testing dropdown behavior
-  const setup = () => {
-    return render(
-      <UnstableContext.Provider value={{ open: true }}>
-        <Mentions defaultValue="@" options={generateOptions} />
-      </UnstableContext.Provider>,
-    );
-  };
+  const { container } = render(
+    <UnstableContext.Provider value={{ open: true }}>
+      <Mentions defaultValue="@" options={generateOptions} />
+    </UnstableContext.Provider>,
+  );
 
   it('should scroll into view when navigating with keyboard', () => {
     // Mock scrollIntoView since it's not implemented in JSDOM
     const scrollIntoViewMock = jest
       .spyOn(HTMLElement.prototype, 'scrollIntoView')
       .mockImplementation(jest.fn());
-
-    setup();
 
     // Press ArrowDown multiple times to make options overflow the visible area
     for (let i = 0; i < 10; i++) {
@@ -48,7 +45,8 @@ describe('DropdownMenu', () => {
       inline: 'nearest',
     });
 
-    scrollIntoViewMock.mockReset();
+    expectMeasuring(container);
+
     scrollIntoViewMock.mockRestore();
   });
 });
