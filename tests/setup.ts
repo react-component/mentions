@@ -4,3 +4,5 @@ global.ResizeObserver = class ResizeObserver {
   unobserve() {}
   disconnect() {}
 };
+
+window.HTMLElement.prototype.scrollIntoView = jest.fn();
