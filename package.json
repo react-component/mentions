@@ -64,6 +64,7 @@
     "@umijs/fabric": "^3.0.0",
     "dumi": "^2.0.18",
     "eslint": "^8.0.0",
+    "eslint-plugin-jest": "^28.11.0",
     "father": "^4.0.0",
     "gh-pages": "^5.0.0",
     "husky": "^9.1.6",
