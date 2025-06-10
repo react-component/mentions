@@ -81,7 +81,7 @@ export default () => {
     <div>
       <Mentions
         onSearch={onSearch}
-        style={{ width: '100%' }}
+        style={{ width: '100%', resize: 'none' }}
         autoFocus
         options={options}
       />

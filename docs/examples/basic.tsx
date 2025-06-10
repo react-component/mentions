@@ -19,6 +19,7 @@ export default () => (
     autoFocus
     rows={3}
     defaultValue="Hello World"
+    style={{ fontSize: 12, resize: 'none' }}
     onSelect={onSelect}
     onFocus={onFocus}
     onBlur={onBlur}

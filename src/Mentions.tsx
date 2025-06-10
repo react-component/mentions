@@ -476,7 +476,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
         <TextArea
           classNames={{ textarea: mentionClassNames?.textarea }}
           /**
-           * Example:<Mentions style={{ resize: 'none' }} />。
+           * Example:<Mentions style={{ resize: 'none' }} />.
            * If written this way, resizing here will become invalid.
            * The TextArea component code and found that the resize parameter in the style of the ResizeTextArea component is obtained from prop.style.
            * Just pass the resize attribute and leave everything else unchanged.
