@@ -475,6 +475,11 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
       >
         <TextArea
           classNames={{ textarea: mentionClassNames?.textarea }}
+          /**
+           * The problem is that resizing the mentions setting style does not take effect.
+           * The TextArea component code and found that the resize parameter in the style of the ResizeTextArea component is obtained from prop.style.
+           * Just pass the resize attribute and leave everything else unchanged.
+           */
           style={{ resize: style?.resize }}
           styles={{ textarea: styles?.textarea }}
           ref={textareaRef}
