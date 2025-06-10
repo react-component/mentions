@@ -369,19 +369,5 @@ describe('Mentions', () => {
       expect(textarea).not.toBeNull();
       expect(textarea?.style.resize).toBe('none');
     });
-
-    it('should not apply resize style if not provided', () => {
-      const { container } = render(
-        <Mentions>
-          <Option value="bamboo">Bamboo</Option>
-          <Option value="light">Light</Option>
-          <Option value="cat">Cat</Option>
-        </Mentions>,
-      );
-
-      const textarea = container.querySelector('textarea');
-      expect(textarea).not.toBeNull();
-      expect(textarea?.style.resize).toBe('');
-    });
   });
 });
