@@ -79,12 +79,7 @@ export default () => {
 
   return (
     <div>
-      <Mentions
-        onSearch={onSearch}
-        style={{ width: '100%', resize: 'none' }}
-        autoFocus
-        options={options}
-      />
+      <Mentions onSearch={onSearch} autoFocus options={options} />
       search: <code>{searchRef.current}</code>
     </div>
   );
