@@ -475,6 +475,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
       >
         <TextArea
           classNames={{ textarea: mentionClassNames?.textarea }}
+          style={{ resize: style?.resize }}
           styles={{ textarea: styles?.textarea }}
           ref={textareaRef}
           value={mergedValue}
