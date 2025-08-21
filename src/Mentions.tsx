@@ -297,7 +297,10 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
     };
 
     const selectOption = (option: OptionProps) => {
-      const { value: mentionValue = '' } = option;
+      const { value: mentionValue = '', disabled } = option;
+      if (disabled) {
+        return;
+      }
       const { text, selectionLocation } = replaceWithMeasure(mergedValue, {
         measureLocation: mergedMeasureLocation,
         targetText: mentionValue,
