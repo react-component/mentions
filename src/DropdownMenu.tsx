@@ -33,7 +33,6 @@ function DropdownMenu(props: DropdownMenuProps) {
     }
 
     const activeItem = menuRef.current?.findItem?.({ key: activeOption.key });
-    console.log('>>>>', activeItem);
     if (activeItem) {
       activeItem.scrollIntoView({
         block: 'nearest',
