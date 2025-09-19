@@ -5,6 +5,7 @@ import type { CommonInputProps } from '@rc-component/input/lib/interface';
 import type { TextAreaProps, TextAreaRef } from '@rc-component/textarea';
 import TextArea from '@rc-component/textarea';
 import toArray from '@rc-component/util/lib/Children/toArray';
+import useControlledState from '@rc-component/util/lib/hooks/useControlledState';
 import KeyCode from '@rc-component/util/lib/KeyCode';
 import React, {
   forwardRef,
@@ -29,7 +30,6 @@ import {
   setInputSelection,
 } from './util';
 import { UnstableContext } from './context';
-import { useMergedState } from '@rc-component/util';
 
 type BaseTextareaAttrs = Omit<
   TextAreaProps,
@@ -171,10 +171,10 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
     const [isFocus, setIsFocus] = useState(false);
 
     // ============================== Value ===============================
-    const [mergedValue, setMergedValue] = useMergedState('', {
-      defaultValue,
-      value: value,
-    });
+    const [mergedValue, setMergedValue] = useControlledState(
+      defaultValue || '',
+      value,
+    );
 
     // =============================== Open ===============================
     const { open } = useContext(UnstableContext);
@@ -564,10 +564,10 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
     }));
 
     // ============================== Value ===============================
-    const [mergedValue, setMergedValue] = useMergedState('', {
-      defaultValue,
-      value: customValue,
-    });
+    const [mergedValue, setMergedValue] = useControlledState(
+      defaultValue || '',
+      customValue,
+    );
 
     // ============================== Change ==============================
     const triggerChange = (currentValue: string) => {
