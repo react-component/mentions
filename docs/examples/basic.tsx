@@ -32,6 +32,11 @@ export default () => (
         label: 'Bamboo',
       },
       {
+        value: 'dark',
+        label: 'Dark',
+        disabled: true,
+      },
+      {
         value: 'cat',
         label: 'Cat',
       },
