@@ -59,6 +59,7 @@ describe('DropdownMenu', () => {
       block: 'nearest',
       inline: 'nearest',
     });
+    scrollIntoViewMock.mockClear();
 
     act(() => {
       // Press ArrowUp to verify scrolling up
