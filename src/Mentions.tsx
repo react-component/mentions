@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import { BaseInput } from '@rc-component/input';
 import type { HolderRef } from '@rc-component/input/lib/BaseInput';
 import type { CommonInputProps } from '@rc-component/input/lib/interface';
@@ -469,7 +469,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
 
     return (
       <div
-        className={classNames(prefixCls, className)}
+        className={clsx(prefixCls, className)}
         style={style}
         ref={containerRef}
       >
@@ -516,10 +516,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
                 options={mergedOptions}
                 visible
                 getPopupContainer={getPopupContainer}
-                popupClassName={classNames(
-                  popupClassName,
-                  mentionClassNames?.popup,
-                )}
+                popupClassName={clsx(popupClassName, mentionClassNames?.popup)}
                 popupStyle={styles?.popup}
               >
                 <span>{mergedMeasurePrefix}</span>
