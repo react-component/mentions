@@ -372,36 +372,28 @@ describe('Mentions', () => {
   });
 
   it('should generate different menu IDs between component instances', () => {
-    const {
-      container: container1,
-      unmount: unmount1,
-      baseElement: base1,
-    } = renderMentions({});
-    simulateInput(container1, '@');
-
-    const menuItems1 = Array.from(
-      base1.querySelectorAll('li.rc-mentions-dropdown-menu-item'),
+    const { container, baseElement } = render(
+      <>
+        {createMentions({ className: 'mentions-1' })}
+        {createMentions({ className: 'mentions-2' })}
+      </>,
     );
-    const keys1 = menuItems1.map(item => (item as HTMLElement).dataset.menuId);
 
-    expect(keys1.length).toBe(3);
-    expect(keys1.every(key => key && key.length > 0)).toBe(true);
+    const textareas = container.querySelectorAll('textarea');
+    simulateInput(textareas[0].parentElement, '@');
+    simulateInput(textareas[1].parentElement, '@');
 
-    // Clean up first component before rendering second
-    unmount1();
-
-    const { container: container2, baseElement: base2 } = renderMentions({});
-    simulateInput(container2, '@');
-
-    const menuItems2 = Array.from(
-      base2.querySelectorAll('li.rc-mentions-dropdown-menu-item'),
+    const allMenuItems = Array.from(
+      baseElement.querySelectorAll('li.rc-mentions-dropdown-menu-item'),
     );
-    const keys2 = menuItems2.map(item => (item as HTMLElement).dataset.menuId);
 
-    expect(keys2.length).toBe(3);
-    expect(keys2.every(key => key && key.length > 0)).toBe(true);
+    const menuItemKeys = allMenuItems.map(item =>
+      item.getAttribute('data-menu-id'),
+    );
 
-    const overlap = keys1.filter(key => keys2.includes(key));
-    expect(overlap).toHaveLength(0);
+    const uniqueMenuItemKeys = Array.from(new Set(menuItemKeys));
+
+    // As all input options items have different values, so there's no case that a Mentions instance has duplicated menu item keys.
+    expect(uniqueMenuItemKeys.length).toBe(menuItemKeys.length);
   });
 });
