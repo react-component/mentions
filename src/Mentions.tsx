@@ -24,7 +24,6 @@ import Option from './Option';
 import {
   filterOption as defaultFilterOption,
   validateSearch as defaultValidateSearch,
-  generateUniqueKey,
   getBeforeSelectionText,
   getLastMeasureIndex,
   replaceWithMeasure,
@@ -171,8 +170,8 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
     const [activeIndex, setActiveIndex] = useState(0);
     const [isFocus, setIsFocus] = useState(false);
 
-    // ============================== Memo ===============================
-    const menuUniqueKey = React.useMemo(() => generateUniqueKey(), []);
+    // ============================== Unique Key ===============================
+    const menuUniqueKey = React.useId();
     // ============================== Value ===============================
     const [mergedValue, setMergedValue] = useControlledState(
       defaultValue || '',
