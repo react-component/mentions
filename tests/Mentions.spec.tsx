@@ -370,4 +370,38 @@ describe('Mentions', () => {
       expect(textarea?.style.resize).toBe('none');
     });
   });
+
+  it('should generate different menu IDs between component instances', () => {
+    const {
+      container: container1,
+      unmount: unmount1,
+      baseElement: base1,
+    } = renderMentions({});
+    simulateInput(container1, '@');
+
+    const menuItems1 = Array.from(
+      base1.querySelectorAll('li.rc-mentions-dropdown-menu-item'),
+    );
+    const keys1 = menuItems1.map(item => (item as HTMLElement).dataset.menuId);
+
+    expect(keys1.length).toBe(3);
+    expect(keys1.every(key => key && key.length > 0)).toBe(true);
+
+    // Clean up first component before rendering second
+    unmount1();
+
+    const { container: container2, baseElement: base2 } = renderMentions({});
+    simulateInput(container2, '@');
+
+    const menuItems2 = Array.from(
+      base2.querySelectorAll('li.rc-mentions-dropdown-menu-item'),
+    );
+    const keys2 = menuItems2.map(item => (item as HTMLElement).dataset.menuId);
+
+    expect(keys2.length).toBe(3);
+    expect(keys2.every(key => key && key.length > 0)).toBe(true);
+
+    const overlap = keys1.filter(key => keys2.includes(key));
+    expect(overlap).toHaveLength(0);
+  });
 });
