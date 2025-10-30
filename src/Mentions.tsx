@@ -257,7 +257,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
           return filterOption(targetMeasureText, option);
         });
       },
-      [children, options, filterOption],
+      [options, menuUniqueKey, children, filterOption],
     );
 
     const mergedOptions = React.useMemo(
