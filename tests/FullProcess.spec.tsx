@@ -227,4 +227,42 @@ describe('Full Process', () => {
 
     expect(onChange).toBeCalledWith('@bamboo ');
   });
+
+  it("Two Mentions have different dropdown item's uniqueKey although same value", () => {
+    const sharedOptions = [
+      {
+        value: 'light',
+        label: 'Light',
+      },
+      {
+        value: 'bamboo',
+        label: 'Bamboo',
+      },
+      {
+        value: 'cat',
+        label: 'Cat',
+      },
+    ];
+
+    const { container: container1 } = render(
+      <Mentions options={sharedOptions} />,
+    );
+    const { container: container2 } = render(
+      <Mentions options={sharedOptions} />,
+    );
+
+    simulateInput(container1, '@');
+    const firstMenuItems = Array.from(
+      container1.querySelectorAll('li.rc-mentions-dropdown-menu-item-active'),
+    ).map(item => item.getAttribute('key'));
+
+    simulateInput(container2, '@');
+    const secondMenuItems = Array.from(
+      container2.querySelectorAll('li.rc-mentions-dropdown-menu-item-active'),
+    ).map(item => item.getAttribute('key'));
+
+    firstMenuItems.forEach((key, index) => {
+      expect(key).not.toBe(secondMenuItems[index]);
+    });
+  });
 });
