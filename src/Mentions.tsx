@@ -171,6 +171,8 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
     const [activeIndex, setActiveIndex] = useState(0);
     const [isFocus, setIsFocus] = useState(false);
 
+    // ============================== Memo ===============================
+    const menuUniqueKey = React.useMemo(() => generateUniqueKey(), []);
     // ============================== Value ===============================
     const [mergedValue, setMergedValue] = useControlledState(
       defaultValue || '',
@@ -225,7 +227,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
     const getOptions = React.useCallback(
       (targetMeasureText: string) => {
         let list;
-        const menuUniqueKey = generateUniqueKey();
+
         if (options && options.length > 0) {
           list = options.map(item => ({
             ...item,
