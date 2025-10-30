@@ -133,3 +133,7 @@ export function filterOption(
   const lowerCase = input.toLowerCase();
   return value.toLowerCase().indexOf(lowerCase) !== -1;
 }
+
+export const generateUniqueKey = () => {
+  return Math.random().toString(36).substring(2, 11);
+};

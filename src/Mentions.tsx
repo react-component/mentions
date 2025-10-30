@@ -24,6 +24,7 @@ import Option from './Option';
 import {
   filterOption as defaultFilterOption,
   validateSearch as defaultValidateSearch,
+  generateUniqueKey,
   getBeforeSelectionText,
   getLastMeasureIndex,
   replaceWithMeasure,
@@ -224,10 +225,11 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
     const getOptions = React.useCallback(
       (targetMeasureText: string) => {
         let list;
+        const menuUniqueKey = generateUniqueKey();
         if (options && options.length > 0) {
           list = options.map(item => ({
             ...item,
-            key: item?.key ?? item.value,
+            key: `${item?.key ?? item.value}-${menuUniqueKey}`,
           }));
         } else {
           list = toArray(children).map(
@@ -240,7 +242,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
             }) => ({
               ...optionProps,
               label: optionProps.children,
-              key: (key || optionProps.value) as string,
+              key: `${key || optionProps.value}-${menuUniqueKey}`,
             }),
           );
         }
