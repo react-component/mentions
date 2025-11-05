@@ -142,7 +142,6 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
       onPopupScroll,
 
       // Rest
-      id,
       ...restProps
     } = props;
 
@@ -174,7 +173,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
     const [isFocus, setIsFocus] = useState(false);
 
     // ================================ Id ================================
-    const uniqueKey = useId(id);
+    const uniqueKey = useId(props.id);
 
     // ============================== Value ===============================
     const [mergedValue, setMergedValue] = useControlledState(
@@ -479,7 +478,6 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
         className={clsx(prefixCls, className)}
         style={style}
         ref={containerRef}
-        id={id}
       >
         <TextArea
           classNames={{ textarea: mentionClassNames?.textarea }}
