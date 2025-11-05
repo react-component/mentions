@@ -9,6 +9,12 @@ import { expectMatchOptions, expectMeasuring, simulateInput } from './util';
 
 const { Option } = Mentions;
 
+jest.mock('@rc-component/util/lib/hooks/useId', () => {
+  const { useId } = jest.requireActual('react');
+
+  return useId;
+});
+
 describe('Mentions', () => {
   function createMentions(
     props?: MentionsProps & { ref?: React.Ref<MentionsRef> },
@@ -369,5 +375,31 @@ describe('Mentions', () => {
       expect(textarea).not.toBeNull();
       expect(textarea?.style.resize).toBe('none');
     });
+  });
+
+  it('should generate different menu IDs between component instances', () => {
+    const { container, baseElement } = render(
+      <>
+        {createMentions({ className: 'mentions-1' })}
+        {createMentions({ className: 'mentions-2' })}
+      </>,
+    );
+
+    const textareas = container.querySelectorAll('textarea');
+    simulateInput(textareas[0].parentElement, '@');
+    simulateInput(textareas[1].parentElement, '@');
+
+    const allMenuItems = Array.from(
+      baseElement.querySelectorAll('li.rc-mentions-dropdown-menu-item'),
+    );
+
+    const menuItemKeys = allMenuItems.map(item =>
+      item.getAttribute('data-menu-id'),
+    );
+
+    const uniqueMenuItemKeys = Array.from(new Set(menuItemKeys));
+
+    // As all input options items have different values, so there's no case that a Mentions instance has duplicated menu item keys.
+    expect(uniqueMenuItemKeys.length).toBe(menuItemKeys.length);
   });
 });

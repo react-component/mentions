@@ -7,6 +7,7 @@ import TextArea from '@rc-component/textarea';
 import toArray from '@rc-component/util/lib/Children/toArray';
 import useControlledState from '@rc-component/util/lib/hooks/useControlledState';
 import KeyCode from '@rc-component/util/lib/KeyCode';
+import useId from '@rc-component/util/lib/hooks/useId';
 import React, {
   forwardRef,
   useContext,
@@ -44,6 +45,7 @@ export interface DataDrivenOptionProps extends Omit<OptionProps, 'children'> {
 }
 
 export interface MentionsProps extends BaseTextareaAttrs {
+  id?: string;
   autoFocus?: boolean;
   className?: string;
   defaultValue?: string;
@@ -140,6 +142,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
       onPopupScroll,
 
       // Rest
+      id,
       ...restProps
     } = props;
 
@@ -169,6 +172,9 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
     const [measureLocation, setMeasureLocation] = useState(0);
     const [activeIndex, setActiveIndex] = useState(0);
     const [isFocus, setIsFocus] = useState(false);
+
+    // ================================ Id ================================
+    const uniqueKey = useId(id);
 
     // ============================== Value ===============================
     const [mergedValue, setMergedValue] = useControlledState(
@@ -224,10 +230,11 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
     const getOptions = React.useCallback(
       (targetMeasureText: string) => {
         let list;
+
         if (options && options.length > 0) {
           list = options.map(item => ({
             ...item,
-            key: item?.key ?? item.value,
+            key: `${item?.key ?? item.value}-${uniqueKey}`,
           }));
         } else {
           list = toArray(children).map(
@@ -240,7 +247,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
             }) => ({
               ...optionProps,
               label: optionProps.children,
-              key: (key || optionProps.value) as string,
+              key: `${key || optionProps.value}-${uniqueKey}`,
             }),
           );
         }
@@ -253,7 +260,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
           return filterOption(targetMeasureText, option);
         });
       },
-      [children, options, filterOption],
+      [options, uniqueKey, children, filterOption],
     );
 
     const mergedOptions = React.useMemo(
@@ -472,6 +479,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
         className={clsx(prefixCls, className)}
         style={style}
         ref={containerRef}
+        id={id}
       >
         <TextArea
           classNames={{ textarea: mentionClassNames?.textarea }}
@@ -539,6 +547,7 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
       prefixCls = 'rc-mentions',
       defaultValue,
       value: customValue,
+      id,
       allowClear,
       onChange,
       classNames: mentionsClassNames,
@@ -595,6 +604,7 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
           styles={styles}
           classNames={mentionsClassNames}
           prefixCls={prefixCls}
+          id={id}
           ref={mentionRef}
           onChange={triggerChange}
           disabled={disabled}
