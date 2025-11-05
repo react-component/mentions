@@ -9,6 +9,12 @@ import { expectMatchOptions, expectMeasuring, simulateInput } from './util';
 
 const { Option } = Mentions;
 
+jest.mock('@rc-component/util/lib/hooks/useId', () => {
+  const { useId } = jest.requireActual('react');
+
+  return useId;
+});
+
 describe('Mentions', () => {
   function createMentions(
     props?: MentionsProps & { ref?: React.Ref<MentionsRef> },
