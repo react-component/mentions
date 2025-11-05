@@ -174,7 +174,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
     const [isFocus, setIsFocus] = useState(false);
 
     // ================================ Id ================================
-    const mergedId = useId(id);
+    const uniqueKey = useId(id);
 
     // ============================== Value ===============================
     const [mergedValue, setMergedValue] = useControlledState(
@@ -234,7 +234,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
         if (options && options.length > 0) {
           list = options.map(item => ({
             ...item,
-            key: `${item?.key ?? item.value}-${mergedId}`,
+            key: `${item?.key ?? item.value}-${uniqueKey}`,
           }));
         } else {
           list = toArray(children).map(
@@ -247,7 +247,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
             }) => ({
               ...optionProps,
               label: optionProps.children,
-              key: `${key || optionProps.value}-${mergedId}`,
+              key: `${key || optionProps.value}-${uniqueKey}`,
             }),
           );
         }
@@ -260,7 +260,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
           return filterOption(targetMeasureText, option);
         });
       },
-      [options, mergedId, children, filterOption],
+      [options, uniqueKey, children, filterOption],
     );
 
     const mergedOptions = React.useMemo(
@@ -479,7 +479,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
         className={clsx(prefixCls, className)}
         style={style}
         ref={containerRef}
-        id={mergedId}
+        id={id}
       >
         <TextArea
           classNames={{ textarea: mentionClassNames?.textarea }}
