@@ -4,14 +4,10 @@ exports[`should support allowClear should not show icon if defaultValue is undef
 <span
   class="rc-mentions-affix-wrapper"
 >
-  <div
-    class="rc-mentions"
-  >
-    <textarea
-      class="rc-textarea"
-      rows="1"
-    />
-  </div>
+  <textarea
+    class="rc-textarea"
+    rows="1"
+  />
   <span
     class="rc-mentions-suffix"
   >
@@ -30,14 +26,10 @@ exports[`should support allowClear should not show icon if defaultValue is undef
 <span
   class="rc-mentions-affix-wrapper"
 >
-  <div
-    class="rc-mentions"
-  >
-    <textarea
-      class="rc-textarea"
-      rows="1"
-    />
-  </div>
+  <textarea
+    class="rc-textarea"
+    rows="1"
+  />
   <span
     class="rc-mentions-suffix"
   >
@@ -56,14 +48,10 @@ exports[`should support allowClear should not show icon if defaultValue is undef
 <span
   class="rc-mentions-affix-wrapper"
 >
-  <div
-    class="rc-mentions"
-  >
-    <textarea
-      class="rc-textarea"
-      rows="1"
-    />
-  </div>
+  <textarea
+    class="rc-textarea"
+    rows="1"
+  />
   <span
     class="rc-mentions-suffix"
   >
@@ -82,14 +70,10 @@ exports[`should support allowClear should not show icon if value is undefined, n
 <span
   class="rc-mentions-affix-wrapper"
 >
-  <div
-    class="rc-mentions"
-  >
-    <textarea
-      class="rc-textarea"
-      rows="1"
-    />
-  </div>
+  <textarea
+    class="rc-textarea"
+    rows="1"
+  />
   <span
     class="rc-mentions-suffix"
   >
@@ -108,14 +92,10 @@ exports[`should support allowClear should not show icon if value is undefined, n
 <span
   class="rc-mentions-affix-wrapper"
 >
-  <div
-    class="rc-mentions"
-  >
-    <textarea
-      class="rc-textarea"
-      rows="1"
-    />
-  </div>
+  <textarea
+    class="rc-textarea"
+    rows="1"
+  />
   <span
     class="rc-mentions-suffix"
   >
@@ -134,14 +114,10 @@ exports[`should support allowClear should not show icon if value is undefined, n
 <span
   class="rc-mentions-affix-wrapper"
 >
-  <div
-    class="rc-mentions"
-  >
-    <textarea
-      class="rc-textarea"
-      rows="1"
-    />
-  </div>
+  <textarea
+    class="rc-textarea"
+    rows="1"
+  />
   <span
     class="rc-mentions-suffix"
   >

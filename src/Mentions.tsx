@@ -92,7 +92,11 @@ export interface MentionsRef {
   nativeElement: HTMLElement;
 }
 
-const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
+interface InternalMentionsProps extends MentionsProps {
+  hasWrapper: boolean;
+}
+
+const InternalMentions = forwardRef<MentionsRef, InternalMentionsProps>(
   (props, ref) => {
     const {
       // Style
@@ -111,6 +115,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
       children,
       options,
       allowClear,
+      hasWrapper,
       silent,
 
       // Events
@@ -472,13 +477,8 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
     };
 
     // ============================== Render ==============================
-
-    return (
-      <div
-        className={clsx(prefixCls, className)}
-        style={style}
-        ref={containerRef}
-      >
+    const mentionNode = (
+      <>
         <TextArea
           classNames={{ textarea: mentionClassNames?.textarea }}
           /**
@@ -533,8 +533,22 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>(
             )}
           </div>
         )}
-      </div>
+      </>
     );
+
+    if (!hasWrapper) {
+      return (
+        <div
+          className={clsx(prefixCls, className)}
+          style={style}
+          ref={containerRef}
+        >
+          {mentionNode}
+        </div>
+      );
+    }
+
+    return mentionNode;
   },
 );
 
@@ -606,6 +620,7 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
           ref={mentionRef}
           onChange={triggerChange}
           disabled={disabled}
+          hasWrapper={!!(allowClear || suffix)}
           {...rest}
         />
       </BaseInput>

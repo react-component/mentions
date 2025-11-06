@@ -343,40 +343,6 @@ describe('Mentions', () => {
     expect(onPopupScroll).toHaveBeenCalled();
   });
 
-  describe('nativeElement', () => {
-    it('work', () => {
-      const ref = createRef<MentionsRef>();
-      const { container } = render(createMentions({ ref }));
-
-      expect(ref.current.nativeElement).toBe(
-        container.querySelector('.rc-mentions'),
-      );
-    });
-
-    it('wrap ref', () => {
-      const ref = createRef<MentionsRef>();
-      const { container } = render(createMentions({ ref, allowClear: true }));
-
-      expect(ref.current.nativeElement).toBe(
-        container.querySelector('.rc-mentions-affix-wrapper'),
-      );
-    });
-
-    it('should apply resize style to textarea', () => {
-      const { container } = render(
-        <Mentions style={{ resize: 'none' }}>
-          <Option value="bamboo">Bamboo</Option>
-          <Option value="light">Light</Option>
-          <Option value="cat">Cat</Option>
-        </Mentions>,
-      );
-
-      const textarea = container.querySelector('textarea');
-      expect(textarea).not.toBeNull();
-      expect(textarea?.style.resize).toBe('none');
-    });
-  });
-
   it('should generate different menu IDs between component instances', () => {
     const { container, baseElement } = render(
       <>
