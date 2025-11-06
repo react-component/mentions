@@ -2,7 +2,7 @@
 
 exports[`should support allowClear should not show icon if defaultValue is undefined, null or empty string 1`] = `
 <span
-  class="rc-mentions-affix-wrapper"
+  class="rc-mentions-affix-wrapper rc-mentions"
 >
   <textarea
     class="rc-textarea"
@@ -24,7 +24,7 @@ exports[`should support allowClear should not show icon if defaultValue is undef
 
 exports[`should support allowClear should not show icon if defaultValue is undefined, null or empty string 2`] = `
 <span
-  class="rc-mentions-affix-wrapper"
+  class="rc-mentions-affix-wrapper rc-mentions"
 >
   <textarea
     class="rc-textarea"
@@ -46,7 +46,7 @@ exports[`should support allowClear should not show icon if defaultValue is undef
 
 exports[`should support allowClear should not show icon if defaultValue is undefined, null or empty string 3`] = `
 <span
-  class="rc-mentions-affix-wrapper"
+  class="rc-mentions-affix-wrapper rc-mentions"
 >
   <textarea
     class="rc-textarea"
@@ -68,7 +68,7 @@ exports[`should support allowClear should not show icon if defaultValue is undef
 
 exports[`should support allowClear should not show icon if value is undefined, null or empty string 1`] = `
 <span
-  class="rc-mentions-affix-wrapper"
+  class="rc-mentions-affix-wrapper rc-mentions"
 >
   <textarea
     class="rc-textarea"
@@ -90,7 +90,7 @@ exports[`should support allowClear should not show icon if value is undefined, n
 
 exports[`should support allowClear should not show icon if value is undefined, null or empty string 2`] = `
 <span
-  class="rc-mentions-affix-wrapper"
+  class="rc-mentions-affix-wrapper rc-mentions"
 >
   <textarea
     class="rc-textarea"
@@ -112,7 +112,7 @@ exports[`should support allowClear should not show icon if value is undefined, n
 
 exports[`should support allowClear should not show icon if value is undefined, null or empty string 3`] = `
 <span
-  class="rc-mentions-affix-wrapper"
+  class="rc-mentions-affix-wrapper rc-mentions"
 >
   <textarea
     class="rc-textarea"
