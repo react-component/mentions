@@ -571,6 +571,8 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
     },
     ref,
   ) => {
+    const hasSuffix = !!(suffix || allowClear);
+
     // =============================== Ref ================================
     const holderRef = useRef<HolderRef>(null);
     const mentionRef = useRef<MentionsRef>(null);
@@ -605,7 +607,10 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
         value={mergedValue}
         allowClear={allowClear}
         handleReset={handleReset}
-        className={clsx(prefixCls, className)}
+        className={clsx(prefixCls, className, {
+          // hasSuffix
+          [`${prefixCls}-has-suffix`]: hasSuffix,
+        })}
         classNames={mentionsClassNames}
         disabled={disabled}
         ref={holderRef}
@@ -620,7 +625,7 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
           ref={mentionRef}
           onChange={triggerChange}
           disabled={disabled}
-          hasWrapper={!!(allowClear || suffix)}
+          hasWrapper={hasSuffix}
           {...rest}
         />
       </BaseInput>
