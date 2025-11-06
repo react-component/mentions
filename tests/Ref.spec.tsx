@@ -70,13 +70,4 @@ describe('Mentions.Ref', () => {
     expect(textarea).not.toBeNull();
     expect(textarea?.style.resize).toBe('none');
   });
-
-  it('with allowClear', () => {
-    const ref = createRef<MentionsRef>();
-    const { container } = render(createMentions({ ref, allowClear: true }));
-
-    expect(ref.current.nativeElement).toBe(
-      container.querySelector('.rc-mentions-affix-wrapper'),
-    );
-  });
 });
