@@ -477,8 +477,8 @@ const InternalMentions = forwardRef<MentionsRef, InternalMentionsProps>(
     };
 
     // ============================== Styles ==============================
-    const resizeStyle = styles?.textarea?.resize ?? style?.resize;
     const mergedStyles = React.useMemo(() => {
+      const resizeStyle = styles?.textarea?.resize ?? style?.resize;
       const mergedTextareaStyle = { ...styles?.textarea };
 
       // Only add resize if it has a valid value, avoid setting undefined
@@ -490,7 +490,7 @@ const InternalMentions = forwardRef<MentionsRef, InternalMentionsProps>(
         ...styles,
         textarea: mergedTextareaStyle,
       };
-    }, [resizeStyle, styles]);
+    }, [style, styles]);
 
     // ============================== Render ==============================
 
