@@ -69,9 +69,14 @@ const KeywordTrigger: FC<KeywordTriggerProps> = props => {
   } = props;
 
   const dropdownPrefix = `${prefixCls}-dropdown`;
+  const [opened, setOpened] = React.useState(false);
 
   const dropdownElement = (
-    <DropdownMenu prefixCls={dropdownPrefix} options={options} />
+    <DropdownMenu
+      prefixCls={dropdownPrefix}
+      options={options}
+      opened={opened}
+    />
   );
 
   const dropdownPlacement = useMemo(() => {
@@ -95,6 +100,7 @@ const KeywordTrigger: FC<KeywordTriggerProps> = props => {
       getPopupContainer={getPopupContainer}
       popupClassName={popupClassName}
       popupStyle={popupStyle}
+      afterOpenChange={setOpened}
     >
       {children}
     </Trigger>
