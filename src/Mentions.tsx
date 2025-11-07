@@ -76,6 +76,7 @@ export interface MentionsProps extends BaseTextareaAttrs {
     popup?: string;
   };
   styles?: {
+    suffix?: React.CSSProperties;
     textarea?: React.CSSProperties;
     popup?: React.CSSProperties;
   };
