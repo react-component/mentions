@@ -368,4 +368,22 @@ describe('Mentions', () => {
     // As all input options items have different values, so there's no case that a Mentions instance has duplicated menu item keys.
     expect(uniqueMenuItemKeys.length).toBe(menuItemKeys.length);
   });
+
+  describe('resize style', () => {
+    it('should apply resize style from style prop', () => {
+      const { container } = renderMentions({
+        style: { resize: 'vertical' },
+      });
+      const textarea = container.querySelector('textarea');
+      expect(textarea).toHaveStyle({ resize: 'vertical' });
+    });
+
+    it('should apply resize style from styles.textarea prop', () => {
+      const { container } = renderMentions({
+        styles: { textarea: { resize: 'vertical' } },
+      });
+      const textarea = container.querySelector('textarea');
+      expect(textarea).toHaveStyle({ resize: 'vertical' });
+    });
+  });
 });
