@@ -476,7 +476,24 @@ const InternalMentions = forwardRef<MentionsRef, InternalMentionsProps>(
       onPopupScroll?.(event);
     };
 
+    // ============================== Styles ==============================
+    const mergedStyles = React.useMemo(() => {
+      const resizeStyle = styles?.textarea?.resize ?? style?.resize;
+      const mergedTextareaStyle = { ...styles?.textarea };
+
+      // Only add resize if it has a valid value, avoid setting undefined
+      if (resizeStyle !== undefined) {
+        mergedTextareaStyle.resize = resizeStyle;
+      }
+
+      return {
+        ...styles,
+        textarea: mergedTextareaStyle,
+      };
+    }, [style, styles]);
+
     // ============================== Render ==============================
+
     const mentionNode = (
       <>
         <TextArea
@@ -487,8 +504,7 @@ const InternalMentions = forwardRef<MentionsRef, InternalMentionsProps>(
            * The TextArea component code and found that the resize parameter in the style of the ResizeTextArea component is obtained from prop.style.
            * Just pass the resize attribute and leave everything else unchanged.
            */
-          style={{ resize: style?.resize }}
-          styles={{ textarea: styles?.textarea }}
+          styles={mergedStyles}
           ref={textareaRef}
           value={mergedValue}
           {...restProps}

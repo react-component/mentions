@@ -1,8 +1,7 @@
 import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react';
-import KeyCode from '@rc-component/util/lib/KeyCode';
+import { render, act } from '@testing-library/react';
 import Mentions, { UnstableContext } from '../src';
-import { expectMeasuring, simulateInput } from './util';
+import { simulateInput } from './util';
 
 describe('DropdownMenu', () => {
   // Generate 20 options for testing scrolling behavior
