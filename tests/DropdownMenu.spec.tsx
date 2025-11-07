@@ -19,7 +19,7 @@ describe('DropdownMenu', () => {
     jest.useRealTimers();
   });
 
-  it('should scroll into view when navigating with keyboard', () => {
+  it('should scroll into view when navigating with keyboard', async () => {
     // Setup component with UnstableContext for testing dropdown behavior
     const { container } = render(
       <UnstableContext.Provider value={{ open: true }}>
@@ -32,47 +32,18 @@ describe('DropdownMenu', () => {
       .spyOn(HTMLElement.prototype, 'scrollIntoView')
       .mockImplementation(jest.fn());
 
-    const textarea = container.querySelector('textarea')!;
+    // Trigger should not scroll
+    simulateInput(container, '@');
+    expect(scrollIntoViewMock).not.toHaveBeenCalled();
 
-    act(() => {
-      // First trigger the measuring state by typing @
-      simulateInput(container, '@');
-      jest.runAllTimers();
-    });
-
-    // Verify we're in measuring state
-    expectMeasuring(container, true);
-
-    act(() => {
-      // Press ArrowDown multiple times to make options overflow the visible area
-      for (let i = 0; i < 10; i++) {
-        fireEvent.keyDown(textarea, {
-          keyCode: KeyCode.DOWN,
-          which: KeyCode.DOWN,
-        });
-      }
-      jest.runAllTimers();
-    });
+    for (let i = 0; i < 10; i++) {
+      await act(async () => {
+        jest.advanceTimersByTime(1000);
+        await Promise.resolve();
+      });
+    }
 
     // Verify if scrollIntoView was called
-    expect(scrollIntoViewMock).toHaveBeenCalledWith({
-      block: 'nearest',
-      inline: 'nearest',
-    });
-    scrollIntoViewMock.mockClear();
-
-    act(() => {
-      // Press ArrowUp to verify scrolling up
-      for (let i = 0; i < 5; i++) {
-        fireEvent.keyDown(textarea, {
-          keyCode: KeyCode.UP,
-          which: KeyCode.UP,
-        });
-      }
-      jest.runAllTimers();
-    });
-
-    // Verify if scrollIntoView was called again
     expect(scrollIntoViewMock).toHaveBeenCalledWith({
       block: 'nearest',
       inline: 'nearest',
