@@ -9,12 +9,18 @@ describe('DropdownMenu', () => {
     label: `item-${index}`,
   }));
 
+  let originResizeObserver: any;
   beforeAll(() => {
-    global.ResizeObserver = class ResizeObserver {
+    originResizeObserver = (global as any).ResizeObserver;
+    (global as any).ResizeObserver = class ResizeObserver {
       observe() {}
       unobserve() {}
       disconnect() {}
     };
+  });
+
+  afterAll(() => {
+    (global as any).ResizeObserver = originResizeObserver;
   });
 
   beforeEach(() => {
@@ -23,7 +29,7 @@ describe('DropdownMenu', () => {
 
   afterEach(() => {
     jest.useRealTimers();
-    jest.clearAllMocks();
+    jest.restoreAllMocks();
   });
 
   it('should scroll into view when navigating with keyboard (Focused)', async () => {
@@ -76,10 +82,9 @@ describe('DropdownMenu', () => {
     await act(async () => {
       fireEvent.blur(textarea);
 
-      const menuItems = document.querySelectorAll('.rc-mentions-menu-item');
-      if (menuItems.length > 1) {
-        fireEvent.mouseEnter(menuItems[1]);
-      }
+      const menuItems = container.querySelectorAll('.rc-mentions-menu-item');
+      expect(menuItems.length).toBeGreaterThan(1);
+      fireEvent.mouseEnter(menuItems[1]);
 
       jest.runAllTimers();
     });
