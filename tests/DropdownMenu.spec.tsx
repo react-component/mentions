@@ -57,7 +57,7 @@ describe('DropdownMenu', () => {
     scrollIntoViewMock.mockRestore();
   });
 
-  it('should NOT scroll into view when input is NOT focused', async () => {
+  it('should NOT scroll and hit the return statement when input blurs but menu is arguably open', async () => {
     const { container } = render(
       <Mentions defaultValue="" options={generateOptions} />,
     );
@@ -73,19 +73,15 @@ describe('DropdownMenu', () => {
       jest.runAllTimers();
     });
 
-    scrollIntoViewMock.mockClear();
-
     await act(async () => {
       fireEvent.blur(textarea);
-      jest.runAllTimers();
-    });
 
-    await act(async () => {
       const menuItems = document.querySelectorAll('.rc-mentions-menu-item');
       if (menuItems.length > 1) {
         fireEvent.mouseEnter(menuItems[1]);
-        jest.runAllTimers();
       }
+
+      jest.runAllTimers();
     });
 
     expect(scrollIntoViewMock).not.toHaveBeenCalled();
