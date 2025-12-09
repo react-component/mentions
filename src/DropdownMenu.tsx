@@ -35,7 +35,6 @@ function DropdownMenu(props: DropdownMenuProps) {
       return;
     }
 
-    // 只有当焦点恰好位于当前文本区域时，才进行滚动操作。
     if (
       textareaRef?.current &&
       document.activeElement !== textareaRef.current.nativeElement
