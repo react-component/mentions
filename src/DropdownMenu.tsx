@@ -22,6 +22,7 @@ function DropdownMenu(props: DropdownMenuProps) {
     onFocus,
     onBlur,
     onScroll,
+    textareaRef,
   } = React.useContext(MentionsContext);
 
   const { prefixCls, options, opened } = props;
@@ -34,6 +35,14 @@ function DropdownMenu(props: DropdownMenuProps) {
       return;
     }
 
+    // 只有当焦点恰好位于当前文本区域时，才进行滚动操作。
+    if (
+      textareaRef?.current &&
+      document.activeElement !== textareaRef.current.nativeElement
+    ) {
+      return;
+    }
+
     const activeItem = menuRef.current?.findItem?.({ key: activeOption.key });
 
     if (activeItem) {
@@ -42,7 +51,7 @@ function DropdownMenu(props: DropdownMenuProps) {
         inline: 'nearest',
       });
     }
-  }, [activeIndex, activeOption.key, opened]);
+  }, [activeIndex, activeOption.key, opened, textareaRef]);
 
   return (
     <Menu

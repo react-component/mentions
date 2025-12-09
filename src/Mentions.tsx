@@ -529,6 +529,7 @@ const InternalMentions = forwardRef<MentionsRef, InternalMentionsProps>(
                 onFocus: onDropdownFocus,
                 onBlur: onDropdownBlur,
                 onScroll: onInternalPopupScroll,
+                textareaRef,
               }}
             >
               <KeywordTrigger
