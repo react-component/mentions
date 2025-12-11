@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, act, fireEvent } from '@testing-library/react';
+import { render, act, fireEvent, waitFor } from '@testing-library/react';
 import Mentions from '../src';
 import { simulateInput } from './util';
 
@@ -79,13 +79,21 @@ describe('DropdownMenu', () => {
       jest.runAllTimers();
     });
 
-    await act(async () => {
-      fireEvent.blur(textarea);
-
-      const menuItems = container.querySelectorAll('.rc-mentions-menu-item');
+    await waitFor(() => {
+      const menuItems = document.querySelectorAll(
+        '.rc-mentions-dropdown-menu-item',
+      );
       expect(menuItems.length).toBeGreaterThan(1);
+    });
+
+    const menuItems = document.querySelectorAll(
+      '.rc-mentions-dropdown-menu-item',
+    );
+
+    await act(async () => {
       fireEvent.mouseEnter(menuItems[1]);
 
+      fireEvent.blur(textarea);
       jest.runAllTimers();
     });
 
