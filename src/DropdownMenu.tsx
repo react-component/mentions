@@ -66,7 +66,9 @@ function DropdownMenu(props: DropdownMenuProps) {
             className={className}
             style={style}
             onMouseEnter={() => {
-              setActiveIndex(index);
+              if (!disabled) {
+                setActiveIndex(index);
+              }
             }}
           >
             {label}

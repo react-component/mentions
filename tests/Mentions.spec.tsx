@@ -159,6 +159,62 @@ describe('Mentions', () => {
       });
       expect(container.querySelector('textarea').value).toBe('@lig');
     });
+
+    it('should skip disabled option on Enter', () => {
+      const { container } = renderMentions({
+        options: [
+          { value: 'bamboo', label: 'Bamboo', disabled: true },
+          { value: 'light', label: 'Light' },
+          { value: 'cat', label: 'Cat' },
+        ],
+      });
+
+      simulateInput(container, '@');
+      fireEvent.keyDown(container.querySelector('textarea'), {
+        which: KeyCode.ENTER,
+        keyCode: KeyCode.ENTER,
+      });
+      expect(container.querySelector('textarea').value).toBe('@light ');
+    });
+
+    it('should keep text when all options disabled', () => {
+      const { container } = renderMentions({
+        options: [
+          { value: 'bamboo', label: 'Bamboo', disabled: true },
+          { value: 'light', label: 'Light', disabled: true },
+          { value: 'cat', label: 'Cat', disabled: true },
+        ],
+      });
+
+      simulateInput(container, '@a');
+      fireEvent.keyDown(container.querySelector('textarea'), {
+        which: KeyCode.ENTER,
+        keyCode: KeyCode.ENTER,
+      });
+      expect(container.querySelector('textarea').value).toBe('@a');
+    });
+
+    it('arrow keys should skip disabled options', () => {
+      const { container } = renderMentions({
+        options: [
+          { value: 'bamboo', label: 'Bamboo' },
+          { value: 'light', label: 'Light', disabled: true },
+          { value: 'cat', label: 'Cat' },
+        ],
+      });
+
+      simulateInput(container, '@');
+      // DOWN 应该从 bamboo 跳到 cat（跳过 disabled 的 light）
+      fireEvent.keyDown(container.querySelector('textarea'), {
+        which: KeyCode.DOWN,
+        keyCode: KeyCode.DOWN,
+      });
+      fireEvent.keyDown(container.querySelector('textarea'), {
+        which: KeyCode.ENTER,
+        keyCode: KeyCode.ENTER,
+      });
+      expect(container.querySelector('textarea').value).toBe('@cat ');
+    });
   });
 
   describe('support children Option', () => {
