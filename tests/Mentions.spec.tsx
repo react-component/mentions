@@ -204,7 +204,6 @@ describe('Mentions', () => {
       });
 
       simulateInput(container, '@');
-      // DOWN 应该从 bamboo 跳到 cat（跳过 disabled 的 light）
       fireEvent.keyDown(container.querySelector('textarea'), {
         which: KeyCode.DOWN,
         keyCode: KeyCode.DOWN,
@@ -214,6 +213,32 @@ describe('Mentions', () => {
         keyCode: KeyCode.ENTER,
       });
       expect(container.querySelector('textarea').value).toBe('@cat ');
+    });
+
+    it('should handle options shrink safely when pressing Enter', () => {
+      const { container, rerender } = renderMentions();
+
+      simulateInput(container, '@');
+
+      fireEvent.keyDown(container.querySelector('textarea'), {
+        which: KeyCode.DOWN,
+        keyCode: KeyCode.DOWN,
+      });
+      fireEvent.keyDown(container.querySelector('textarea'), {
+        which: KeyCode.DOWN,
+        keyCode: KeyCode.DOWN,
+      });
+      rerender(
+        createMentions({
+          options: [{ value: 'bamboo', label: 'Bamboo' }],
+        }),
+      );
+
+      fireEvent.keyDown(container.querySelector('textarea'), {
+        which: KeyCode.ENTER,
+        keyCode: KeyCode.ENTER,
+      });
+      expect(container.querySelector('textarea').value).toBe('@bamboo ');
     });
   });
 

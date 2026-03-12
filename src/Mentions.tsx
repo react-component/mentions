@@ -299,7 +299,7 @@ const InternalMentions = forwardRef<MentionsRef, InternalMentionsProps>(
       }
 
       const currentOption = mergedOptions[activeIndex];
-      if (activeIndex === -1 || currentOption?.disabled) {
+      if (!currentOption || currentOption.disabled) {
         setActiveIndex(getEnabledActiveIndex(0));
       }
     }, [
@@ -345,8 +345,8 @@ const InternalMentions = forwardRef<MentionsRef, InternalMentionsProps>(
       triggerChange(nextValue);
     };
 
-    const selectOption = (option: OptionProps) => {
-      if (option?.disabled) {
+    const selectOption = (option?: OptionProps) => {
+      if (!option || option.disabled) {
         return;
       }
       const { value: mentionValue = '' } = option;
@@ -411,7 +411,10 @@ const InternalMentions = forwardRef<MentionsRef, InternalMentionsProps>(
         }
 
         let targetIndex = activeIndex;
-        if (targetIndex === -1 || mergedOptions[targetIndex]?.disabled) {
+        if (
+          !mergedOptions[targetIndex] ||
+          mergedOptions[targetIndex].disabled
+        ) {
           targetIndex = getEnabledActiveIndex(0);
         }
 
