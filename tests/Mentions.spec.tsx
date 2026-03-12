@@ -240,6 +240,23 @@ describe('Mentions', () => {
       });
       expect(container.querySelector('textarea').value).toBe('@bamboo ');
     });
+
+    it('should handle arrow keys when no options', () => {
+      const { container } = renderMentions({
+        options: [],
+      });
+
+      simulateInput(container, '@');
+
+      expect(() => {
+        fireEvent.keyDown(container.querySelector('textarea'), {
+          which: KeyCode.DOWN,
+          keyCode: KeyCode.DOWN,
+        });
+      }).not.toThrow();
+
+      expect(container.querySelector('textarea').value).toBe('@');
+    });
   });
 
   describe('support children Option', () => {
