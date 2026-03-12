@@ -273,6 +273,43 @@ const InternalMentions = forwardRef<MentionsRef, InternalMentionsProps>(
       [getOptions, mergedMeasureText],
     );
 
+    const getEnabledActiveIndex = React.useCallback(
+      (index: number, offset: number = 1): number => {
+        const len = mergedOptions.length;
+        if (!len) {
+          return -1;
+        }
+
+        for (let i = 0; i < len; i += 1) {
+          const current = (index + i * offset + len) % len;
+          const option = mergedOptions[current];
+          if (!option?.disabled) {
+            return current;
+          }
+        }
+
+        return -1;
+      },
+      [mergedOptions],
+    );
+
+    useEffect(() => {
+      if (!mergedMeasuring) {
+        return;
+      }
+
+      const currentOption = mergedOptions[activeIndex];
+      if (!currentOption || currentOption.disabled) {
+        setActiveIndex(getEnabledActiveIndex(0));
+      }
+    }, [
+      mergedMeasuring,
+      mergedOptions,
+      activeIndex,
+      getEnabledActiveIndex,
+      setActiveIndex,
+    ]);
+
     // ============================= Measure ==============================
     // Mark that we will reset input selection to target position when user select option
     const onSelectionEffect = useEffectState();
@@ -286,7 +323,7 @@ const InternalMentions = forwardRef<MentionsRef, InternalMentionsProps>(
       setMeasureText(nextMeasureText);
       setMeasurePrefix(nextMeasurePrefix);
       setMeasureLocation(nextMeasureLocation);
-      setActiveIndex(0);
+      setActiveIndex(getEnabledActiveIndex(0));
     };
 
     const stopMeasure = (callback?: VoidFunction) => {
@@ -308,7 +345,10 @@ const InternalMentions = forwardRef<MentionsRef, InternalMentionsProps>(
       triggerChange(nextValue);
     };
 
-    const selectOption = (option: OptionProps) => {
+    const selectOption = (option?: OptionProps) => {
+      if (!option || option.disabled) {
+        return;
+      }
       const { value: mentionValue = '' } = option;
       const { text, selectionLocation } = replaceWithMeasure(mergedValue, {
         measureLocation: mergedMeasureLocation,
@@ -343,9 +383,17 @@ const InternalMentions = forwardRef<MentionsRef, InternalMentionsProps>(
       if (which === KeyCode.UP || which === KeyCode.DOWN) {
         // Control arrow function
         const optionLen = mergedOptions.length;
+        if (!optionLen) {
+          return;
+        }
         const offset = which === KeyCode.UP ? -1 : 1;
-        const newActiveIndex = (activeIndex + offset + optionLen) % optionLen;
-        setActiveIndex(newActiveIndex);
+        const newActiveIndex = getEnabledActiveIndex(
+          activeIndex + offset,
+          offset,
+        );
+        if (newActiveIndex !== -1) {
+          setActiveIndex(newActiveIndex);
+        }
         event.preventDefault();
       } else if (which === KeyCode.ESC) {
         stopMeasure();
@@ -361,8 +409,22 @@ const InternalMentions = forwardRef<MentionsRef, InternalMentionsProps>(
           stopMeasure();
           return;
         }
-        const option = mergedOptions[activeIndex];
-        selectOption(option);
+
+        let targetIndex = activeIndex;
+        if (
+          !mergedOptions[targetIndex] ||
+          mergedOptions[targetIndex].disabled
+        ) {
+          targetIndex = getEnabledActiveIndex(0);
+        }
+
+        if (targetIndex === -1) {
+          stopMeasure();
+          return;
+        }
+
+        setActiveIndex(targetIndex);
+        selectOption(mergedOptions[targetIndex]);
       }
     };
 
