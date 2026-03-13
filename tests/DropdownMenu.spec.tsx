@@ -22,7 +22,7 @@ describe('DropdownMenu', () => {
     // Setup component with UnstableContext for testing dropdown behavior
     const { container } = render(
       <UnstableContext.Provider value={{ open: true }}>
-        <Mentions defaultValue="@" options={generateOptions} />
+        <Mentions autoFocus defaultValue="@" options={generateOptions} />
       </UnstableContext.Provider>,
     );
 
@@ -47,6 +47,31 @@ describe('DropdownMenu', () => {
       block: 'nearest',
       inline: 'nearest',
     });
+
+    scrollIntoViewMock.mockRestore();
+  });
+
+  it('should NOT scroll into view when navigating without focus', async () => {
+    const { container } = render(
+      <UnstableContext.Provider value={{ open: true }}>
+        <Mentions defaultValue="@" options={generateOptions} />
+      </UnstableContext.Provider>,
+    );
+
+    const scrollIntoViewMock = jest
+      .spyOn(HTMLElement.prototype, 'scrollIntoView')
+      .mockImplementation(jest.fn());
+
+    simulateInput(container, '@');
+
+    for (let i = 0; i < 10; i++) {
+      await act(async () => {
+        jest.advanceTimersByTime(1000);
+        await Promise.resolve();
+      });
+    }
+
+    expect(scrollIntoViewMock).not.toHaveBeenCalled();
 
     scrollIntoViewMock.mockRestore();
   });
