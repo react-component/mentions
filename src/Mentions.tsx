@@ -1,9 +1,8 @@
 import { clsx } from 'clsx';
-import { BaseInput } from '@rc-component/input';
+import { BaseInput, TextArea } from '@rc-component/input';
 import type { HolderRef } from '@rc-component/input/lib/BaseInput';
 import type { CommonInputProps } from '@rc-component/input/lib/interface';
-import type { TextAreaProps, TextAreaRef } from '@rc-component/textarea';
-import TextArea from '@rc-component/textarea';
+import type { TextAreaProps, TextAreaRef } from '@rc-component/input';
 import toArray from '@rc-component/util/lib/Children/toArray';
 import useControlledState from '@rc-component/util/lib/hooks/useControlledState';
 import KeyCode from '@rc-component/util/lib/KeyCode';
