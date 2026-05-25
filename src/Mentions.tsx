@@ -1,12 +1,17 @@
 import { clsx } from 'clsx';
 import { BaseInput, TextArea } from '@rc-component/input';
-import type { HolderRef } from '@rc-component/input/lib/BaseInput';
-import type { CommonInputProps } from '@rc-component/input/lib/interface';
-import type { TextAreaProps, TextAreaRef } from '@rc-component/input';
-import toArray from '@rc-component/util/lib/Children/toArray';
-import useControlledState from '@rc-component/util/lib/hooks/useControlledState';
-import KeyCode from '@rc-component/util/lib/KeyCode';
-import useId from '@rc-component/util/lib/hooks/useId';
+import type {
+  BaseInputProps,
+  HolderRef,
+  TextAreaProps,
+  TextAreaRef,
+} from '@rc-component/input';
+import {
+  KeyCode,
+  toArray,
+  useControlledState,
+  useId,
+} from '@rc-component/util';
 import React, {
   forwardRef,
   useContext,
@@ -69,7 +74,7 @@ export interface MentionsProps extends BaseTextareaAttrs {
   popupClassName?: string;
   children?: React.ReactNode;
   options?: DataDrivenOptionProps[];
-  classNames?: CommonInputProps['classNames'] & {
+  classNames?: BaseInputProps['classNames'] & {
     mentions?: string;
     textarea?: string;
     popup?: string;
