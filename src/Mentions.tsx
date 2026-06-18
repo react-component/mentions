@@ -85,6 +85,12 @@ export interface MentionsProps extends BaseTextareaAttrs {
     popup?: React.CSSProperties;
   };
   onPopupScroll?: (event: React.UIEvent<HTMLDivElement>) => void;
+  /**
+   * Customize the dropdown menu rendering
+   * @param menu The default dropdown menu
+   * @returns The customized dropdown menu
+   */
+  popupRender?: (menu: React.ReactNode) => React.ReactNode;
 }
 
 export interface MentionsRef {
@@ -150,6 +156,7 @@ const InternalMentions = forwardRef<MentionsRef, InternalMentionsProps>(
       // @ts-expect-error
       visible,
       onPopupScroll,
+      popupRender,
 
       // Rest
       ...restProps
@@ -607,6 +614,7 @@ const InternalMentions = forwardRef<MentionsRef, InternalMentionsProps>(
                 getPopupContainer={getPopupContainer}
                 popupClassName={clsx(popupClassName, mentionClassNames?.popup)}
                 popupStyle={styles?.popup}
+                popupRender={popupRender}
               >
                 <span>{mergedMeasurePrefix}</span>
               </KeywordTrigger>
