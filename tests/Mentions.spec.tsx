@@ -484,4 +484,24 @@ describe('Mentions', () => {
       expect(textarea).toHaveStyle({ resize: 'vertical' });
     });
   });
+
+  describe('popupRender', () => {
+    it('should render custom popup content', () => {
+      const { container, baseElement } = renderMentions({
+        popupRender: menu => (
+          <div className="custom-popup">
+            <div className="custom-header">Custom Header</div>
+            {menu}
+          </div>
+        ),
+      });
+
+      simulateInput(container, '@');
+
+      expect(baseElement.querySelector('.custom-header')).toBeTruthy();
+      expect(
+        baseElement.querySelector('.rc-mentions-dropdown-menu'),
+      ).toBeTruthy();
+    });
+  });
 });
