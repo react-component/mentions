@@ -90,7 +90,7 @@ export interface MentionsProps extends BaseTextareaAttrs {
    * @param menu The default dropdown menu
    * @returns The customized dropdown menu
    */
-  popupRender?: (menu: React.ReactNode) => React.ReactNode;
+  popupRender?: (menu: React.ReactElement) => React.ReactNode;
 }
 
 export interface MentionsRef {
