@@ -52,7 +52,7 @@ interface KeywordTriggerProps {
   getPopupContainer?: () => HTMLElement;
   popupClassName?: string;
   popupStyle?: React.CSSProperties;
-  popupRender?: (menu: React.ReactNode) => React.ReactNode;
+  popupRender?: (menu: React.ReactElement) => React.ReactNode;
 }
 
 const KeywordTrigger: FC<KeywordTriggerProps> = props => {
