@@ -2,6 +2,12 @@
 import { defineConfig } from 'dumi';
 
 const name = 'mentions';
+const isProdSite =
+  process.env.GH_PAGES === '1' ||
+  (process.env.GITHUB_ACTIONS === 'true' && process.env.PREVIEW !== 'true');
+
+const basePath = isProdSite ? `/${name}/` : '/';
+const publicPath = isProdSite ? `/${name}/` : '/';
 
 export default defineConfig({
   favicons: ['https://avatars0.githubusercontent.com/u/9441414?s=200&v=4'],
@@ -9,10 +15,10 @@ export default defineConfig({
     name: '@rc-component/mentions',
     logo: 'https://avatars0.githubusercontent.com/u/9441414?s=200&v=4',
   },
-  outputPath: '.doc',
+  outputPath: 'docs-dist',
   exportStatic: {},
-  base: `/${name}/`,
-  publicPath: `/${name}/`,
+  base: basePath,
+  publicPath,
   styles: [
     `
       .markdown table {
