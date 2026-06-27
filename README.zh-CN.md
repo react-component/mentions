@@ -68,14 +68,14 @@ export default () => (
 
 ## 示例
 
-本地运行示例：
+运行本地 dumi 站点：
 
 ```bash
 npm install
 npm start
 ```
 
-示例站点包含基础用法、动态建议、自定义过滤、多前缀、文本域行为和滚动回调。
+然后打开 `http://localhost:8000`。
 
 ## API
 
