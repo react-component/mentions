@@ -2,9 +2,7 @@
 import { defineConfig } from 'dumi';
 
 const name = 'mentions';
-const isProdSite =
-  process.env.GH_PAGES === '1' ||
-  (process.env.GITHUB_ACTIONS === 'true' && process.env.PREVIEW !== 'true');
+const isProdSite = process.env.GH_PAGES === '1';
 
 const basePath = isProdSite ? `/${name}/` : '/';
 const publicPath = isProdSite ? `/${name}/` : '/';
