@@ -98,7 +98,7 @@ npm start
 | popupClassName    | `string`                                                   | -             | 弹层窗口的className称。        |
 | prefix            | `string \| string[]`                                       | `@`           | 触发前缀或前缀。               |
 | prefixCls         | `string`                                                   | `rc-mentions` | className前缀。                |
-| rows              | `number`                                                   | `1`           | Textarea row count.            |
+| rows              | `number`                                                   | `1`           | 文本域行数。                   |
 | silent            | `boolean`                                                  | `false`       | 忽略过渡阶段的 Enter 行为。    |
 | split             | `string`                                                   | `' '`         | 在选定的提及之后插入的字符串。 |
 | style             | `React.CSSProperties`                                      | -             | 根元素的内联样式。             |
