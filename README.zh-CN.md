@@ -85,8 +85,8 @@ npm start
 | autoFocus         | `boolean`                                                  | `false`       | 安装后聚焦文本区域。           |
 | autoSize          | `boolean \| { minRows?: number; maxRows?: number }`        | -             | 自动调整文本区域高度。         |
 | children          | `ReactNode`                                                | -             | `Mentions.Option` 小朋友。     |
-| className         | `string`                                                   | -             | 根元素的className。            |
-| classNames        | `MentionsProps['classNames']`                              | -             | 插槽的语义className称。        |
+| className         | `string`                                                   | -             | 根元素的 className。           |
+| classNames        | `MentionsProps['classNames']`                              | -             | 插槽的语义 className。         |
 | defaultValue      | `string`                                                   | -             | 初始值。                       |
 | direction         | `'ltr' \| 'rtl'`                                           | `ltr`         | 弹层方向。                     |
 | filterOption      | `false \| (input: string, option: OptionProps) => boolean` | -             | 自定义选项过滤。               |
@@ -95,9 +95,9 @@ npm start
 | notFoundContent   | `ReactNode`                                                | `Not Found`   | 没有选项匹配时显示的内容。     |
 | options           | `DataDrivenOptionProps[]`                                  | -             | 数据驱动的选项。               |
 | placement         | `'top' \| 'bottom'`                                        | `bottom`      | 建议弹层窗口放置。             |
-| popupClassName    | `string`                                                   | -             | 弹层窗口的className称。        |
+| popupClassName    | `string`                                                   | -             | 弹层窗口的 className。         |
 | prefix            | `string \| string[]`                                       | `@`           | 触发前缀或前缀。               |
-| prefixCls         | `string`                                                   | `rc-mentions` | className前缀。                |
+| prefixCls         | `string`                                                   | `rc-mentions` | className 前缀。               |
 | rows              | `number`                                                   | `1`           | 文本域行数。                   |
 | silent            | `boolean`                                                  | `false`       | 忽略过渡阶段的 Enter 行为。    |
 | split             | `string`                                                   | `' '`         | 在选定的提及之后插入的字符串。 |
@@ -122,7 +122,7 @@ npm start
 | 参数      | 类型                  | 默认值  | 说明                   |
 | --------- | --------------------- | ------- | ---------------------- |
 | children  | `ReactNode`           | -       | 选项标签。             |
-| className | `string`              | -       | 选项的className称。    |
+| className | `string`              | -       | 选项的 className。     |
 | disabled  | `boolean`             | `false` | 禁用该选项。           |
 | key       | `string`              | -       | React键和选项键。      |
 | style     | `React.CSSProperties` | -       | 内联选项样式。         |
