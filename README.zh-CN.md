@@ -6,7 +6,6 @@
 
 <p align="center"><a href="./README.md">English</a> | 简体中文</p>
 
-
 <div align="center">
 
 [![NPM version][npm-image]][npm-url]
@@ -17,7 +16,6 @@
 [![dumi][dumi-image]][dumi-url]
 
 </div>
-
 
 ## 特性
 
@@ -81,54 +79,54 @@ npm start
 
 ### Mentions
 
-| 参数          | 类型                                                       | 默认值       | 说明                                     |
-| ----------------- | ---------------------------------------------------------- | ------------- | ----------------------------------------------- |
+| 参数              | 类型                                                       | 默认值        | 说明                           |
+| ----------------- | ---------------------------------------------------------- | ------------- | ------------------------------ |
 | allowClear        | `boolean \| { clearIcon?: ReactNode }`                     | `false`       | 显示文本区域值的清除按钮。     |
-| autoFocus         | `boolean`                                                  | `false`       | 安装后聚焦文本区域。                |
-| autoSize          | `boolean \| { minRows?: number; maxRows?: number }`        | -             | 自动调整文本区域高度。                    |
-| children们          | `ReactNode`                                                | -             | `Mentions.Option` 小朋友。                     |
-| className         | `string`                                                   | -             | 根元素的className。                |
-| classNames        | `MentionsProps['classNames']`                              | -             | 插槽的语义className称。                 |
-| defaultValue      | `string`                                                   | -             | 初始值。                                  |
-| direction         | `'ltr' \| 'rtl'`                                           | `ltr`         | 弹层方向。                                |
-| filterOption      | `false \| (input: string, option: OptionProps) => boolean` | -             | 自定义选项过滤。                     |
-| getPopupContainer | `() => HTMLElement`                                        | -             | 建议弹层窗口的容器。             |
-| id                | `string`                                                   | -             | Textarea id.                                    |
-| notFoundContent   | `ReactNode`                                                | `Not Found`   | 没有选项匹配时显示的内容。           |
-| 选项           | `DataDrivenOptionProps[]`                                  | -             | 数据驱动的选项。                            |
-| placement         | `'top' \| 'bottom'`                                        | `bottom`      | 建议弹层窗口放置。                     |
-| popupClassName    | `string`                                                   | -             | 弹层窗口的className称。                       |
-| 前缀            | `string \| string[]`                                       | `@`           | 触发前缀或前缀。                     |
-| prefixCls         | `string`                                                   | `rc-mentions` | className前缀。                              |
-| rows              | `number`                                                   | `1`           | Textarea row count.                             |
-| silent            | `boolean`                                                  | `false`       | 忽略过渡阶段的 Enter 行为。 |
-| split             | `string`                                                   | `' '`         | 在选定的提及之后插入的字符串。       |
-| 风格             | `React.CSSProperties`                                      | -             | 根元素的内联样式。             |
-| styles            | `MentionsProps['styles']`                                  | -             | Semantic styles for slots.                      |
-| transitionName    | `string`                                                   | -             | 弹层过渡名称。                          |
-| validateSearch    | `(text: string, split: MentionsProps['split']) => boolean` | -             | 自定义触发搜索逻辑。                 |
-| 价值             | `string`                                                   | -             | 受控值。                               |
-| onBlur            | `React.FocusEventHandler<HTMLTextAreaElement>`             | -             | 当文本区域失去焦点时触发。            |
-| onChange          | `(text: string) => void`                                   | -             | 当值改变时触发。                   |
-| onFocus           | `React.FocusEventHandler<HTMLTextAreaElement>`             | -             | 当文本区域获得焦点时触发。         |
-| onKeyDown         | `React.KeyboardEventHandler<HTMLTextAreaElement>`          | -             | Triggered on key down.                          |
-| onKeyUp           | `React.KeyboardEventHandler<HTMLTextAreaElement>`          | -             | Triggered on key up.                            |
-| onPopupScroll     | `(event: React.UIEvent<HTMLDivElement>) => void`           | -             | 当弹层窗口滚动时触发。               |
-| onPressEnter      | `React.KeyboardEventHandler<HTMLTextAreaElement>`          | -             | 当按下 Enter 时触发。                |
-| onResize          | `(size: { width: number; height: number }) => void`        | -             | 当文本区域大小改变时触发。           |
-| onSearch          | `(text: string, prefix: string) => void`                   | -             | 当前缀开始搜索时触发。        |
-| onSelect          | `(option: OptionProps, prefix: string) => void`            | -             | 选择选项时触发。           |
+| autoFocus         | `boolean`                                                  | `false`       | 安装后聚焦文本区域。           |
+| autoSize          | `boolean \| { minRows?: number; maxRows?: number }`        | -             | 自动调整文本区域高度。         |
+| children          | `ReactNode`                                                | -             | `Mentions.Option` 小朋友。     |
+| className         | `string`                                                   | -             | 根元素的className。            |
+| classNames        | `MentionsProps['classNames']`                              | -             | 插槽的语义className称。        |
+| defaultValue      | `string`                                                   | -             | 初始值。                       |
+| direction         | `'ltr' \| 'rtl'`                                           | `ltr`         | 弹层方向。                     |
+| filterOption      | `false \| (input: string, option: OptionProps) => boolean` | -             | 自定义选项过滤。               |
+| getPopupContainer | `() => HTMLElement`                                        | -             | 建议弹层窗口的容器。           |
+| id                | `string`                                                   | -             | Textarea id.                   |
+| notFoundContent   | `ReactNode`                                                | `Not Found`   | 没有选项匹配时显示的内容。     |
+| options           | `DataDrivenOptionProps[]`                                  | -             | 数据驱动的选项。               |
+| placement         | `'top' \| 'bottom'`                                        | `bottom`      | 建议弹层窗口放置。             |
+| popupClassName    | `string`                                                   | -             | 弹层窗口的className称。        |
+| prefix            | `string \| string[]`                                       | `@`           | 触发前缀或前缀。               |
+| prefixCls         | `string`                                                   | `rc-mentions` | className前缀。                |
+| rows              | `number`                                                   | `1`           | Textarea row count.            |
+| silent            | `boolean`                                                  | `false`       | 忽略过渡阶段的 Enter 行为。    |
+| split             | `string`                                                   | `' '`         | 在选定的提及之后插入的字符串。 |
+| style             | `React.CSSProperties`                                      | -             | 根元素的内联样式。             |
+| styles            | `MentionsProps['styles']`                                  | -             | Semantic styles for slots.     |
+| transitionName    | `string`                                                   | -             | 弹层过渡名称。                 |
+| validateSearch    | `(text: string, split: MentionsProps['split']) => boolean` | -             | 自定义触发搜索逻辑。           |
+| value             | `string`                                                   | -             | 受控值。                       |
+| onBlur            | `React.FocusEventHandler<HTMLTextAreaElement>`             | -             | 当文本区域失去焦点时触发。     |
+| onChange          | `(text: string) => void`                                   | -             | 当值改变时触发。               |
+| onFocus           | `React.FocusEventHandler<HTMLTextAreaElement>`             | -             | 当文本区域获得焦点时触发。     |
+| onKeyDown         | `React.KeyboardEventHandler<HTMLTextAreaElement>`          | -             | Triggered on key down.         |
+| onKeyUp           | `React.KeyboardEventHandler<HTMLTextAreaElement>`          | -             | Triggered on key up.           |
+| onPopupScroll     | `(event: React.UIEvent<HTMLDivElement>) => void`           | -             | 当弹层窗口滚动时触发。         |
+| onPressEnter      | `React.KeyboardEventHandler<HTMLTextAreaElement>`          | -             | 当按下 Enter 时触发。          |
+| onResize          | `(size: { width: number; height: number }) => void`        | -             | 当文本区域大小改变时触发。     |
+| onSearch          | `(text: string, prefix: string) => void`                   | -             | 当前缀开始搜索时触发。         |
+| onSelect          | `(option: OptionProps, prefix: string) => void`            | -             | 选择选项时触发。               |
 
 ### Option
 
-| 参数  | 类型                  | 默认值 | 说明                               |
-| --------- | --------------------- | ------- | ----------------------------------------- |
-| children们  | `ReactNode`           | -       | 选项标签。                             |
-| className | `string`              | -       | 选项的className称。                |
-| disabled  | `boolean`             | `false` | 禁用该选项。                       |
-| key       | `string`              | -       | React键和选项键。                 |
-| 风格     | `React.CSSProperties` | -       | 内联选项样式。                      |
-| 价值     | `string`              | -       | 提及插入文本区域的值。 |
+| 参数      | 类型                  | 默认值  | 说明                   |
+| --------- | --------------------- | ------- | ---------------------- |
+| children  | `ReactNode`           | -       | 选项标签。             |
+| className | `string`              | -       | 选项的className称。    |
+| disabled  | `boolean`             | `false` | 禁用该选项。           |
+| key       | `string`              | -       | React键和选项键。      |
+| style     | `React.CSSProperties` | -       | 内联选项样式。         |
+| value     | `string`              | -       | 提及插入文本区域的值。 |
 
 ### Ref
 
@@ -141,10 +139,10 @@ ref.current?.focus();
 ref.current?.blur();
 ```
 
-| 参数      | 类型                          | 说明                    |
-| ------------- | ----------------------------- | ------------------------------ |
-| 重点         | `() => void`                  | 聚焦文本区域。            |
-| 模糊          | `() => void`                  | 模糊文本区域。             |
+| 参数          | 类型                          | 说明                   |
+| ------------- | ----------------------------- | ---------------------- |
+| focus         | `() => void`                  | 聚焦文本区域。         |
+| blur          | `() => void`                  | 模糊文本区域。         |
 | textarea      | `HTMLTextAreaElement \| null` | 已弃用的文本区域参考。 |
 | nativeElement | `HTMLElement`                 | 根原生元素。           |
 
