@@ -6,7 +6,6 @@
 
 <p align="center">English | <a href="./README.zh-CN.md">简体中文</a></p>
 
-
 <div align="center">
 
 [![NPM version][npm-image]][npm-url]
@@ -17,7 +16,6 @@
 [![dumi][dumi-image]][dumi-url]
 
 </div>
-
 
 ## Highlights
 
@@ -158,6 +156,8 @@ npm run tsc
 npm run compile
 npm run build
 ```
+
+The dumi site runs at `http://localhost:8000` by default.
 
 ## Release
 
