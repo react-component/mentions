@@ -84,17 +84,17 @@ npm start
 | allowClear        | `boolean \| { clearIcon?: ReactNode }`                     | `false`       | 显示文本区域值的清除按钮。     |
 | autoFocus         | `boolean`                                                  | `false`       | 安装后聚焦文本区域。           |
 | autoSize          | `boolean \| { minRows?: number; maxRows?: number }`        | -             | 自动调整文本区域高度。         |
-| children          | `ReactNode`                                                | -             | `Mentions.Option` 小朋友。     |
+| children          | `ReactNode`                                                | -             | `Mentions.Option` 子元素。     |
 | className         | `string`                                                   | -             | 根元素的 className。           |
 | classNames        | `MentionsProps['classNames']`                              | -             | 插槽的语义 className。         |
 | defaultValue      | `string`                                                   | -             | 初始值。                       |
 | direction         | `'ltr' \| 'rtl'`                                           | `ltr`         | 弹层方向。                     |
 | filterOption      | `false \| (input: string, option: OptionProps) => boolean` | -             | 自定义选项过滤。               |
-| getPopupContainer | `() => HTMLElement`                                        | -             | 建议弹层窗口的容器。           |
-| id                | `string`                                                   | -             | Textarea id.                   |
+| getPopupContainer | `() => HTMLElement`                                        | -             | 指定弹层窗口的容器。           |
+| id                | `string`                                                   | -             | 文本域 id。                    |
 | notFoundContent   | `ReactNode`                                                | `Not Found`   | 没有选项匹配时显示的内容。     |
 | options           | `DataDrivenOptionProps[]`                                  | -             | 数据驱动的选项。               |
-| placement         | `'top' \| 'bottom'`                                        | `bottom`      | 建议弹层窗口放置。             |
+| placement         | `'top' \| 'bottom'`                                        | `bottom`      | 弹层窗口位置。                 |
 | popupClassName    | `string`                                                   | -             | 弹层窗口的 className。         |
 | prefix            | `string \| string[]`                                       | `@`           | 触发前缀或前缀。               |
 | prefixCls         | `string`                                                   | `rc-mentions` | className 前缀。               |
@@ -102,15 +102,15 @@ npm start
 | silent            | `boolean`                                                  | `false`       | 忽略过渡阶段的 Enter 行为。    |
 | split             | `string`                                                   | `' '`         | 在选定的提及之后插入的字符串。 |
 | style             | `React.CSSProperties`                                      | -             | 根元素的内联样式。             |
-| styles            | `MentionsProps['styles']`                                  | -             | Semantic styles for slots.     |
+| styles            | `MentionsProps['styles']`                                  | -             | 插槽的语义化样式。             |
 | transitionName    | `string`                                                   | -             | 弹层过渡名称。                 |
 | validateSearch    | `(text: string, split: MentionsProps['split']) => boolean` | -             | 自定义触发搜索逻辑。           |
 | value             | `string`                                                   | -             | 受控值。                       |
 | onBlur            | `React.FocusEventHandler<HTMLTextAreaElement>`             | -             | 当文本区域失去焦点时触发。     |
 | onChange          | `(text: string) => void`                                   | -             | 当值改变时触发。               |
 | onFocus           | `React.FocusEventHandler<HTMLTextAreaElement>`             | -             | 当文本区域获得焦点时触发。     |
-| onKeyDown         | `React.KeyboardEventHandler<HTMLTextAreaElement>`          | -             | Triggered on key down.         |
-| onKeyUp           | `React.KeyboardEventHandler<HTMLTextAreaElement>`          | -             | Triggered on key up.           |
+| onKeyDown         | `React.KeyboardEventHandler<HTMLTextAreaElement>`          | -             | 按键按下时触发。               |
+| onKeyUp           | `React.KeyboardEventHandler<HTMLTextAreaElement>`          | -             | 按键释放时触发。               |
 | onPopupScroll     | `(event: React.UIEvent<HTMLDivElement>) => void`           | -             | 当弹层窗口滚动时触发。         |
 | onPressEnter      | `React.KeyboardEventHandler<HTMLTextAreaElement>`          | -             | 当按下 Enter 时触发。          |
 | onResize          | `(size: { width: number; height: number }) => void`        | -             | 当文本区域大小改变时触发。     |
