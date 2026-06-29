@@ -402,6 +402,13 @@ const InternalMentions = forwardRef<MentionsRef, InternalMentionsProps>(
       } else if (which === KeyCode.ESC) {
         stopMeasure();
       } else if (which === KeyCode.ENTER) {
+        // The Enter key that only confirms an IME composition should not select
+        // the active option. On some browsers (e.g. Safari) this keydown still
+        // reports `which === ENTER` while `isComposing` is true, the same case
+        // rc-select guards against in its input.
+        if (event.nativeEvent.isComposing) {
+          return;
+        }
         // Measure hit
         event.preventDefault();
         // loading skip
