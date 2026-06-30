@@ -1,4 +1,4 @@
-import { fireEvent } from '@testing-library/react';
+import { fireEvent } from '@testing-library/dom';
 
 export function simulateInput(
   container: HTMLElement,
