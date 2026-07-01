@@ -510,7 +510,7 @@ const InternalMentions = forwardRef<MentionsRef, InternalMentionsProps>(
     };
 
     // ============================ Focus Blur ============================
-    const focusRef = useRef<number>();
+    const focusRef = useRef<number | undefined>(undefined);
 
     const onInternalFocus = (event?: React.FocusEvent<HTMLTextAreaElement>) => {
       window.clearTimeout(focusRef.current);
