@@ -114,6 +114,7 @@ Then open `http://localhost:8000`.
 | onResize          | `(size: { width: number; height: number }) => void`        | -             | Triggered when textarea size changes.           |
 | onSearch          | `(text: string, prefix: string) => void`                   | -             | Triggered when a prefix starts a search.        |
 | onSelect          | `(option: OptionProps, prefix: string) => void`            | -             | Triggered when an option is selected.           |
+| popupRender       | `(menu: React.ReactElement) => ReactNode`                  | -             | Customize the dropdown menu rendering           |         
 
 ### Option
 

@@ -52,6 +52,7 @@ interface KeywordTriggerProps {
   getPopupContainer?: () => HTMLElement;
   popupClassName?: string;
   popupStyle?: React.CSSProperties;
+  popupRender?: (menu: React.ReactElement) => React.ReactNode;
 }
 
 const KeywordTrigger: FC<KeywordTriggerProps> = props => {
@@ -66,6 +67,7 @@ const KeywordTrigger: FC<KeywordTriggerProps> = props => {
     popupStyle,
     direction,
     placement,
+    popupRender,
   } = props;
 
   const dropdownPrefix = `${prefixCls}-dropdown`;
@@ -89,11 +91,15 @@ const KeywordTrigger: FC<KeywordTriggerProps> = props => {
     return popupPlacement;
   }, [direction, placement]);
 
+  const dropdownPopup = popupRender
+    ? popupRender(dropdownElement)
+    : dropdownElement;
+
   return (
     <Trigger
       prefixCls={dropdownPrefix}
       popupVisible={visible}
-      popup={dropdownElement}
+      popup={dropdownPopup}
       popupPlacement={dropdownPlacement}
       popupMotion={{ motionName: transitionName }}
       builtinPlacements={BUILT_IN_PLACEMENTS}
