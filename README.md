@@ -1,136 +1,171 @@
-# rc-mentions
+<div align="center">
+  <h1>@rc-component/mentions</h1>
+  <p><sub><img alt="Ant Design" height="14" src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg" style="vertical-align: -0.125em;" /> Part of the Ant Design ecosystem.</sub></p>
+  <p>💬 React mentions textarea with searchable suggestions and keyboard navigation.</p>
 
-[![NPM version][npm-image]][npm-url]
-[![npm download][download-image]][download-url]
-[![build status][github-actions-image]][github-actions-url]
-[![Codecov][codecov-image]][codecov-url]
-[![bundle size][bundlephobia-image]][bundlephobia-url]
-[![dumi][dumi-image]][dumi-url]
+  <p>
+    <a href="https://npmjs.org/package/@rc-component/mentions"><img alt="NPM version" src="https://img.shields.io/npm/v/@rc-component/mentions.svg?style=flat-square"></a>
+    <a href="https://npmjs.org/package/@rc-component/mentions"><img alt="npm downloads" src="https://img.shields.io/npm/dm/@rc-component/mentions.svg?style=flat-square"></a>
+    <a href="https://github.com/react-component/mentions/actions/workflows/react-component-ci.yml"><img alt="build status" src="https://github.com/react-component/mentions/actions/workflows/react-component-ci.yml/badge.svg"></a>
+    <a href="https://app.codecov.io/gh/react-component/mentions"><img alt="Codecov" src="https://img.shields.io/codecov/c/github/react-component/mentions/master.svg?style=flat-square"></a>
+    <a href="https://bundlephobia.com/package/@rc-component/mentions"><img alt="bundle size" src="https://img.shields.io/bundlephobia/minzip/@rc-component/mentions?style=flat-square"></a>
+    <a href="https://github.com/umijs/dumi"><img alt="dumi" src="https://img.shields.io/badge/docs%20by-dumi-blue?style=flat-square"></a>
+  </p>
+</div>
 
-[npm-image]: http://img.shields.io/npm/v/rc-mentions.svg?style=flat-square
-[npm-url]: http://npmjs.org/package/rc-mentions
-[travis-image]: https://img.shields.io/travis/react-component/mentions/master?style=flat-square
-[travis-url]: https://travis-ci.com/react-component/mentions
-[github-actions-image]: https://github.com/react-component/mentions/workflows/CI/badge.svg
-[github-actions-url]: https://github.com/react-component/mentions/actions
-[codecov-image]: https://img.shields.io/codecov/c/github/react-component/mentions/master.svg?style=flat-square
-[codecov-url]: https://app.codecov.io/gh/react-component/mentions
-[david-url]: https://david-dm.org/react-component/mentions
-[david-image]: https://david-dm.org/react-component/mentions/status.svg?style=flat-square
-[david-dev-url]: https://david-dm.org/react-component/mentions?type=dev
-[david-dev-image]: https://david-dm.org/react-component/mentions/dev-status.svg?style=flat-square
-[download-image]: https://img.shields.io/npm/dm/rc-mentions.svg?style=flat-square
-[download-url]: https://npmjs.org/package/rc-mentions
-[bundlephobia-url]: https://bundlephobia.com/package/rc-mentions
-[bundlephobia-image]: https://badgen.net/bundlephobia/minzip/rc-mentions
-[dumi-url]: https://github.com/umijs/dumi
-[dumi-image]: https://img.shields.io/badge/docs%20by-dumi-blue?style=flat-square
+<p align="center">English | <a href="./README.zh-CN.md">简体中文</a></p>
 
-## Screenshots
+## Highlights
 
-<img src="https://user-images.githubusercontent.com/5378891/57270992-2fd48780-70c0-11e9-91ae-c614d0b49a45.png" />
+- Textarea mentions with prefix based search and selection.
+- Keyboard navigation for suggestion menus.
+- Data-driven `options` API and `Option` children API.
+- Multiple prefixes, custom filtering, custom validation, and split token support.
+- Built on `@rc-component/input`, `@rc-component/menu`, and `@rc-component/trigger`.
 
-## Feature
+## Install
 
-- support ie9,ie9+,chrome,firefox,safari
+```bash
+npm install @rc-component/mentions
+```
 
-### Keyboard
-
-- Open mentions (focus input || focus and click)
-- KeyDown/KeyUp/Enter to navigate menu
-
-## install
-
-[![rc-mentions](https://nodei.co/npm/rc-mentions.png)](https://npmjs.org/package/rc-mentions)
+> The package is published as `@rc-component/mentions`. Legacy `rc-mentions` references should migrate to the scoped package name.
 
 ## Usage
 
-### basic use
-
-```js
-/**
- * inline: true
- */
+```tsx | pure
 import Mentions from '@rc-component/mentions';
-// Import the default styles
-import './index.less';
+
+const options = [
+  { value: 'light', label: 'Light' },
+  { value: 'bamboo', label: 'Bamboo' },
+  { value: 'cat', label: 'Cat' },
+];
+
+export default () => (
+  <Mentions options={options} placeholder="Use @ to mention someone" />
+);
+```
+
+```tsx | pure
+import Mentions from '@rc-component/mentions';
 
 const { Option } = Mentions;
 
-var Demo = (
-  <Mentions>
-    <Option value="light">Light</Option>
-    <Option value="bamboo">Bamboo</Option>
-    <Option value="cat">Cat</Option>
+export default () => (
+  <Mentions prefix={['@', '#']}>
+    <Option value="design">Design</Option>
+    <Option value="docs">Docs</Option>
   </Mentions>
 );
-React.render(<Demo />, container);
 ```
 
-**Note:** We use [index.less](https://github.com/react-component/mentions/blob/master/assets/index.less) for styling, you can convert them into css and properly reference them to the code above.
+Import the styles from `assets/index.less` or the compiled CSS generated by `npm run compile`.
 
-## API
+## Examples
 
-### Mentions props
+Run the local dumi site:
 
-| name              | description                                                                                             | type                                                       | default     |
-| ----------------- | ------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ----------- |
-| autoFocus         | Auto get focus when component mounted                                                                   | `boolean`                                                  | `false`     |
-| defaultValue      | Default value                                                                                           | `string`                                                   | -           |
-| filterOption      | Customize filter option logic                                                                           | `false \| (input: string, option: OptionProps) => boolean` | -           |
-| notFoundContent   | Set mentions content when not match                                                                     | `ReactNode`                                                | 'Not Found' |
-| placement         | Set popup placement                                                                                     | `'top' \| 'bottom'`                                        | 'bottom'    |
-| direction         | Set popup direction                                                                                     | `'ltr' \| 'rtl'`                                           | 'ltr'       |
-| prefix            | Set trigger prefix keyword                                                                              | `string \| string[]`                                       | '@'         |
-| rows              | Set row count                                                                                           | `number`                                                   | 1           |
-| split             | Set split string before and after selected mention                                                      | `string`                                                   | ' '         |
-| silent            | Used in transition phase, does not respond to keyboard enter events when equal to `true`                | `boolean`                                                  | `false`     |
-| validateSearch    | Customize trigger search logic                                                                          | `(text: string, props: MentionsProps) => void`             | -           |
-| value             | Set value of mentions                                                                                   | `string`                                                   | -           |
-| onChange          | Trigger when value changed                                                                              | `(text: string) => void`                                   | -           |
-| onKeyDown         | Trigger when user hits a key                                                                            | `React.KeyboardEventHandler<HTMLTextAreaElement>`          | -           |
-| onKeyUp           | Trigger when user releases a key                                                                        | `React.KeyboardEventHandler<HTMLTextAreaElement>`          | -           |
-| onSelect          | Trigger when user select the option                                                                     | `(option: OptionProps, prefix: string) => void`            | -           |
-| onSearch          | Trigger when prefix hit                                                                                 | `(text: string, prefix: string) => void`                   | -           |
-| onFocus           | Trigger when mentions get focus                                                                         | `React.FocusEventHandler<HTMLTextAreaElement>`             | -           |
-| onBlur            | Trigger when mentions lose focus                                                                        | `React.FocusEventHandler<HTMLTextAreaElement>`             | -           |
-| getPopupContainer | DOM Container for suggestions                                                                           | `() => HTMLElement`                                        | -           |
-| autoSize          | Textarea height autosize feature, can be set to `true\|false` or an object `{ minRows: 2, maxRows: 6 }` | `boolean \| object`                                        | -           |
-| onPressEnter      | The callback function that is triggered when Enter key is pressed                                       | `function(e)`                                              | -           |
-| onResize          | The callback function that is triggered when textarea resize                                            | `function({ width, height })`                              | -           |
-
-### Methods
-
-| name    | description          |
-| ------- | -------------------- |
-| focus() | Component get focus  |
-| blur()  | Component lose focus |
-
-## Development
-
-```
+```bash
 npm install
 npm start
 ```
 
-## Example
+Then open `http://localhost:8000`.
 
-http://localhost:9001/
+## API
 
-online example: http://react-component.github.io/mentions/
+### Mentions
 
-## Test Case
+| Property          | Type                                                       | Default       | Description                                     |
+| ----------------- | ---------------------------------------------------------- | ------------- | ----------------------------------------------- |
+| allowClear        | `boolean \| { clearIcon?: ReactNode }`                     | `false`       | Show a clear button for the textarea value.     |
+| autoFocus         | `boolean`                                                  | `false`       | Focus the textarea when mounted.                |
+| autoSize          | `boolean \| { minRows?: number; maxRows?: number }`        | -             | Auto resize textarea height.                    |
+| children          | `ReactNode`                                                | -             | `Mentions.Option` children.                     |
+| className         | `string`                                                   | -             | Class name for the root element.                |
+| classNames        | `MentionsProps['classNames']`                              | -             | Semantic class names for slots.                 |
+| defaultValue      | `string`                                                   | -             | Initial value.                                  |
+| direction         | `'ltr' \| 'rtl'`                                           | `ltr`         | Popup direction.                                |
+| filterOption      | `false \| (input: string, option: OptionProps) => boolean` | -             | Customize option filtering.                     |
+| getPopupContainer | `() => HTMLElement`                                        | -             | Container for the suggestion popup.             |
+| id                | `string`                                                   | -             | Textarea id.                                    |
+| notFoundContent   | `ReactNode`                                                | `Not Found`   | Content shown when no option matches.           |
+| options           | `DataDrivenOptionProps[]`                                  | -             | Data-driven options.                            |
+| placement         | `'top' \| 'bottom'`                                        | `bottom`      | Suggestion popup placement.                     |
+| popupClassName    | `string`                                                   | -             | Class name for the popup.                       |
+| prefix            | `string \| string[]`                                       | `@`           | Trigger prefix or prefixes.                     |
+| prefixCls         | `string`                                                   | `rc-mentions` | Class name prefix.                              |
+| rows              | `number`                                                   | `1`           | Textarea row count.                             |
+| silent            | `boolean`                                                  | `false`       | Ignore Enter behavior during transition phases. |
+| split             | `string`                                                   | `' '`         | String inserted after a selected mention.       |
+| style             | `React.CSSProperties`                                      | -             | Inline styles for the root element.             |
+| styles            | `MentionsProps['styles']`                                  | -             | Semantic styles for slots.                      |
+| transitionName    | `string`                                                   | -             | Popup transition name.                          |
+| validateSearch    | `(text: string, split: MentionsProps['split']) => boolean` | -             | Customize trigger search logic.                 |
+| value             | `string`                                                   | -             | Controlled value.                               |
+| onBlur            | `React.FocusEventHandler<HTMLTextAreaElement>`             | -             | Triggered when textarea loses focus.            |
+| onChange          | `(text: string) => void`                                   | -             | Triggered when value changes.                   |
+| onFocus           | `React.FocusEventHandler<HTMLTextAreaElement>`             | -             | Triggered when textarea receives focus.         |
+| onKeyDown         | `React.KeyboardEventHandler<HTMLTextAreaElement>`          | -             | Triggered on key down.                          |
+| onKeyUp           | `React.KeyboardEventHandler<HTMLTextAreaElement>`          | -             | Triggered on key up.                            |
+| onPopupScroll     | `(event: React.UIEvent<HTMLDivElement>) => void`           | -             | Triggered when the popup scrolls.               |
+| onPressEnter      | `React.KeyboardEventHandler<HTMLTextAreaElement>`          | -             | Triggered when Enter is pressed.                |
+| onResize          | `(size: { width: number; height: number }) => void`        | -             | Triggered when textarea size changes.           |
+| onSearch          | `(text: string, prefix: string) => void`                   | -             | Triggered when a prefix starts a search.        |
+| onSelect          | `(option: OptionProps, prefix: string) => void`            | -             | Triggered when an option is selected.           |
+| popupRender       | `(menu: React.ReactElement) => ReactNode`                  | -             | Customize the dropdown menu rendering           |
 
+### Option
+
+| Property  | Type                  | Default | Description                               |
+| --------- | --------------------- | ------- | ----------------------------------------- |
+| children  | `ReactNode`           | -       | Option label.                             |
+| className | `string`              | -       | Class name for the option.                |
+| disabled  | `boolean`             | `false` | Disable the option.                       |
+| key       | `string`              | -       | React key and option key.                 |
+| style     | `React.CSSProperties` | -       | Inline option style.                      |
+| value     | `string`              | -       | Mention value inserted into the textarea. |
+
+### Ref
+
+```tsx | pure
+import Mentions, { type MentionsRef } from '@rc-component/mentions';
+
+const ref = React.useRef<MentionsRef>(null);
+
+ref.current?.focus();
+ref.current?.blur();
 ```
+
+| Property      | Type                          | Description                    |
+| ------------- | ----------------------------- | ------------------------------ |
+| focus         | `() => void`                  | Focus the textarea.            |
+| blur          | `() => void`                  | Blur the textarea.             |
+| textarea      | `HTMLTextAreaElement \| null` | Deprecated textarea reference. |
+| nativeElement | `HTMLElement`                 | Root native element.           |
+
+## Development
+
+```bash
+npm install
+npm start
 npm test
+npm run tsc
+npm run compile
+npm run build
 ```
 
-## Coverage
+The dumi site runs at `http://localhost:8000` by default.
 
+## Release
+
+```bash
+npm run prepublishOnly
 ```
-npm run coverage
-```
+
+The release flow is handled by `@rc-component/np` through the `rc-np` command after the package build.
 
 ## License
 
-rc-mentions is released under the MIT license.
+@rc-component/mentions is released under the [MIT](./LICENSE) license.

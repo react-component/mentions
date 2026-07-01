@@ -38,6 +38,7 @@ tslint.json
 tsconfig.test.json
 .prettierignore
 .doc/
+docs-dist/
 
 # dumi
 .dumi/tmp
@@ -45,3 +46,4 @@ tsconfig.test.json
 .dumi/tmp-production
 
 bun.lockb
+.vercel

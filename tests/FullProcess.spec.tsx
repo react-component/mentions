@@ -1,5 +1,5 @@
 import { fireEvent, render } from '@testing-library/react';
-import KeyCode from '@rc-component/util/lib/KeyCode';
+import { KeyCode } from '@rc-component/util';
 import React from 'react';
 import type { MentionsProps } from '../src';
 import Mentions from '../src';

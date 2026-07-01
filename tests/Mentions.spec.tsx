@@ -1,5 +1,5 @@
 import { fireEvent, render } from '@testing-library/react';
-import KeyCode from '@rc-component/util/lib/KeyCode';
+import { KeyCode } from '@rc-component/util';
 import React, { createRef } from 'react';
 import { act } from 'react-dom/test-utils';
 import type { MentionsProps } from '../src';
@@ -482,6 +482,26 @@ describe('Mentions', () => {
       });
       const textarea = container.querySelector('textarea');
       expect(textarea).toHaveStyle({ resize: 'vertical' });
+    });
+  });
+
+  describe('popupRender', () => {
+    it('should render custom popup content', () => {
+      const { container, baseElement } = renderMentions({
+        popupRender: menu => (
+          <div className="custom-popup">
+            <div className="custom-header">Custom Header</div>
+            {menu}
+          </div>
+        ),
+      });
+
+      simulateInput(container, '@');
+
+      expect(baseElement.querySelector('.custom-header')).toBeTruthy();
+      expect(
+        baseElement.querySelector('.rc-mentions-dropdown-menu'),
+      ).toBeTruthy();
     });
   });
 });

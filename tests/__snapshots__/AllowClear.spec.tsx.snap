@@ -13,7 +13,6 @@ exports[`should support allowClear should not show icon if defaultValue is undef
   >
     <button
       class="rc-mentions-clear-icon rc-mentions-clear-icon-hidden"
-      tabindex="-1"
       type="button"
     >
       ✖
@@ -35,7 +34,6 @@ exports[`should support allowClear should not show icon if defaultValue is undef
   >
     <button
       class="rc-mentions-clear-icon rc-mentions-clear-icon-hidden"
-      tabindex="-1"
       type="button"
     >
       ✖
@@ -57,7 +55,6 @@ exports[`should support allowClear should not show icon if defaultValue is undef
   >
     <button
       class="rc-mentions-clear-icon rc-mentions-clear-icon-hidden"
-      tabindex="-1"
       type="button"
     >
       ✖
@@ -79,7 +76,6 @@ exports[`should support allowClear should not show icon if value is undefined, n
   >
     <button
       class="rc-mentions-clear-icon rc-mentions-clear-icon-hidden"
-      tabindex="-1"
       type="button"
     >
       ✖
@@ -101,7 +97,6 @@ exports[`should support allowClear should not show icon if value is undefined, n
   >
     <button
       class="rc-mentions-clear-icon rc-mentions-clear-icon-hidden"
-      tabindex="-1"
       type="button"
     >
       ✖
@@ -123,7 +118,6 @@ exports[`should support allowClear should not show icon if value is undefined, n
   >
     <button
       class="rc-mentions-clear-icon rc-mentions-clear-icon-hidden"
-      tabindex="-1"
       type="button"
     >
       ✖
