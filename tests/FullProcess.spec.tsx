@@ -88,6 +88,19 @@ describe('Full Process', () => {
     expect(onChange).toBeCalledWith('1 @bamboo 2');
   });
 
+  it('does not duplicate a multi-character split before a mention', () => {
+    const onChange = jest.fn();
+    const { container } = createMentions({ onChange, split: '::' });
+
+    simulateInput(container, 'hello::@b');
+    fireEvent.keyDown(container.querySelector('textarea'), {
+      keyCode: KeyCode.ENTER,
+      which: KeyCode.ENTER,
+    });
+
+    expect(onChange).toHaveBeenLastCalledWith('hello::@bamboo::');
+  });
+
   it('azerty Keyboards ', () => {
     const onChange = jest.fn();
     const { container } = createMentions({ onChange });
