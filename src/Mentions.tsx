@@ -7,6 +7,7 @@ import type {
   TextAreaRef,
 } from '@rc-component/input';
 import {
+  isReactRenderable,
   KeyCode,
   toArray,
   useControlledState,
@@ -662,7 +663,8 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
     },
     ref,
   ) => {
-    const hasSuffix = !!(suffix || allowClear);
+    const hasSuffix = isReactRenderable(suffix) || Boolean(allowClear);
+    const suffixNode = isReactRenderable(suffix) ? <>{suffix}</> : suffix;
 
     // =============================== Ref ================================
     const holderRef = useRef<HolderRef>(null);
@@ -693,7 +695,7 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
 
     return (
       <BaseInput
-        suffix={suffix}
+        suffix={suffixNode}
         prefixCls={prefixCls}
         value={mergedValue}
         allowClear={allowClear}
