@@ -451,6 +451,7 @@ const InternalMentions = forwardRef<MentionsRef, InternalMentionsProps>(
      * 1. Selection is out of range
      * 2. Contains `space`
      * 3. ESC or select one
+     * 4. The measured prefix is removed from the text
      */
     const onInternalKeyUp: React.KeyboardEventHandler<
       HTMLTextAreaElement
@@ -480,29 +481,47 @@ const InternalMentions = forwardRef<MentionsRef, InternalMentionsProps>(
         const validateMeasure: boolean = validateSearch(nextMeasureText, split);
         const matchOption = !!getOptions(nextMeasureText).length;
 
-        if (validateMeasure) {
-          // adding AltGraph also fort azert keyboard
-          if (
-            key === nextMeasurePrefix ||
-            key === 'Shift' ||
-            which === KeyCode.ALT ||
-            key === 'AltGraph' ||
-            mergedMeasuring ||
-            (nextMeasureText !== mergedMeasureText && matchOption)
-          ) {
-            startMeasure(nextMeasureText, nextMeasurePrefix, measureIndex);
-          }
-        } else if (mergedMeasuring) {
-          // Stop if measureText is invalidate
-          stopMeasure();
-        }
+        // adding AltGraph also fort azert keyboard
+        const isTypingPrefix =
+          key === nextMeasurePrefix ||
+          key === 'Shift' ||
+          which === KeyCode.ALT ||
+          key === 'AltGraph';
 
-        /**
-         * We will trigger `onSearch` to developer since they may use for async update.
-         * If met `space` means user finished searching.
-         */
-        if (onSearch && validateMeasure) {
-          onSearch(nextMeasureText, nextMeasurePrefix);
+        // The measured prefix may be removed from the text (e.g. user deletes
+        // the `@` char just typed). Stop measuring instead of re-anchor to a
+        // previous prefix in the text which user is not typing at.
+        const measurePrefixExist =
+          isTypingPrefix ||
+          !mergedMeasuring ||
+          selectionStartText.slice(
+            mergedMeasureLocation,
+            mergedMeasureLocation + mergedMeasurePrefix.length,
+          ) === mergedMeasurePrefix;
+
+        if (!measurePrefixExist) {
+          stopMeasure();
+        } else {
+          if (validateMeasure) {
+            if (
+              isTypingPrefix ||
+              mergedMeasuring ||
+              (nextMeasureText !== mergedMeasureText && matchOption)
+            ) {
+              startMeasure(nextMeasureText, nextMeasurePrefix, measureIndex);
+            }
+          } else if (mergedMeasuring) {
+            // Stop if measureText is invalidate
+            stopMeasure();
+          }
+
+          /**
+           * We will trigger `onSearch` to developer since they may use for async update.
+           * If met `space` means user finished searching.
+           */
+          if (onSearch && validateMeasure) {
+            onSearch(nextMeasureText, nextMeasurePrefix);
+          }
         }
       } else if (mergedMeasuring) {
         stopMeasure();
