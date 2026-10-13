@@ -44,10 +44,10 @@
     "*": "prettier --write --ignore-unknown"
   },
   "dependencies": {
-    "@rc-component/input": "~1.4.0",
+    "@rc-component/input": "~1.4.1",
     "@rc-component/menu": "~1.6.0",
     "@rc-component/trigger": "^3.0.0",
-    "@rc-component/util": "^1.13.0",
+    "@rc-component/util": "^1.14.0",
     "clsx": "^2.1.1"
   },
   "devDependencies": {

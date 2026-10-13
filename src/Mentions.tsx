@@ -11,6 +11,7 @@ import {
   KeyCode,
   toArray,
   useControlledState,
+  useAllowClear,
   useId,
 } from '@rc-component/util';
 import React, {
@@ -663,7 +664,8 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
     },
     ref,
   ) => {
-    const hasSuffix = isReactRenderable(suffix) || Boolean(allowClear);
+    const clearConfig = useAllowClear(allowClear);
+    const hasSuffix = isReactRenderable(suffix) || !clearConfig.disabled;
     const suffixNode = isReactRenderable(suffix) ? <>{suffix}</> : suffix;
 
     // =============================== Ref ================================

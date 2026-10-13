@@ -79,7 +79,7 @@ Then open `http://localhost:8000`.
 
 | Property          | Type                                                       | Default       | Description                                     |
 | ----------------- | ---------------------------------------------------------- | ------------- | ----------------------------------------------- |
-| allowClear        | `boolean \| { clearIcon?: ReactNode }`                     | `false`       | Show a clear button for the textarea value.     |
+| allowClear        | `boolean \| AllowClearConfig`                              | `false`       | Show a clear button for the textarea value.     |
 | autoFocus         | `boolean`                                                  | `false`       | Focus the textarea when mounted.                |
 | autoSize          | `boolean \| { minRows?: number; maxRows?: number }`        | -             | Auto resize textarea height.                    |
 | children          | `ReactNode`                                                | -             | `Mentions.Option` children.                     |
@@ -169,3 +169,22 @@ The release flow is handled by `@rc-component/np` through the `rc-np` command af
 ## License
 
 @rc-component/mentions is released under the [MIT](./LICENSE) license.
+
+### Clear configuration
+
+`allowClear` accepts a boolean or an `AllowClearConfig` object from `@rc-component/util`:
+
+```ts
+interface AllowClearConfig {
+  clearIcon?: React.ReactNode;
+  disabled?: boolean;
+  tabIndex?: number;
+  label?: string;
+}
+```
+
+All fields are optional. `disabled: true` behaves like `allowClear={false}`: the clear button and space reserved solely for it are removed; the input remains editable. Existing suffixes and other content are preserved. This changes the previous hidden-button spacing behavior where applicable.
+
+`tabIndex` affects only the clear button; `-1` removes it from Tab navigation while retaining mouse activation. `label` supplies its accessible name through `aria-label`. Defaults, clear values, callbacks, and component state restrictions are unchanged.
+
+When no other affix keeps the wrapper mounted, dynamically disabling clearing can recreate the input DOM node and lose focus or selection, just like switching to `allowClear={false}`. The value is preserved. With an existing suffix, the wrapper, focus, and selection remain stable.
