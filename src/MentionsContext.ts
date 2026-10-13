@@ -1,6 +1,7 @@
 /* tslint:disable: no-object-literal-type-assertion */
 import * as React from 'react';
 import type { OptionProps } from './Option';
+import { TextAreaRef } from '@rc-component/textarea';
 
 export interface MentionsContextProps {
   notFoundContent: React.ReactNode;
@@ -10,6 +11,7 @@ export interface MentionsContextProps {
   onFocus: React.FocusEventHandler<HTMLElement>;
   onBlur: React.FocusEventHandler<HTMLElement>;
   onScroll: React.UIEventHandler<HTMLElement>;
+  textareaRef: React.MutableRefObject<TextAreaRef>;
 }
 
 // We will never use default, here only to fix TypeScript warning

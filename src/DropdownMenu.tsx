@@ -22,6 +22,7 @@ function DropdownMenu(props: DropdownMenuProps) {
     onFocus,
     onBlur,
     onScroll,
+    textareaRef,
   } = React.useContext(MentionsContext);
 
   const { prefixCls, options, opened } = props;
@@ -34,6 +35,13 @@ function DropdownMenu(props: DropdownMenuProps) {
       return;
     }
 
+    if (
+      textareaRef?.current &&
+      document.activeElement !== textareaRef.current.nativeElement
+    ) {
+      return;
+    }
+
     const activeItem = menuRef.current?.findItem?.({ key: activeOption.key });
 
     if (activeItem) {
@@ -42,7 +50,7 @@ function DropdownMenu(props: DropdownMenuProps) {
         inline: 'nearest',
       });
     }
-  }, [activeIndex, activeOption.key, opened]);
+  }, [activeIndex, activeOption.key, opened, textareaRef]);
 
   return (
     <Menu
