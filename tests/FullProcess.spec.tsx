@@ -145,6 +145,33 @@ describe('Full Process', () => {
     expectMeasuring(container, false);
   });
 
+  it('stop measure if remove prefix and previous prefix exists', () => {
+    const { container } = createMentions({ defaultValue: '@zz' });
+
+    // Type `@` again which will start measure
+    simulateInput(container, '@zz@');
+    expectMeasuring(container);
+
+    // Remove the measured `@`, measure should stop instead of
+    // re-anchor to the previous `@` in the text
+    const textarea = container.querySelector('textarea');
+    fireEvent.keyDown(textarea, {
+      keyCode: KeyCode.BACKSPACE,
+      which: KeyCode.BACKSPACE,
+      key: 'Backspace',
+    });
+    fireEvent.change(textarea, {
+      target: { value: '@zz', selectionStart: '@zz'.length },
+    });
+    fireEvent.keyUp(textarea, {
+      keyCode: KeyCode.BACKSPACE,
+      which: KeyCode.BACKSPACE,
+      key: 'Backspace',
+    });
+
+    expectMeasuring(container, false);
+  });
+
   it('should not call onPressEnter when measuring', () => {
     const onPressEnter = jest.fn();
     const { container } = createMentions({ onPressEnter });
