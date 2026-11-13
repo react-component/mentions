@@ -142,18 +142,6 @@ describe('Mentions', () => {
       expect(onChange).toHaveBeenCalledWith('bamboo');
     });
 
-    it('does not prepend a separator when the mention starts a new line', () => {
-      const { container } = renderMentions();
-
-      simulateInput(container, 'hello\n@lig');
-      fireEvent.keyDown(container.querySelector('textarea'), {
-        which: KeyCode.ENTER,
-        keyCode: KeyCode.ENTER,
-      });
-
-      expect(container.querySelector('textarea').value).toBe('hello\n@light ');
-    });
-
     it('still prepends a separator when the mention follows text in the same line', () => {
       const { container } = renderMentions();
 
@@ -164,6 +152,47 @@ describe('Mentions', () => {
       });
 
       expect(container.querySelector('textarea').value).toBe('hello @light ');
+    });
+
+    it.each([
+      // Same line: the spacing typed by the user is kept as is.
+      ['hello @lig', 'hello @light '],
+      ['hello  @lig', 'hello  @light '],
+      // Beginning of the text: the leading split is normalised away.
+      [' @lig', '@light '],
+      // New line: the line break already separates it, so nothing is appended.
+      ['hello\n@lig', 'hello\n@light '],
+      ['hello\n @lig', 'hello\n @light '],
+      ['hello\n  @lig', 'hello\n  @light '],
+      // Other whitespace counts as a separator too.
+      ['hello\t@lig', 'hello\t@light '],
+      ['你好\u3000@lig', '你好\u3000@light '],
+    ])('keeps the spacing before the mention: %j', (input, expected) => {
+      const { container } = renderMentions();
+
+      simulateInput(container, input);
+      fireEvent.keyDown(container.querySelector('textarea'), {
+        which: KeyCode.ENTER,
+        keyCode: KeyCode.ENTER,
+      });
+
+      expect(container.querySelector('textarea').value).toBe(expected);
+    });
+
+    it.each([
+      ['a@lig', 'a,@light,'],
+      ['a,@lig', 'a,@light,'],
+      ['a\n@lig', 'a\n@light,'],
+    ])('respects a custom separator: %j', (input, expected) => {
+      const { container } = renderMentions({ split: ',' });
+
+      simulateInput(container, input);
+      fireEvent.keyDown(container.querySelector('textarea'), {
+        which: KeyCode.ENTER,
+        keyCode: KeyCode.ENTER,
+      });
+
+      expect(container.querySelector('textarea').value).toBe(expected);
     });
 
     it('Keyboard Enter event', () => {
