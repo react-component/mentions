@@ -79,14 +79,22 @@ export function replaceWithMeasure(text: string, measureConfig: MeasureConfig) {
     measureConfig;
 
   // Before text will append one space if have other text
+  // Before text will append one space if have other text
   let beforeMeasureText = text.slice(0, measureLocation);
-  if (beforeMeasureText[beforeMeasureText.length - split.length] === split) {
+  const hasTrailingSplit =
+    beforeMeasureText[beforeMeasureText.length - split.length] === split;
+  if (hasTrailingSplit) {
     beforeMeasureText = beforeMeasureText.slice(
       0,
       beforeMeasureText.length - split.length,
     );
   }
-  if (beforeMeasureText) {
+  // A trailing split removed above is always added back. Otherwise skip the
+  // separator when other whitespace (e.g. a line break) already separates it.
+  if (
+    beforeMeasureText &&
+    (hasTrailingSplit || !/\s$/.test(beforeMeasureText))
+  ) {
     beforeMeasureText = `${beforeMeasureText}${split}`;
   }
 
