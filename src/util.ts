@@ -86,7 +86,9 @@ export function replaceWithMeasure(text: string, measureConfig: MeasureConfig) {
       beforeMeasureText.length - split.length,
     );
   }
-  if (beforeMeasureText) {
+  // Skip the separator when the caret already starts a line, otherwise the
+  // mention is pushed away from the beginning of that line.
+  if (beforeMeasureText && !/\s$/.test(beforeMeasureText)) {
     beforeMeasureText = `${beforeMeasureText}${split}`;
   }
 

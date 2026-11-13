@@ -142,6 +142,30 @@ describe('Mentions', () => {
       expect(onChange).toHaveBeenCalledWith('bamboo');
     });
 
+    it('does not prepend a separator when the mention starts a new line', () => {
+      const { container } = renderMentions();
+
+      simulateInput(container, 'hello\n@lig');
+      fireEvent.keyDown(container.querySelector('textarea'), {
+        which: KeyCode.ENTER,
+        keyCode: KeyCode.ENTER,
+      });
+
+      expect(container.querySelector('textarea').value).toBe('hello\n@light ');
+    });
+
+    it('still prepends a separator when the mention follows text in the same line', () => {
+      const { container } = renderMentions();
+
+      simulateInput(container, 'hello@lig');
+      fireEvent.keyDown(container.querySelector('textarea'), {
+        which: KeyCode.ENTER,
+        keyCode: KeyCode.ENTER,
+      });
+
+      expect(container.querySelector('textarea').value).toBe('hello @light ');
+    });
+
     it('Keyboard Enter event', () => {
       const { container, rerender } = renderMentions();
       simulateInput(container, '@lig');
